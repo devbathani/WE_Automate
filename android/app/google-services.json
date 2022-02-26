@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "69146298764",
+    "firebase_url": "https://weautomate-595f1-default-rtdb.firebaseio.com",
+    "project_id": "weautomate-595f1",
+    "storage_bucket": "weautomate-595f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69146298764:android:9c75b33c06bd755b52eea9",
+        "android_client_info": {
+          "package_name": "com.weautomate.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69146298764-qq63tsdvfoddr5bld1uq9dd022sp81eh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.weautomate.android",
+            "certificate_hash": "a432d6f7a923037a5f699e036fc59fa88576ceef"
+          }
+        },
+        {
+          "client_id": "69146298764-2llqvbaoj7bvughcg1rf6p99u6t5uohr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_X1j87RRh0soamJghFzI6gc0nfsOh40c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "69146298764-2llqvbaoj7bvughcg1rf6p99u6t5uohr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

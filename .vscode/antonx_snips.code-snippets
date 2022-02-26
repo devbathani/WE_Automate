@@ -1,0 +1,45 @@
+{
+	"AntonX View Model": {
+		"prefix": "viewModel",
+		"body": [
+			"class ${1:name} extends BaseViewModel {",
+			"  final _dbService = locator<DatabaseService>();\n",
+			"  late BaseResponse response;\n",
+			"  ${1:name}() {",
+			"  _getData();",
+			"  }",
+			"  _getData() async {",
+			"  setState(ViewState.busy);",
+			"  response = await _dbService.getDashboardData();",
+			"  setState(ViewState.idle);",
+			" }",
+			"}"
+		],
+		"description": "Create a ViewModel class"
+	},
+	
+	"AntonX Base View Model": {
+		"prefix": "baseViewModel",
+		"body": [
+			"import 'package:flutter/foundation.dart';\n",
+			"/// [BaseViewModel] is the base class with all",
+			"/// state related logic",
+			"///",
+			"/// [BaseViewModel] class will be extended by all viewModels.",
+			"///",
+			"/// [setState] will be used to update the state of the screen",
+			"///",
+			"class BaseViewModel extends ChangeNotifier {",
+  			"ViewState _state = ViewState.idle;",
+
+  			"ViewState get state => _state;",
+
+  			"void setState(ViewState state) {",
+    		"_state = state;",
+    		"notifyListeners();",
+			"}",
+			"}",
+		],
+		"description": "Create a ViewModel class"
+	},
+}
