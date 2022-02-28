@@ -103,7 +103,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: Container(
         // child: Center(child: Text('Splash Screen')),
         // decoration: BoxDecoration(
@@ -126,48 +126,55 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   Center(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "W",
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                color: Color.fromARGB(255, 4, 67, 139),
-                                fontSize: 55.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            "E",
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                color: Color.fromARGB(255, 195, 224, 28),
-                                fontSize: 55.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5.w,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20.h),
-                            child: Text(
-                              "Automate",
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 30.0.w),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "W",
                               style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
                                   color: Color.fromARGB(255, 4, 67, 139),
-                                  fontSize: 35.sp,
+                                  fontSize: 45.sp,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            Text(
+                              "E",
+                              style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                  color: Color.fromARGB(255, 195, 224, 28),
+                                  fontSize: 45.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5.w,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20.h),
+                              child: Text(
+                                "Automate",
+                                style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                    color: Color.fromARGB(255, 4, 67, 139),
+                                    fontSize: 35.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // Image.asset(
+                            //   'assets/static_assets/weautomate_logo.png',
+                            //   height: 50.h,
+                            // )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -179,7 +186,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     child: Text(
                         "Improving  sales and purchases automation by connecting businesses and customers in one market place.",
                         style: bodyTextStyle.copyWith(
-                          color: Colors.white,
+                          color: Colors.black,
                           letterSpacing: 0.4,
                           fontWeight: FontWeight.w900,
                           fontFamily: robottoFontTextStyle,
@@ -202,9 +209,9 @@ class _SplashScreenState extends State<SplashScreen> {
       return !_authService.isProviderLogin && !_authService.isCustomerLogin
           ? Column(
               children: [
-                Text("Click to start discover",
+                Text("let's start discovering !!",
                     style: bodyTextStyle.copyWith(
-                      color: Colors.white60,
+                      color: Colors.black,
                       fontWeight: FontWeight.w900,
                       fontFamily: robottoFontTextStyle,
                     )),
@@ -216,12 +223,20 @@ class _SplashScreenState extends State<SplashScreen> {
                       Container(
                         width: 167.h,
                         height: 52.w,
-                        child: RoundedRaisedButton(
-                          buttonText: "START",
-                          onPressed: () async {
-                            Get.to(() => SelectUserTypeScreen());
-                          },
-                          color: Color(0XFF1A6094),
+                        child: InkWell(
+                          child: ElevatedButton(
+                            child: Text(
+                              "START",
+                              style: GoogleFonts.poppins(fontSize: 16.sp),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Color.fromARGB(255, 4, 67, 139),
+                            ),
+                            // fontWeight: FontWeight.w400,
+                            onPressed: () async {
+                              Get.to(() => SelectUserTypeScreen());
+                            },
+                          ),
                         ),
                       )
                     ],
