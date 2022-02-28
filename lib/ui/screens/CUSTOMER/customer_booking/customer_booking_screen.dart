@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
 import 'package:antonx_flutter_template/core/constants/strings.dart';
@@ -12,6 +13,10 @@ import 'package:antonx_flutter_template/ui/screens/CUSTOMER/conversation/chat/cu
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/customer_booking_screen_view_model.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/root/root_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -79,7 +84,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     categories.add(Category(label: "WEEKLY"));
     categories.add(Category(label: "BI WEEKLY"));
     categories.add(Category(label: "MONTHLY"));
-
+    requestPermission();
     AndroidInitializationSettings androidInitializationSettings =
         AndroidInitializationSettings('assets/static_assets/app_icon02.png');
     var initializationSettingsIOs = IOSInitializationSettings();
@@ -108,6 +113,188 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
         .then((value) {
       print('Notification sent');
     });
+  }
+
+  void requestPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
+  }
+
+  sendPushMessage(String token, String body, String title) async {
+    print('Inside spm : ' + token + body + title);
+    try {
+      await http
+          .post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization':
+              'AAAAEBlwyYw:APA91bEe0OmX2sk2RwGROjf6e0BOQTDwJf_gsetz-aU0tXOi62FN0F3p1ABaF7QWvvfZ3_z0so7akZVZdc2ToTBODOy47GfbDG9GIhR_f4zuUgILGeLcjVCsHEzk8WQi0p2CSE0cTYNF',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            'notification': <String, dynamic>{'body': body, 'title': title},
+            'priority': 'high',
+            'data': <String, dynamic>{
+              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+              'id': '1',
+              'status': 'done'
+            },
+            "to": token,
+          },
+        ),
+      )
+          .then((value) {
+        print('Notification sent ====================>');
+      });
+    } catch (e) {
+      print("error push notification");
+    }
+  }
+
+  sendNotification(
+    String? hostFCMtoken,
+    String? title,
+    String? hostUserId,
+    String? body,
+  ) async {
+    final fcmToken = hostFCMtoken;
+    final fcmServerKey =
+        'AAAAEBlwyYw:APA91bEe0OmX2sk2RwGROjf6e0BOQTDwJf_gsetz-aU0tXOi62FN0F3p1ABaF7QWvvfZ3_z0so7akZVZdc2ToTBODOy47GfbDG9GIhR_f4zuUgILGeLcjVCsHEzk8WQi0p2CSE0cTYNF';
+    final dio = Dio();
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = 'key=$fcmServerKey';
+    final sendFcmApi = 'https://fcm.googleapis.com/fcm/send';
+    final response = await dio.post(
+      '$sendFcmApi',
+      data: {
+        'notification': {
+          'body': title,
+          'title': title,
+        },
+        'priority': 'high',
+        'data': {
+          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+          // 'type': '$callType', // audio_call, video_call,
+          // 'patient_id': '$patientId',
+          // 'conversation_id': '$conversationId',
+          'hostUserId': '$hostUserId'
+        },
+        'to': '$fcmToken',
+      },
+    ).then((value) {
+      print('Notification sent');
+    });
+    return jsonDecode(response.body.toString());
+
+    print('@sendNotification: Response: $response');
+  }
+
+  Map<String, dynamic>? paymentIntentData;
+
+  Future<void> makePayment() async {
+    try {
+      paymentIntentData =
+          await createPaymentIntent('20', 'CAD'); //json.decode(response.body);
+      // print('Response body==>${response.body.toString()}');
+      await Stripe.instance
+          .initPaymentSheet(
+              paymentSheetParameters: SetupPaymentSheetParameters(
+                  paymentIntentClientSecret:
+                      paymentIntentData!['client_secret'],
+                  applePay: true,
+                  googlePay: true,
+                  testEnv: true,
+                  style: ThemeMode.dark,
+                  merchantCountryCode: 'CAD',
+                  merchantDisplayName: 'Dev'))
+          .then((value) {});
+
+      ///now finally display payment sheeet
+      displayPaymentSheet();
+    } catch (e, s) {
+      print('exception:$e$s');
+    }
+  }
+
+  displayPaymentSheet() async {
+    try {
+      await Stripe.instance
+          .presentPaymentSheet(
+              parameters: PresentPaymentSheetParameters(
+        clientSecret: paymentIntentData!['client_secret'],
+        confirmPayment: true,
+      ))
+          .then((newValue) {
+        print('payment intent' + paymentIntentData!['id'].toString());
+        print(
+            'payment intent' + paymentIntentData!['client_secret'].toString());
+        print('payment intent' + paymentIntentData!['amount'].toString());
+        print('payment intent' + paymentIntentData.toString());
+        //orderPlaceApi(paymentIntentData!['id'].toString());
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("paid successfully")));
+
+        paymentIntentData = null;
+      }).onError((error, stackTrace) {
+        print('Exception/DISPLAYPAYMENTSHEET==> $error $stackTrace');
+      });
+    } on StripeException catch (e) {
+      print('Exception/DISPLAYPAYMENTSHEET==> $e');
+      showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+                content: Text("Cancelled "),
+              ));
+    } catch (e) {
+      print('$e');
+    }
+  }
+
+  createPaymentIntent(String amount, String currency) async {
+    try {
+      Map<String, dynamic> body = {
+        'amount': calculateAmount('20'),
+        'currency': currency,
+        'payment_method_types[]': 'card'
+      };
+      print(body);
+      var response = await http.post(
+          Uri.parse('https://api.stripe.com/v1/payment_intents'),
+          body: body,
+          headers: {
+            'Authorization':
+                'Bearer sk_test_51KY84wSC6tbmnFTnkxgWbZeTwMf1ofA7iuztX8nGd7GjcC0g2SxFPnqgJaPjc5zk1m1RP0rBd8FTjIQM6H2bjUSP003R0Ksyre',
+            'Content-Type': 'application/x-www-form-urlencoded'
+          });
+      print('Create Intent reponse ===> ${response.body.toString()}');
+      return jsonDecode(response.body);
+    } catch (err) {
+      print('err charging user: ${err.toString()}');
+    }
+  }
+
+  calculateAmount(String amount) {
+    final a = (int.parse(amount)) * 100;
+    return a.toString();
   }
 
   bool isBooked = false;
@@ -476,6 +663,12 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                               isBooked = true;
                               await customermodel.updatedBookingStatus(model);
                               showNotification(model.title!);
+                              await makePayment();
+                              // sendPushMessage(
+                              //   customermodel.appuser.fcmToken!,
+                              //   'Confirm Service !!',
+                              //   "Hello ${locator<AuthService>().providerProfile!.businessName!} please confirm this service",
+                              // );
                               print("Notification Sent ======>");
                               setState(() {});
 

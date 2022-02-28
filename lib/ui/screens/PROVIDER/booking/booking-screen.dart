@@ -639,6 +639,7 @@ class _BookingScreenState extends State<BookingScreen> {
             customGridViewPhysics: BouncingScrollPhysics(),
             onDayPressed: (date, events) async {
               this.setState(() => currentDate2 = date);
+              print('()()():::::::::::>$currentDate2');
               await model.fetchDates(currentDate2);
             },
             headerTextStyle: headingTextStyle.copyWith(

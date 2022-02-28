@@ -256,6 +256,28 @@ class DatabaseService {
       print("Exception/getGlobalProducts=========> $e, $s");
     }
   }
+    getProvidersInfo() async {
+    try {
+      List<AppUser> appuser = [];
+      // DocumentSnapshot docSnapshot =
+      QuerySnapshot snapshot =
+          await firestoreRef.collection('provider_user').get();
+
+      if (snapshot.docs.isEmpty) {
+        print("Your product snapshot is empty");
+        // attraction = Attraction(name: "notfound");
+        // print("ITEM NOT FOUND ==> ${attraction.toJson()}");
+      } else {
+        snapshot.docs.forEach((element) {
+          // print("each iteration=> ${element['title']}");
+          appuser.add(AppUser.fromJson(element, element.id));
+        });
+      }
+      return appuser;
+    } catch (e, s) {
+      print("Exception/getGlobalProducts=========> $e, $s");
+    }
+  }
 
   getGlobalServices() async {
     print("getGlobalServices/");

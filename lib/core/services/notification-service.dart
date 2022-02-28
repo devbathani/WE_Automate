@@ -51,7 +51,7 @@ class NotificationsService {
       RemoteNotification notification = message.notification!;
       AndroidNotification android = message.notification!.android!;
       // hostUserId = message.data['hostUserId'].toString();
-      if (!kIsWeb && notification != null && android != null) {
+      if (!kIsWeb) {
         flutterLocalNotificationsPlugin!.show(
             notification.hashCode,
             notification.title,
@@ -74,7 +74,7 @@ class NotificationsService {
       RemoteNotification notification = message.notification!;
       AndroidNotification android = message.notification!.android!;
       print('A new onMessageOpenedApp event was published!');
-      if (notification != null && android != null) {}
+      if (android != null) {}
     });
 
     print("@initConfigure/ENDED");
@@ -165,16 +165,17 @@ class NotificationsService {
     });
   }
 
-  sendNotification({
-    hostFCMtoken,
-    userName,
-    hostUserId,
-    carName,
-  }) async {
+  sendNotification(
+    String hostFCMtoken,
+    String title,
+    String hostUserId,
+    String body,
+  ) async {
     final fcmToken = hostFCMtoken;
     // 'ef-KxIlWRcaQs4QSoYhCjk:APA91bGAoiPUOh-39DAhpoiPBZi9V7lJXhGXpikJnnbWzqIM_Lm4nKY_H2gdpV4EaEiMh_B5xnbEQQ07Fev-B5IA9hGiBPuliPv3qjcJVjYuTLKlRG4z_UCrnCkkjQPrG08jJQVKElKl';
     //fcmServerKey will remain same
-    final fcmServerKey = '<YOUR_FCM_SERVER_KEY>';
+    final fcmServerKey =
+        'ef-KxIlWRcaQs4QSoYhCjk:APA91bGAoiPUOh-39DAhpoiPBZi9V7lJXhGXpikJnnbWzqIM_Lm4nKY_H2gdpV4EaEiMh_B5xnbEQQ07Fev-B5IA9hGiBPuliPv3qjcJVjYuTLKlRG4z_UCrnCkkjQPrG08jJQVKElKl';
     final dio = Dio();
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = 'key=$fcmServerKey';
@@ -183,8 +184,8 @@ class NotificationsService {
       '$sendFcmApi',
       data: {
         'notification': {
-          'body': 'Has Booked your $carName car',
-          'title': '$userName '
+          'body': title,
+          'title': title,
         },
         'priority': 'high',
         'data': {

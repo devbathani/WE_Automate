@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'locator.dart';
@@ -27,6 +28,9 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<void> main() async {
   // final Logger log = Logger();
   try {
+      Stripe.publishableKey = 'pk_test_51KY84wSC6tbmnFTnbjOO7rEovErX8eJA13Arf4O1QICdLoJaPBHIXDKO01b5SnsbrrWUaUOJj3q8YexUHNOTjzAl006IhgiqaG';
+
+  await Stripe.instance.applySettings();
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
 //for notifiications

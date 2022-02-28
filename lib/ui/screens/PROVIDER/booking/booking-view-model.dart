@@ -27,7 +27,6 @@ class BookingViewModel extends BaseViewModel {
   }
 
   fetchDates(DateTime selecteddate) async {
-    setState(ViewState.loading);
     services = [];
     QuerySnapshot snapshot =
         await firestoreRef.collection('global_services').get();
@@ -37,6 +36,7 @@ class BookingViewModel extends BaseViewModel {
       // attraction = Attraction(name: "notfound");
       // print("ITEM NOT FOUND ==> ${attraction.toJson()}");
     } else {
+      setState(ViewState.loading);
       snapshot.docs.forEach(
         (element) {
           Timestamp myTimeStamp =
@@ -52,7 +52,7 @@ class BookingViewModel extends BaseViewModel {
                 services.add(
                   SErvice.fromJson(element, element.id),
                 );
-                setState(ViewState.idle);
+
                 //setState(ViewState.idle);
               }
             }
