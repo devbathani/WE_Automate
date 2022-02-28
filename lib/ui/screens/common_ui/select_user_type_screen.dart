@@ -117,147 +117,104 @@ class _SelectUserTypeScreenState extends State<SelectUserTypeScreen> {
         //     fit: BoxFit.cover,
         //   ),
         // ),
-        child: Padding(
-          padding: EdgeInsets.only(left: 20.0.w),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              //first space bar element
-              SizedBox(height: 80.h),
-              //second element
-              Column(
-                children: [
-                  Center(
-                    child: Image.asset(
-                      '$static_assets/updated_logo.jpeg',
-                      width: 1.sw,
-                      height: 200.h,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            //first space bar element
+            SizedBox(height: 80.h),
+            //second element
+            Center(
+              child: Image.asset(
+                '$static_assets/updated_logo.jpeg',
+                width: 1.sw,
+                height: 200.h,
+                fit: BoxFit.cover,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        height: 220.h,
-                        width: 140.w,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Color(0XFFf4f4f4)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: CircleAvatar(
-                                radius: 40.r,
-                                backgroundColor: Colors.white,
-                                child: SvgPicture.asset(
-                                  'assets/static_assets/free_trial.svg',
-                                  height: 55.h,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              'Free trial',
-                              style: GoogleFonts.poppins(
-                                  fontSize: 24.sp, fontWeight: FontWeight.w600),
-                            )
-                          ],
-                        ),
+            ),
+            SizedBox(
+              height: 40.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Get.to(
+                      () => WelcomeProviderScreen(),
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: 16.w),
+                    height: 100.h,
+                    width: 166.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(18.r),
+                      color: Color(0XFF262626).withOpacity(0.8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Provider',
+                        style: GoogleFonts.poppins(
+                            fontSize: 22.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white),
                       ),
                     ),
-                    SizedBox(
-                      width: 20.w,
+                  ),
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.to(
+                      () => CustomerWelcomeScreen(),
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(right: 4.w),
+                    height: 100.h,
+                    width: 166.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(18.r),
+                      color: Color(0XFF262626).withOpacity(0.8),
                     ),
-                    Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Get.to(
-                              () => CustomerWelcomeScreen(),
-                            );
-                          },
-                          child: Container(
-                            height: 100.h,
-                            width: 160.w,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.r),
-                                color: Color(0XFFf4f4f4)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  child: SvgPicture.asset(
-                                    'assets/static_assets/client.svg',
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10.w,
-                                ),
-                                Text(
-                                  'Client     ',
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 20.sp,
-                                      // color: Colors.white,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15.h),
-                        InkWell(
-                          onTap: () {
-                            Get.to(
-                              () => WelcomeProviderScreen(),
-                            );
-                          },
-                          child: Container(
-                            height: 100.h,
-                            width: 160.w,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.r),
-                                color: Color(0XFFf4f4f4)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  child: SvgPicture.asset(
-                                    'assets/static_assets/provider.svg',
-                                    height: 26.h,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10.w,
-                                ),
-                                Text(
-                                  'Provider',
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 20.sp,
-                                      // color: Colors.white,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+                    child: Center(
+                      child: Text(
+                        'Client',
+                        style: GoogleFonts.poppins(
+                            fontSize: 22.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 30.h),
+            InkWell(
+              onTap: () {},
+              child: Container(
+                height: 100.h,
+                width: 320.w,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18.r),
+                  color: Color(0XFFf4f4f4),
+                ),
+                child: Center(
+                  child: Text(
+                    'Free Trial',
+                    style: GoogleFonts.poppins(
+                        fontSize: 22.sp, fontWeight: FontWeight.w400),
+                  ),
                 ),
               ),
-              SizedBox(
-                height: 50.h,
-              )
-            ],
-          ),
+            ),
+            SizedBox(
+              height: 80.h,
+            ),
+          ],
         ),
       ),
     );

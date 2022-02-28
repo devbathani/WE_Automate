@@ -9,7 +9,6 @@ import 'package:antonx_flutter_template/ui/screens/PROVIDER/home/home_screen.dar
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/products/add_products/add-product-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/profile/provider-profile-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/search/detail/provider_search_detail_screen.dart';
-import 'package:antonx_flutter_template/ui/screens/PROVIDER/search/provider_search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
