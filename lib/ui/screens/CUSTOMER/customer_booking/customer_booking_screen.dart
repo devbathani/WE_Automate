@@ -203,98 +203,57 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     ).then((value) {
       print('Notification sent');
     });
-    return jsonDecode(response.body.toString());
+    return response.body.toString();
 
     print('@sendNotification: Response: $response');
   }
 
-  Map<String, dynamic>? paymentIntentData;
-
-  Future<void> makePayment() async {
+  Future<void> initPaymentSheet(context,
+      {required String email, required int amount}) async {
     try {
-      paymentIntentData =
-          await createPaymentIntent('20', 'CAD'); //json.decode(response.body);
-      // print('Response body==>${response.body.toString()}');
-      await Stripe.instance
-          .initPaymentSheet(
-              paymentSheetParameters: SetupPaymentSheetParameters(
-                  paymentIntentClientSecret:
-                      paymentIntentData!['client_secret'],
-                  applePay: true,
-                  googlePay: true,
-                  testEnv: true,
-                  style: ThemeMode.dark,
-                  merchantCountryCode: 'CAD',
-                  merchantDisplayName: 'Dev'))
-          .then((value) {});
-
-      ///now finally display payment sheeet
-      displayPaymentSheet();
-    } catch (e, s) {
-      print('exception:$e$s');
-    }
-  }
-
-  displayPaymentSheet() async {
-    try {
-      await Stripe.instance
-          .presentPaymentSheet(
-              parameters: PresentPaymentSheetParameters(
-        clientSecret: paymentIntentData!['client_secret'],
-        confirmPayment: true,
-      ))
-          .then((newValue) {
-        print('payment intent' + paymentIntentData!['id'].toString());
-        print(
-            'payment intent' + paymentIntentData!['client_secret'].toString());
-        print('payment intent' + paymentIntentData!['amount'].toString());
-        print('payment intent' + paymentIntentData.toString());
-        //orderPlaceApi(paymentIntentData!['id'].toString());
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("paid successfully")));
-
-        paymentIntentData = null;
-      }).onError((error, stackTrace) {
-        print('Exception/DISPLAYPAYMENTSHEET==> $error $stackTrace');
-      });
-    } on StripeException catch (e) {
-      print('Exception/DISPLAYPAYMENTSHEET==> $e');
-      showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-                content: Text("Cancelled "),
-              ));
-    } catch (e) {
-      print('$e');
-    }
-  }
-
-  createPaymentIntent(String amount, String currency) async {
-    try {
-      Map<String, dynamic> body = {
-        'amount': calculateAmount('20'),
-        'currency': currency,
-        'payment_method_types[]': 'card'
-      };
-      print(body);
-      var response = await http.post(
-          Uri.parse('https://api.stripe.com/v1/payment_intents'),
-          body: body,
-          headers: {
-            'Authorization':
-                'Bearer sk_test_51KY84wSC6tbmnFTnkxgWbZeTwMf1ofA7iuztX8nGd7GjcC0g2SxFPnqgJaPjc5zk1m1RP0rBd8FTjIQM6H2bjUSP003R0Ksyre',
-            'Content-Type': 'application/x-www-form-urlencoded'
+      // 1. create payment intent on the server
+      final response = await http.post(
+          Uri.parse(
+              'https://us-central1-stripe-checkout-flutter.cloudfunctions.net/stripePaymentIntentRequest'),
+          body: {
+            'email': email,
+            'amount': amount.toString(),
           });
-      print('Create Intent reponse ===> ${response.body.toString()}');
-      return jsonDecode(response.body);
-    } catch (err) {
-      print('err charging user: ${err.toString()}');
-    }
-  }
 
-  calculateAmount(String amount) {
-    final a = (int.parse(amount)) * 100;
-    return a.toString();
+      final jsonResponse = jsonDecode(response.body);
+      print(jsonResponse.toString());
+
+      //2. initialize the payment sheet
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: jsonResponse['paymentIntent'],
+          merchantDisplayName: 'Flutter Stripe Store Demo',
+          customerId: jsonResponse['customer'],
+          customerEphemeralKeySecret: jsonResponse['ephemeralKey'],
+          style: ThemeMode.light,
+          testEnv: true,
+          merchantCountryCode: 'SG',
+        ),
+      );
+
+      await Stripe.instance.presentPaymentSheet();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Payment completed!')),
+      );
+    } catch (e) {
+      if (e is StripeException) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error from Stripe: ${e.error.localizedMessage}'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
+    }
   }
 
   bool isBooked = false;
@@ -661,9 +620,11 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                             () async {
                               isLoading = false;
                               isBooked = true;
+                              await initPaymentSheet(context,
+                                  email: "example@gmail.com", amount: 20);
                               await customermodel.updatedBookingStatus(model);
                               showNotification(model.title!);
-                              await makePayment();
+
                               // sendPushMessage(
                               //   customermodel.appuser.fcmToken!,
                               //   'Confirm Service !!',

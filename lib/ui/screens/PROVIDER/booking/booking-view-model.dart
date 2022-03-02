@@ -5,7 +5,6 @@ import 'package:antonx_flutter_template/core/services/database_service.dart';
 import 'package:antonx_flutter_template/locator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class BookingViewModel extends BaseViewModel {
   List<SErvice> services = [];
@@ -28,43 +27,25 @@ class BookingViewModel extends BaseViewModel {
 
   fetchDates(DateTime selecteddate) async {
     services = [];
-    QuerySnapshot snapshot =
-        await firestoreRef.collection('global_services').get();
+    DocumentSnapshot snapshot = await firestoreRef
+        .collection('global_services')
+        .doc(services.first.id)
+        .get();
 
-    if (snapshot.docs.isEmpty) {
-      print("Your product snapshot is empty");
-      // attraction = Attraction(name: "notfound");
-      // print("ITEM NOT FOUND ==> ${attraction.toJson()}");
-    } else {
-      setState(ViewState.loading);
-      snapshot.docs.forEach(
-        (element) {
-          Timestamp myTimeStamp =
-              snapshot.docs.first.get(FieldPath(['serviceBookingDate']));
+    setState(ViewState.loading);
+    Timestamp myTimeStamp = snapshot.get(FieldPath(['serviceBookingDate']));
+    DateTime myDateTime = myTimeStamp.toDate();
 
-          DateTime myDateTime = myTimeStamp.toDate(); //To TimeStamp
-
-          print('===============$myDateTime!');
-          //print(selectedate);
-          if (selecteddate.year == myDateTime.year) {
-            if (selecteddate.month == myDateTime.month) {
-              if (selecteddate.day == myDateTime.day) {
-                services.add(
-                  SErvice.fromJson(element, element.id),
-                );
-
-                //setState(ViewState.idle);
-              }
-            }
-          } else {
-            Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          setState(ViewState.idle);
-        },
-      );
+    if (selecteddate.year == myDateTime.year) {
+      if (selecteddate.month == myDateTime.month) {
+        if (selecteddate.day == myDateTime.day) {
+          services.add(
+            SErvice(serviceBookingDate: myTimeStamp),
+          );
+        }
+      }
     }
+    setState(ViewState.idle);
   }
 
   updatedBookingStatus(SErvice serviceToBeEditted) async {

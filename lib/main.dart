@@ -28,10 +28,10 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<void> main() async {
   // final Logger log = Logger();
   try {
-      Stripe.publishableKey = 'pk_test_51KY84wSC6tbmnFTnbjOO7rEovErX8eJA13Arf4O1QICdLoJaPBHIXDKO01b5SnsbrrWUaUOJj3q8YexUHNOTjzAl006IhgiqaG';
-
-  await Stripe.instance.applySettings();
     WidgetsFlutterBinding.ensureInitialized();
+    Stripe.publishableKey =
+        'pk_test_51KY84wSC6tbmnFTnbjOO7rEovErX8eJA13Arf4O1QICdLoJaPBHIXDKO01b5SnsbrrWUaUOJj3q8YexUHNOTjzAl006IhgiqaG';
+
     await Firebase.initializeApp();
 //for notifiications
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

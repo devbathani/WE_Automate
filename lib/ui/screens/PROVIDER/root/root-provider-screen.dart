@@ -9,7 +9,6 @@ import 'package:antonx_flutter_template/ui/screens/PROVIDER/home/home_screen.dar
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/products/add_products/add-product-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/profile/provider-profile-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/search/detail/provider_search_detail_screen.dart';
-import 'package:antonx_flutter_template/ui/screens/PROVIDER/search/provider_search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -113,77 +112,100 @@ class _RootProviderScreenState extends State<RootProviderScreen> {
               child: Row(
                 children: [
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        _onItemTapped(0);
-                      },
-                      child: ImageContainer(
-                        assets: selectedIndex == 0
-                            ? "assets/static_assets/bottom-nav-bar/home.png"
-                            : "assets/static_assets/bottom-nav-bar/home.png",
-                        height: 50.h,
-                        width: 50.w,
-                        fit: BoxFit.contain,
+                    child: Material(
+                      child: InkWell(
+                        splashColor: Colors.green,
+                        borderRadius: BorderRadius.circular(50),
+                        onTap: () {
+                          _onItemTapped(0);
+                        },
+                        child: ImageContainer(
+                          assets: selectedIndex == 0
+                              ? "assets/static_assets/bottom-nav-bar/home.png"
+                              : "assets/static_assets/bottom-nav-bar/home.png",
+                          height: 50.h,
+                          width: 50.w,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        _onItemTapped(1);
-                      },
-                      child: ImageContainer(
-                        assets: selectedIndex == 1
-                            ? "assets/static_assets/bottom-nav-bar/search.png"
-                            : "assets/static_assets/bottom-nav-bar/search.png",
-                        height: 50.h,
-                        width: 50.w,
-                        fit: BoxFit.contain,
+                    child: Material(
+                      child: InkWell(
+                        splashColor: Colors.green,
+                        borderRadius: BorderRadius.circular(50),
+                        onTap: () {
+                          _onItemTapped(1);
+                        },
+                        child: ImageContainer(
+                          assets: selectedIndex == 1
+                              ? "assets/static_assets/bottom-nav-bar/search.png"
+                              : "assets/static_assets/bottom-nav-bar/search.png",
+                          height: 50.h,
+                          width: 50.w,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        _onItemTapped(2);
-                      },
-                      child: ImageContainer(
-                        assets: selectedIndex == 2
-                            ? "assets/static_assets/bottom-nav-bar/add_b.png"
-                            : "assets/static_assets/bottom-nav-bar/add_b.png",
-                        height: 50.h,
-                        width: 70.w,
-                        fit: BoxFit.contain,
+                    child: Material(
+                      child: InkWell(
+                        splashColor: Colors.green,
+                        borderRadius: BorderRadius.circular(50),
+                        onTap: () {
+                          _onItemTapped(2);
+                        },
+                        child: ImageContainer(
+                          assets: selectedIndex == 2
+                              ? "assets/static_assets/bottom-nav-bar/add_b.png"
+                              : "assets/static_assets/bottom-nav-bar/add_b.png",
+                          height: 50.h,
+                          width: 70.w,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        _onItemTapped(3);
-                      },
-                      child: ImageContainer(
-                        assets: selectedIndex == 3
-                            ? "assets/static_assets/bottom-nav-bar/comment.png"
-                            : "assets/static_assets/bottom-nav-bar/comment.png",
-                        height: 50.h,
-                        width: 50.w,
-                        fit: BoxFit.contain,
+                    child: Material(
+                      child: InkWell(
+                        splashColor: Colors.green,
+                        borderRadius: BorderRadius.circular(50),
+                        onTap: () {
+                          _onItemTapped(3);
+                        },
+                        child: ImageContainer(
+                          assets: selectedIndex == 3
+                              ? "assets/static_assets/bottom-nav-bar/comment.png"
+                              : "assets/static_assets/bottom-nav-bar/comment.png",
+                          height: 50.h,
+                          width: 50.w,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        _onItemTapped(4);
-                      },
-                      child: ImageContainer(
-                        assets: selectedIndex == 4
-                            ? "assets/static_assets/bottom-nav-bar/user.png"
-                            : "assets/static_assets/bottom-nav-bar/user.png",
-                        height: 50.h,
-                        width: 50.w,
-                        fit: BoxFit.contain,
+                    child: Material(
+                      // padding: EdgeInsets.zero,
+                      child: InkWell(
+                        splashColor: Colors.green,
+                        // radius: 5.r,
+                        borderRadius: BorderRadius.circular(50),
+                        // splashColor: Colors.red,
+                        onTap: () {
+                          _onItemTapped(4);
+                        },
+                        child: ImageContainer(
+                          assets: selectedIndex == 4
+                              ? "assets/static_assets/bottom-nav-bar/user.png"
+                              : "assets/static_assets/bottom-nav-bar/user.png",
+                          height: 50.h,
+                          width: 50.w,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   )
