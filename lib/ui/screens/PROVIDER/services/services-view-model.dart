@@ -1,8 +1,6 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:antonx_flutter_template/core/enums/view_state.dart';
-import 'package:antonx_flutter_template/core/models/reponses/base_responses/base_response.dart';
 import 'package:antonx_flutter_template/core/models/service.dart';
 import 'package:antonx_flutter_template/core/others/base_view_model.dart';
 import 'package:antonx_flutter_template/core/services/database_service.dart';
@@ -20,7 +18,7 @@ class ServicesViewModel extends BaseViewModel {
   }
   getAllServices() async {
     final uuid = _localStorageService.accessTokenProvider;
-    setState(ViewState.loading);
+
     services = await _dbService.getAllProviderServices(uuid);
     // response = await _dbService.getDashboardData();
     setState(ViewState.idle);

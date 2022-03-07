@@ -7,6 +7,7 @@ import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/root/root_screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/root/root-provider-screen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -15,9 +16,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../customer_auth_view_model.dart';
 
-class SignUpCustomerScreen extends StatelessWidget {
+class SignUpCustomerScreen extends StatefulWidget {
+  @override
+  State<SignUpCustomerScreen> createState() => _SignUpCustomerScreenState();
+}
+
+class _SignUpCustomerScreenState extends State<SignUpCustomerScreen> {
   //Todo: Do localization here.
   final _formKey = GlobalKey<FormState>();
+  String fcmToken = '';
+  void getToken() async {
+    final tokens = await FirebaseMessaging.instance.getToken();
+    setState(() {
+      fcmToken = tokens!;
+    });
+    print('Your FCM TOKEN IS ::::::::::::>' + tokens!);
+  }
+
+  @override
+  void initState() {
+    getToken();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<CustomerAuthViewModel>(
@@ -223,6 +244,7 @@ class SignUpCustomerScreen extends StatelessWidget {
                                 onPressed: () async {
                                   model.customerUser.createdAt =
                                       DateTime.now().toString();
+                                  model.customerUser.fcmToken = fcmToken;
                                   // Get.to(() => RootProviderScreen());
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();

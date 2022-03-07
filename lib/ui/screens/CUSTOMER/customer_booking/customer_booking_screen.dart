@@ -5,6 +5,7 @@ import 'package:antonx_flutter_template/core/constants/strings.dart';
 import 'package:antonx_flutter_template/core/constants/text_styles.dart';
 import 'package:antonx_flutter_template/core/models/app-user.dart';
 import 'package:antonx_flutter_template/core/models/service.dart';
+import 'package:antonx_flutter_template/core/services/local_notification_service.dart';
 import 'package:antonx_flutter_template/core/services/notification-service.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/dailogs/request_failed_dailog.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
@@ -13,9 +14,8 @@ import 'package:antonx_flutter_template/ui/screens/CUSTOMER/conversation/chat/cu
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/customer_booking_screen_view_model.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/root/root_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -27,6 +27,7 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class Category {
   String? label;
@@ -65,6 +66,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
   AppUser? appUser;
   DateTime bookingDates = DateTime.now();
   EventList<Event> markedDateMap = new EventList<Event>(events: {});
+
   Widget eventIcon = Container(
     height: 100.h,
     width: 100.w,
@@ -75,18 +77,48 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     ),
   );
   bool isLoading = true;
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+
+  late final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+
+  late var _razorpay;
+  var amountController = TextEditingController();
+  final firestoreRef = FirebaseFirestore.instance;
+  String fcmToken = '';
+  void getToken() async {
+    final tokens = await FirebaseMessaging.instance.getToken();
+    setState(() {
+      fcmToken = tokens!;
+    });
+    print('Your FCM TOKEN IS ::::::::::::>' + tokens!);
+  }
 
   @override
   void initState() {
+    getToken();
+
     categories.add(Category(label: "ONE TIME"));
     categories.add(Category(label: "WEEKLY"));
     categories.add(Category(label: "BI WEEKLY"));
     categories.add(Category(label: "MONTHLY"));
+
+    listenFCM();
+    loadFCM();
     requestPermission();
+    FirebaseMessaging.instance.getInitialMessage();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+
+    FirebaseMessaging.onMessage.listen((event) {
+      LocalNotificationService.display(event);
+    });
+
+    print(channel.id);
+
     AndroidInitializationSettings androidInitializationSettings =
-        AndroidInitializationSettings('assets/static_assets/app_icon02.png');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettingsIOs = IOSInitializationSettings();
     var initSetttings = InitializationSettings(
         android: androidInitializationSettings, iOS: initializationSettingsIOs);
@@ -101,6 +133,27 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _razorpay.clear();
+    super.dispose();
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    // Do something when payment succeeds
+    print("Payment Done");
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Do something when payment fails
+    print("Payment Fail");
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    // Do something when an external wallet is selected
+  }
+
   showNotification(String title) async {
     var android = new AndroidNotificationDetails(
         'id', 'channel ', 'description',
@@ -110,9 +163,40 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     await flutterLocalNotificationsPlugin
         .show(0, 'Service Booked', title, platform,
             payload: 'Welcome to the Local Notification demo')
-        .then((value) {
-      print('Notification sent');
-    });
+        .then((value) {});
+  }
+
+  sendPushNotification(String title, String token) async {
+    final data = {
+      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+      'id': '1',
+      'status': 'done',
+    };
+
+    try {
+      http.Response response =
+          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-Type': 'application/json',
+                'Authorization':
+                    'key=AAAAEBlwyYw:APA91bF_EAZodCwGiYANWguNUTIDdM30zkIsJTru0PG5hB4Sk3NynXrVJirhzpiOLCveklQEChRzmXW8WEpP82B8bL_tJyt94btQteQFuqkrVrpVQw45_DuiYIt4OkyGxKpx0r3lr6-v'
+              },
+              body: jsonEncode(<String, dynamic>{
+                'notification': <String, dynamic>{
+                  'title': title,
+                  'body': 'Accept or decline the service !!'
+                },
+                'priority': 'high',
+                'data': data,
+                'to': '$token'
+              }));
+
+      if (response.statusCode == 200) {
+        print("Yeh notificatin is sended");
+      } else {
+        print("Error");
+      }
+    } catch (e) {}
   }
 
   void requestPermission() async {
@@ -138,121 +222,59 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     }
   }
 
-  sendPushMessage(String token, String body, String title) async {
-    print('Inside spm : ' + token + body + title);
-    try {
-      await http
-          .post(
-        Uri.parse('https://fcm.googleapis.com/fcm/send'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization':
-              'AAAAEBlwyYw:APA91bEe0OmX2sk2RwGROjf6e0BOQTDwJf_gsetz-aU0tXOi62FN0F3p1ABaF7QWvvfZ3_z0so7akZVZdc2ToTBODOy47GfbDG9GIhR_f4zuUgILGeLcjVCsHEzk8WQi0p2CSE0cTYNF',
-        },
-        body: jsonEncode(
-          <String, dynamic>{
-            'notification': <String, dynamic>{'body': body, 'title': title},
-            'priority': 'high',
-            'data': <String, dynamic>{
-              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-              'id': '1',
-              'status': 'done'
-            },
-            "to": token,
-          },
-        ),
-      )
-          .then((value) {
-        print('Notification sent ====================>');
-      });
-    } catch (e) {
-      print("error push notification");
-    }
-  }
-
-  sendNotification(
-    String? hostFCMtoken,
-    String? title,
-    String? hostUserId,
-    String? body,
-  ) async {
-    final fcmToken = hostFCMtoken;
-    final fcmServerKey =
-        'AAAAEBlwyYw:APA91bEe0OmX2sk2RwGROjf6e0BOQTDwJf_gsetz-aU0tXOi62FN0F3p1ABaF7QWvvfZ3_z0so7akZVZdc2ToTBODOy47GfbDG9GIhR_f4zuUgILGeLcjVCsHEzk8WQi0p2CSE0cTYNF';
-    final dio = Dio();
-    dio.options.headers['Content-Type'] = 'application/json';
-    dio.options.headers["Authorization"] = 'key=$fcmServerKey';
-    final sendFcmApi = 'https://fcm.googleapis.com/fcm/send';
-    final response = await dio.post(
-      '$sendFcmApi',
-      data: {
-        'notification': {
-          'body': title,
-          'title': title,
-        },
-        'priority': 'high',
-        'data': {
-          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-          // 'type': '$callType', // audio_call, video_call,
-          // 'patient_id': '$patientId',
-          // 'conversation_id': '$conversationId',
-          'hostUserId': '$hostUserId'
-        },
-        'to': '$fcmToken',
-      },
-    ).then((value) {
-      print('Notification sent');
-    });
-    return response.body.toString();
-
-    print('@sendNotification: Response: $response');
-  }
-
-  Future<void> initPaymentSheet(context,
-      {required String email, required int amount}) async {
-    try {
-      // 1. create payment intent on the server
-      final response = await http.post(
-          Uri.parse(
-              'https://us-central1-stripe-checkout-flutter.cloudfunctions.net/stripePaymentIntentRequest'),
-          body: {
-            'email': email,
-            'amount': amount.toString(),
-          });
-
-      final jsonResponse = jsonDecode(response.body);
-      print(jsonResponse.toString());
-
-      //2. initialize the payment sheet
-      await Stripe.instance.initPaymentSheet(
-        paymentSheetParameters: SetupPaymentSheetParameters(
-          paymentIntentClientSecret: jsonResponse['paymentIntent'],
-          merchantDisplayName: 'Flutter Stripe Store Demo',
-          customerId: jsonResponse['customer'],
-          customerEphemeralKeySecret: jsonResponse['ephemeralKey'],
-          style: ThemeMode.light,
-          testEnv: true,
-          merchantCountryCode: 'SG',
-        ),
-      );
-
-      await Stripe.instance.presentPaymentSheet();
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Payment completed!')),
-      );
-    } catch (e) {
-      if (e is StripeException) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error from Stripe: ${e.error.localizedMessage}'),
+  void listenFCM() async {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null && !kIsWeb) {
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              "mychanel",
+              "my chanel",
+              "my description",
+              icon: '@mipmap/ic_launcher',
+            ),
           ),
         );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
       }
+    });
+  }
+
+  void loadFCM() async {
+    if (!kIsWeb) {
+      final channel = AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Notifications',
+        'This channel is used for important notifications.',
+
+        importance: Importance.high,
+        enableVibration: true,
+        playSound: true,
+      );
+
+      final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+      /// Create an Android Notification Channel.
+      ///
+      /// We use this channel in the `AndroidManifest.xml` file to override the
+      /// default FCM channel to enable heads up notifications.
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.createNotificationChannel(channel);
+
+      /// Update the iOS foreground notification presentation options to allow
+      /// heads up notifications.
+      await FirebaseMessaging.instance
+          .setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
     }
   }
 
@@ -609,28 +631,41 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                           model.serviceBookingDate =
                               Timestamp.fromDate(bookingDates);
                           model.isConfirmed = 'No';
+
                           print(model.serviceBookingDate);
                           print(":");
                           // Get.back();
                           isLoading = true;
-
+                          var price = double.parse(model.price!);
                           setState(() {});
                           Future.delayed(
                             Duration(seconds: 3),
                             () async {
                               isLoading = false;
                               isBooked = true;
-                              await initPaymentSheet(context,
-                                  email: "example@gmail.com", amount: 20);
-                              await customermodel.updatedBookingStatus(model);
-                              showNotification(model.title!);
+                              var options = {
+                                'key': "rzp_test_4qGWB3dkcHmRZT",
+                                'amount': price * 100,
+                                'name': 'Dev Bathani',
+                                'description': 'service payment',
+                                'timeout': 300,
+                                'prefill': {
+                                  'contact': '7202897611',
+                                  'email': 'bathanid888@gmail.com'
+                                }
+                              };
+                              await _razorpay.open(options);
 
-                              // sendPushMessage(
-                              //   customermodel.appuser.fcmToken!,
-                              //   'Confirm Service !!',
-                              //   "Hello ${locator<AuthService>().providerProfile!.businessName!} please confirm this service",
-                              // );
+                              print(model.fcmToken);
+                              sendPushNotification(
+                                'Confirm ' + model.title! + '?',
+                                model.fcmToken!,
+                              );
+                              model.fcmToken = fcmToken;
+
+                              showNotification(model.title!);
                               print("Notification Sent ======>");
+                              await customermodel.updatedBookingStatus(model);
                               setState(() {});
 
                               Get.back(result: model);

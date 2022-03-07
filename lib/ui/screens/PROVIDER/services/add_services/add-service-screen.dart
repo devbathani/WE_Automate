@@ -17,6 +17,7 @@ import 'package:antonx_flutter_template/ui/custom_widgets/dailogs/request_failed
 import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -50,7 +51,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
       zoom: 19.151926040649414);
   File? _image;
   List<Availability> availableOptions = [];
-
+  String fcmToken = '';
   @override
   void initState() {
     availableOptions
@@ -59,10 +60,18 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
         .add(Availability(color: Color(0XFFFBF90A), label: "Available soon"));
     availableOptions
         .add(Availability(color: Color(0XFF0ACF83), label: "Available"));
-
+    getToken();
     init();
     // TODO: implement initState
     super.initState();
+  }
+
+  void getToken() async {
+    final tokens = await FirebaseMessaging.instance.getToken();
+    setState(() {
+      fcmToken = tokens!;
+    });
+    print('Your FCM TOKEN IS ::::::::::::>' + tokens!);
   }
 
   init() async {
@@ -325,7 +334,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                 }
               },
               onSaved: (value) {
-                serviceToBeAdded.price = value;
+                serviceToBeAdded.price = value ;
               },
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
@@ -527,6 +536,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                     serviceToBeAdded.isBooked = 'No';
                     serviceToBeAdded.serviceBookingDate = Timestamp.now();
                     serviceToBeAdded.isConfirmed = 'No';
+                    serviceToBeAdded.fcmToken = fcmToken;
                     print(serviceToBeAdded.serviceBookingDate);
                     serviceToBeAdded.providerId =
                         locator<LocalStorageService>().accessTokenProvider;

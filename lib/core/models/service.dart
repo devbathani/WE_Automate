@@ -19,24 +19,25 @@ class SErvice {
   DateTime? datetime;
   Timestamp? serviceBookingDate;
   String? isConfirmed;
+  String? fcmToken = 'hello';
 
-  SErvice({
-    this.title,
-    this.id,
-    this.providerId,
-    this.description,
-    this.price,
-    this.location,
-    this.providerName,
-    this.imgFile,
-    this.category,
-    this.websiteLink,
-    this.imgUrl,
-    this.availability,
-    this.isBooked,
-    this.serviceBookingDate,
-    this.isConfirmed,
-  });
+  SErvice(
+      {this.title,
+      this.id,
+      this.providerId,
+      this.description,
+      this.price,
+      this.location,
+      this.providerName,
+      this.imgFile,
+      this.category,
+      this.websiteLink,
+      this.imgUrl,
+      this.availability,
+      this.isBooked,
+      this.serviceBookingDate,
+      this.isConfirmed,
+      this.fcmToken});
 
   SErvice.fromJson(json, id) {
     this.id = id;
@@ -55,6 +56,7 @@ class SErvice {
     isBooked = json['isBooked'];
     serviceBookingDate = json['serviceBookingDate'];
     isConfirmed = json['isConfirmed'];
+    fcmToken = json['fcmToken'];
   }
 
   Map<String, dynamic> toJson() {
@@ -76,6 +78,7 @@ class SErvice {
     data['isBooked'] = this.isBooked;
     data['serviceBookingDate'] = this.serviceBookingDate;
     data['isConfirmed'] = this.isConfirmed;
+    data['fcmToken'] = this.fcmToken;
     return data;
   }
 }

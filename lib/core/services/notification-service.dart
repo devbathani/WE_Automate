@@ -1,52 +1,68 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 
 class NotificationsService {
   var _fcm = FirebaseMessaging.instance;
-//   final _dbService = locator<DatabaseService>();
-  // String? hostUserId;
-// this string will hold the fcm token
+
   String? fcmToken;
-// /// Create a [AndroidNotificationChannel] for heads up notifications
   late AndroidNotificationChannel channel;
 
   /// Initialize the [FlutterLocalNotificationsPlugin] package.
   FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
 
-  //This behaviouSubject instance is for listening purpose in ios either the fuction is recieved or not
-  //or if recieved then what event u want to trigger
   final BehaviorSubject<ReceivedNotification>
       didReceivedLocalNotificationSubject =
       BehaviorSubject<ReceivedNotification>();
 
-  ///
-  ///Initializing Notifiication services that includes FLN, ANDROID NOTIFICATION CHANNEL setting
-  ///FCM NOTIFICATION SETTINGS, and also listeners for OnMessage and for onMessageOpenedApp
-  ///
+  initialize() {
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+    );
+    flutterLocalNotificationsPlugin!.initialize(initializationSettings);
+  }
+
+  display(RemoteMessage message) async {
+    try {
+      Random random = new Random();
+      int id = random.nextInt(1000);
+      final NotificationDetails notificationDetails = NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channel.description,
+          priority: Priority.high,
+          importance: Importance.max,
+          icon: '@mipmap/ic_launcher',
+        ),
+      );
+
+      await flutterLocalNotificationsPlugin!.show(
+        id,
+        message.notification!.title,
+        message.notification!.body,
+        notificationDetails,
+      );
+    } catch (e) {}
+  }
+
   initConfigure() async {
     print("@initFCMConfigure/started");
 
     await initFlutterLocalNotificationPlugin();
-
-//now finally get the token from
     await _fcm.getToken().then((token) {
       print("FCM TOKEN IS =======-======>$token");
       this.fcmToken = token;
     });
 
     fcmToken = await getFcmToken();
-
-    ///
-    ///now initialuzing the listenes
-    ///
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification!;
       AndroidNotification android = message.notification!.android!;
@@ -59,8 +75,8 @@ class NotificationsService {
             NotificationDetails(
               iOS: IOSNotificationDetails(subtitle: channel.description),
               android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
+                'mychannel',
+                'my channel',
                 channel.description,
                 // TODO add a proper drawable resource to android, for now using
                 //      one that already exists in example app.
@@ -74,7 +90,6 @@ class NotificationsService {
       RemoteNotification notification = message.notification!;
       AndroidNotification android = message.notification!.android!;
       print('A new onMessageOpenedApp event was published!');
-      if (android != null) {}
     });
 
     print("@initConfigure/ENDED");

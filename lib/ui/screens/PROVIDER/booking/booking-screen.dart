@@ -1,6 +1,7 @@
+import 'dart:convert';
+import 'package:antonx_flutter_template/core/constants/strings.dart';
 import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
-import 'package:antonx_flutter_template/core/constants/strings.dart';
 import 'package:antonx_flutter_template/core/constants/text_styles.dart';
 import 'package:antonx_flutter_template/core/enums/view_state.dart';
 import 'package:antonx_flutter_template/core/services/auth_service.dart';
@@ -9,13 +10,16 @@ import 'package:antonx_flutter_template/ui/custom_widgets/dailogs/request_failed
 import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/conversation/chat/customer-chat-screen.dart';
-import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/customer_booking_screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/booking/booking-view-model.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/conversation/conversation-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/root/root-provider-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/services/service-details-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/webview/webview-screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:flutter_calendar_carousel/classes/event.dart';
@@ -24,7 +28,15 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import '../../../../core/models/service.dart';
 import '../../../../locator.dart';
+import 'package:http/http.dart' as http;
+
+class Category {
+  String? label;
+  bool? isSelected;
+  Category({this.label, this.isSelected = false});
+}
 
 class BookingScreen extends StatefulWidget {
   const BookingScreen({Key? key}) : super(key: key);
@@ -35,13 +47,16 @@ class BookingScreen extends StatefulWidget {
 
 class _BookingScreenState extends State<BookingScreen> {
   List<Category> categories = [];
+  final firestoreRef = FirebaseFirestore.instance;
+  String fcmToken = '';
   DateTime currentDate = DateTime.now(); // DateTime(2019, 2, 3);
   DateTime currentDate2 = DateTime.now(); // DateTime(2019, 2, 3);
   String currentMonth = DateFormat.yMMM().format(
       DateTime.now()); // DateFormat.yMMM().format(DateTime(2019, 2, 3));
   DateTime targetDateTime = DateTime.now(); //DateTime(2019, 2, 3);
-
+  String isConfirmed = 'Confirmed';
   EventList<Event> markedDateMap = new EventList<Event>(events: {});
+  List<SErvice> services = [];
   Widget eventIcon = Container(
       height: 100.h,
       width: 100.w,
@@ -55,7 +70,156 @@ class _BookingScreenState extends State<BookingScreen> {
     categories.add(Category(label: "WEEKLY"));
     categories.add(Category(label: "BI WEEKLY"));
     categories.add(Category(label: "MONTHLY"));
+    requestPermission();
+    getToken();
+    loadFCM();
+    listenFCM();
+    AndroidInitializationSettings androidInitializationSettings =
+        AndroidInitializationSettings('assets/static_assets/app_icon02.png');
+    var initializationSettingsIOs = IOSInitializationSettings();
+    var initSetttings = InitializationSettings(
+        android: androidInitializationSettings, iOS: initializationSettingsIOs);
+    flutterLocalNotificationsPlugin.initialize(
+      initSetttings,
+    );
     super.initState();
+  }
+
+  void getToken() async {
+    final tokens = await FirebaseMessaging.instance.getToken();
+    setState(() {
+      fcmToken = tokens!;
+    });
+    print('Your FCM TOKEN IS ::::::::::::>' + tokens!);
+  }
+
+  void requestPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
+  }
+
+  sendPushNotification(String title, String token) async {
+    final data = {
+      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+      'id': '1',
+      'status': 'done',
+    };
+
+    try {
+      http.Response response =
+          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-Type': 'application/json',
+                'Authorization':
+                    'key=AAAAEBlwyYw:APA91bF_EAZodCwGiYANWguNUTIDdM30zkIsJTru0PG5hB4Sk3NynXrVJirhzpiOLCveklQEChRzmXW8WEpP82B8bL_tJyt94btQteQFuqkrVrpVQw45_DuiYIt4OkyGxKpx0r3lr6-v'
+              },
+              body: jsonEncode(<String, dynamic>{
+                'notification': <String, dynamic>{
+                  'title': title,
+                  'body': 'Your Service is ' + isConfirmed
+                },
+                'priority': 'high',
+                'data': data,
+                'to': '$token'
+              }));
+
+      if (response.statusCode == 200) {
+        print("Yeh notificatin is sended");
+      } else {
+        print("Error");
+      }
+    } catch (e) {}
+  }
+
+  void listenFCM() async {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null && !kIsWeb) {
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              "mychanel",
+              "my chanel",
+              "my description",
+              icon: '@mipmap/ic_launcher',
+            ),
+          ),
+        );
+      }
+    });
+  }
+
+  void loadFCM() async {
+    if (!kIsWeb) {
+      final channel = AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Notifications',
+        'This channel is used for important notifications.',
+
+        importance: Importance.high,
+        enableVibration: true,
+        playSound: true,
+      );
+
+      final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+      /// Create an Android Notification Channel.
+      ///
+      /// We use this channel in the `AndroidManifest.xml` file to override the
+      /// default FCM channel to enable heads up notifications.
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.createNotificationChannel(channel);
+
+      /// Update the iOS foreground notification presentation options to allow
+      /// heads up notifications.
+      await FirebaseMessaging.instance
+          .setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    }
+  }
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  showNotification(String title) async {
+    var android = new AndroidNotificationDetails(
+        'id', 'channel ', 'description',
+        priority: Priority.high, importance: Importance.max);
+    var iOS = new IOSNotificationDetails();
+    var platform = new NotificationDetails(android: android, iOS: iOS);
+    await flutterLocalNotificationsPlugin
+        .show(0, 'Service Confirmed', title, platform,
+            payload: 'Welcome to the Local Notification demo')
+        .then((value) {
+      print('Notification sent');
+    });
   }
 
   @override
@@ -259,6 +423,7 @@ class _BookingScreenState extends State<BookingScreen> {
   calendarAndReviews(BookingViewModel model) {
     final h = Get.height;
     final w = Get.width;
+
     return Padding(
       padding: EdgeInsets.only(
         left: 40.w,
@@ -506,6 +671,12 @@ class _BookingScreenState extends State<BookingScreen> {
 
                                                 await model
                                                     .updatedBookingStatus(list);
+                                                await showNotification(
+                                                    list.title!);
+                                                sendPushNotification(
+                                                  'Service ' + isConfirmed,
+                                                  list.fcmToken!,
+                                                );
                                                 print("Booking Confirmed");
                                                 //Get.back();
                                                 print(":");
@@ -524,8 +695,15 @@ class _BookingScreenState extends State<BookingScreen> {
                                             onPressed: () async {
                                               list.isConfirmed = 'No';
                                               list.isBooked = 'No';
+                                              setState(() {
+                                                isConfirmed = 'Declined';
+                                              });
                                               await model
                                                   .updatedBookingStatus(list);
+                                              sendPushNotification(
+                                                'Service ' + isConfirmed,
+                                                list.fcmToken!,
+                                              );
                                               print("Booking Not Confirmed");
                                               //Get.back();
                                               print(":");
@@ -640,7 +818,7 @@ class _BookingScreenState extends State<BookingScreen> {
             onDayPressed: (date, events) async {
               this.setState(() => currentDate2 = date);
               print('()()():::::::::::>$currentDate2');
-              await model.fetchDates(currentDate2);
+              model.fetchDates(date);
             },
             headerTextStyle: headingTextStyle.copyWith(
               fontFamily: robottoFontTextStyle,

@@ -6,6 +6,7 @@ import 'package:antonx_flutter_template/ui/custom_widgets/dailogs/request_failed
 import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/root/root-provider-screen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -24,6 +25,20 @@ class _SignUpProviderScreenState extends State<SignUpProviderScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _isOther = false;
   bool _isBipoc = false;
+  String fcmToken = '';
+  void getToken() async {
+    final tokens = await FirebaseMessaging.instance.getToken();
+    setState(() {
+      fcmToken = tokens!;
+    });
+    print('Your FCM TOKEN IS ::::::::::::>' + tokens!);
+  }
+
+  @override
+  void initState() {
+    getToken();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -304,6 +319,7 @@ class _SignUpProviderScreenState extends State<SignUpProviderScreen> {
                                 onPressed: () async {
                                   model.providerUser.createdAt =
                                       DateTime.now().toString();
+                                  model.providerUser.fcmToken = fcmToken;
                                   // Get.to(() => RootProviderScreen());
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();

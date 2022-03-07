@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
+import 'core/services/local_notification_service.dart';
 import 'locator.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -29,13 +30,9 @@ Future<void> main() async {
   // final Logger log = Logger();
   try {
     WidgetsFlutterBinding.ensureInitialized();
-    Stripe.publishableKey =
-        'pk_test_51KY84wSC6tbmnFTnbjOO7rEovErX8eJA13Arf4O1QICdLoJaPBHIXDKO01b5SnsbrrWUaUOJj3q8YexUHNOTjzAl006IhgiqaG';
-
     await Firebase.initializeApp();
-//for notifiications
+    LocalNotificationService.initialize();
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
