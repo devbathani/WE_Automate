@@ -61,13 +61,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   avatarArea(),
 
                   buttonsArea(model),
+                  SizedBox(height: 24.h),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Container(
+                      height: 26.h,
+                      width: 184.w,
+                      child: RoundedRaisedButton(
+                          buttonText: "Schedule Slots",
+                          textColor: primaryColor,
+                          color: Colors.white,
+                          onPressed: () {
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            //   return SlotsSchedular();
+                            // }));
+                          }),
+                    ),
+                  ]),
 
                   ratings(),
 
                   galleryView(model),
-                  model.services.length < 5 && model.state == ViewState.idle
-                      ? Container()
-                      : seeMoreButton(),
+                  model.services.length < 5 && model.state == ViewState.idle ? Container() : seeMoreButton(),
                 ],
               ),
             ),
@@ -83,10 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
           height: 54.h,
           child: RoundedRaisedButton(
-              buttonText: "SEE MORE",
-              color: Colors.white,
-              textColor: primaryColor,
-              onPressed: () {})),
+              buttonText: "SEE MORE", color: Colors.white, textColor: primaryColor, onPressed: () {})),
     );
   }
 
@@ -102,8 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {
-                  Provider.of<ProviderAuthViewModel>(context, listen: false)
-                      .logout();
+                  Provider.of<ProviderAuthViewModel>(context, listen: false).logout();
                   Get.offAll(() => SelectUserTypeScreen());
                 },
                 icon: Icon(Icons.logout)),
@@ -140,10 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   "${locator<LocationService>().address}".toUpperCase(),
                   // "Toronto, CA".toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: headingTextStyle.copyWith(
-                      height: 1.6,
-                      fontSize: 13.sp,
-                      fontFamily: robottoFontTextStyle),
+                  style: headingTextStyle.copyWith(height: 1.6, fontSize: 13.sp, fontFamily: robottoFontTextStyle),
                 ),
               ),
             ],
@@ -254,8 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             "RATING",
-            style: headingTextStyle.copyWith(
-                fontSize: 13, fontFamily: robottoFontTextStyle),
+            style: headingTextStyle.copyWith(fontSize: 13, fontFamily: robottoFontTextStyle),
           ),
           SizedBox(width: 5.0.w),
           RatingBarIndicator(
@@ -284,9 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   shrinkWrap: true,
                   physics: BouncingScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisExtent: 280.h,
-                      crossAxisSpacing: 10),
+                      crossAxisCount: 2, mainAxisExtent: 280.h, crossAxisSpacing: 10),
                   itemCount: (model.services.length),
                   itemBuilder: (context, index) {
                     return Column(
@@ -302,8 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           alignment: Alignment.topRight,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 8.0, right: 10),
+                              padding: const EdgeInsets.only(top: 8.0, right: 10),
                               child: GestureDetector(
                                 onTap: () {
                                   Get.to(
@@ -322,32 +325,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                         width: 1.sw / 2.4,
                                         child: FadeInImage.assetNetwork(
                                           fit: BoxFit.cover,
-                                          placeholder:
-                                              '$assets/placeholder.jpeg',
+                                          placeholder: '$assets/placeholder.jpeg',
                                           image: model.services[index].imgUrl!,
                                         ),
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 12,
-                                          right: 12,
-                                          bottom: 250.h - 40.h),
+                                      padding: EdgeInsets.only(left: 12, right: 12, bottom: 250.h - 40.h),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
                                             height: 24.h,
                                             width: 24.w,
                                             decoration: BoxDecoration(
-                                                color: model.services[index]
-                                                            .availability ==
-                                                        "Available"
+                                                color: model.services[index].availability == "Available"
                                                     ? Color(0XFF0ACF83)
-                                                    : model.services[index]
-                                                                .availability ==
-                                                            "Available soon"
+                                                    : model.services[index].availability == "Available soon"
                                                         ? Color(0XFFFBF90A)
                                                         : Colors.red,
                                                 shape: BoxShape.circle),
@@ -369,73 +363,50 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 0),
+                                        padding: const EdgeInsets.only(right: 0),
                                         child: Container(
                                           height: 76.h,
                                           // width:1.
                                           color: Colors.black26,
                                           child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0, top: 6.0),
+                                            padding: const EdgeInsets.only(left: 8.0, top: 6.0),
                                             child: Column(
                                               children: [
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     Expanded(
                                                       child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Row(
                                                             children: [
                                                               Flexible(
-                                                                child: Text(
-                                                                    "Desc: ${model.services[index].description}",
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    style: headingTextStyle
-                                                                        .copyWith(
-                                                                      fontSize:
-                                                                          12.sp,
-                                                                      color: Colors
-                                                                          .white,
-                                                                    )),
+                                                                child:
+                                                                    Text("Desc: ${model.services[index].description}",
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        style: headingTextStyle.copyWith(
+                                                                          fontSize: 12.sp,
+                                                                          color: Colors.white,
+                                                                        )),
                                                               ),
                                                             ],
                                                           ),
                                                           SizedBox(height: 4.h),
-                                                          Text(
-                                                              "Price: ${model.services[index].price} CAD",
+                                                          Text("Price: ${model.services[index].price} CAD",
                                                               // "Price: 50 CAD",
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style:
-                                                                  headingTextStyle
-                                                                      .copyWith(
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: headingTextStyle.copyWith(
                                                                 fontSize: 12.sp,
-                                                                color: Colors
-                                                                    .white,
+                                                                color: Colors.white,
                                                               )),
                                                           SizedBox(height: 4.h),
-                                                          Text(
-                                                              "Cat: ${model.services[index].category}",
+                                                          Text("Cat: ${model.services[index].category}",
                                                               // "Price: 50 CAD",
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style:
-                                                                  headingTextStyle
-                                                                      .copyWith(
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: headingTextStyle.copyWith(
                                                                 fontSize: 12.sp,
-                                                                color: Colors
-                                                                    .white,
+                                                                color: Colors.white,
                                                               )),
                                                         ],
                                                       ),
