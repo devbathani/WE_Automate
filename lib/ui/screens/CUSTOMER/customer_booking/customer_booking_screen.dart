@@ -138,7 +138,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     // TODO: implement dispose
     _razorpay.clear();
     super.dispose();
-  }
+  }    
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
@@ -656,14 +656,14 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                               };
                               await _razorpay.open(options);
 
-                              print(model.fcmToken);
+                              print(model.fcmToken); 
                               sendPushNotification(
                                 'Confirm ' + model.title! + '?',
                                 model.fcmToken!,
                               );
                               model.fcmToken = fcmToken;
-
                               showNotification(model.title!);
+
                               print("Notification Sent ======>");
                               await customermodel.updatedBookingStatus(model);
                               setState(() {});

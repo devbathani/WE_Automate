@@ -5,7 +5,6 @@ import 'package:antonx_flutter_template/core/services/database_service.dart';
 import 'package:antonx_flutter_template/locator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../../../../core/models/app-user.dart';
 import '../../../../core/services/local_storage_service.dart';
 
@@ -41,10 +40,11 @@ class BookingViewModel extends BaseViewModel {
 
   fetchDates(DateTime selecteddate) async {
     services = [];
+    print("Service ID =========> " + services.first.id!);
     setState(ViewState.loading);
     var datainstance = FirebaseFirestore.instance
         .collection('global_services')
-        .doc('PI47AVoqQjaCZ8AcKEps');
+        .doc('yDYlTIwrppIsLeRpKpxR');
 
     await datainstance.get().then((DocumentSnapshot snapshot) async {
       Timestamp timestamp = snapshot.get(FieldPath(['serviceBookingDate']));
@@ -92,8 +92,8 @@ class BookingViewModel extends BaseViewModel {
       } else {
         print('We good some error!!!');
       }
+      setState(ViewState.idle);
     });
-    setState(ViewState.idle);
   }
 
   updatedBookingStatus(SErvice serviceToBeEditted) async {

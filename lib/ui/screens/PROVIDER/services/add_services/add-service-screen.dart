@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
 import 'package:antonx_flutter_template/core/constants/strings.dart';
@@ -62,7 +61,6 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
         .add(Availability(color: Color(0XFF0ACF83), label: "Available"));
     getToken();
     init();
-    // TODO: implement initState
     super.initState();
   }
 

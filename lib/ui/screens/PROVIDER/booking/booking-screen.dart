@@ -818,7 +818,7 @@ class _BookingScreenState extends State<BookingScreen> {
             onDayPressed: (date, events) async {
               this.setState(() => currentDate2 = date);
               print('()()():::::::::::>$currentDate2');
-              model.fetchDates(date);
+              model.fetchDates(currentDate2);
             },
             headerTextStyle: headingTextStyle.copyWith(
               fontFamily: robottoFontTextStyle,
