@@ -16,8 +16,6 @@ import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
-import '../customer_booking/slotinfo.dart';
-
 class CustomerSearchServicesScreen extends StatefulWidget {
   final isBottom;
   const CustomerSearchServicesScreen({this.isBottom = false});
@@ -44,7 +42,7 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                   children: [
                     _topAppBar(),
                     // searchTextField(model),
-                    
+
                     services(model),
                     model.services.length >= 5 && model.state == ViewState.idle ? seeMoreButton() : Container()
                   ],
@@ -396,9 +394,11 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                                   backgroundColor:
                                                       MaterialStateProperty.resolveWith((states) => Colors.green)),
                                               onPressed: () {
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                                  return SlotInfo();
-                                                }));
+                                                Get.to(
+                                                  () => CustomerBookingScreen(
+                                                    model: model.services[index],
+                                                  ),
+                                                );
                                               },
                                               child: Text("Book service"),
                                             ),
