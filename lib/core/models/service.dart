@@ -79,6 +79,7 @@ class SErvice {
     data['serviceBookingDate'] = this.serviceBookingDate;
     data['isConfirmed'] = this.isConfirmed;
     data['fcmToken'] = this.fcmToken;
+
     return data;
   }
 }
