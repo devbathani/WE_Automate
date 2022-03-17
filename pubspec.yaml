@@ -61,6 +61,8 @@ dependencies:
   svg_icon: ^0.0.1
   url_launcher: ^6.0.7
   webview_flutter: ^2.0.13
+  syncfusion_flutter_datepicker: ^19.4.56
+  flutter_datetime_picker: ^1.5.1
 
 dev_dependencies:
   change_app_package_name: ^1.0.0

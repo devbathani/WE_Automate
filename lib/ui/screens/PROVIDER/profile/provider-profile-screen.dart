@@ -36,17 +36,13 @@ class ProviderProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   ///avatar user one area
-                  ///
                   avatarArea(),
-
                   buttonsArea(),
 
                   ratings(),
 
                   galleryView(model),
-                  model.services.length < 5 && model.state == ViewState.idle
-                      ? Container()
-                      : seeMoreButton(),
+                  model.services.length < 5 && model.state == ViewState.idle ? Container() : seeMoreButton(),
                 ],
               ),
             ),
@@ -62,10 +58,7 @@ class ProviderProfileScreen extends StatelessWidget {
       child: Container(
           height: 54.h,
           child: RoundedRaisedButton(
-              buttonText: "SEE MORE",
-              color: Colors.white,
-              textColor: primaryColor,
-              onPressed: () {})),
+              buttonText: "SEE MORE", color: Colors.white, textColor: primaryColor, onPressed: () {})),
     );
   }
 
@@ -103,10 +96,7 @@ class ProviderProfileScreen extends StatelessWidget {
                   "${locator<LocationService>().address}".toUpperCase(),
                   // "Toronto, CA".toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: headingTextStyle.copyWith(
-                      height: 1.6,
-                      fontSize: 13.sp,
-                      fontFamily: robottoFontTextStyle),
+                  style: headingTextStyle.copyWith(height: 1.6, fontSize: 13.sp, fontFamily: robottoFontTextStyle),
                 ),
               ),
             ],
@@ -116,10 +106,8 @@ class ProviderProfileScreen extends StatelessWidget {
           height: 30.h,
         ),
         Text(
-          "${locator<AuthService>().providerProfile!.businessName!}"
-              .toUpperCase(),
-          style: headingTextStyle.copyWith(
-              fontSize: 13.sp, fontFamily: robottoFontTextStyle),
+          "${locator<AuthService>().providerProfile!.businessName!}".toUpperCase(),
+          style: headingTextStyle.copyWith(fontSize: 13.sp, fontFamily: robottoFontTextStyle),
         ),
         SizedBox(
           height: 10.h,
@@ -213,8 +201,7 @@ class ProviderProfileScreen extends StatelessWidget {
         children: [
           Text(
             "RATING",
-            style: headingTextStyle.copyWith(
-                fontSize: 13, fontFamily: robottoFontTextStyle),
+            style: headingTextStyle.copyWith(fontSize: 13, fontFamily: robottoFontTextStyle),
           ),
           SizedBox(width: 5.0.w),
           RatingBarIndicator(
@@ -243,9 +230,7 @@ class ProviderProfileScreen extends StatelessWidget {
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisExtent: 280.h,
-                        crossAxisSpacing: 10),
+                        crossAxisCount: 2, mainAxisExtent: 280.h, crossAxisSpacing: 10),
                     itemCount: (model.services.length),
                     itemBuilder: (context, index) {
                       return Column(
@@ -261,8 +246,7 @@ class ProviderProfileScreen extends StatelessWidget {
                             alignment: Alignment.topRight,
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 8.0, right: 10),
+                                padding: const EdgeInsets.only(top: 8.0, right: 10),
                                 child: Stack(
                                   alignment: Alignment.bottomCenter,
                                   children: [
@@ -271,30 +255,21 @@ class ProviderProfileScreen extends StatelessWidget {
                                       width: 1.sw / 2.4,
                                       child: FadeInImage.assetNetwork(
                                           fit: BoxFit.cover,
-                                          placeholder:
-                                              '$assets/placeholder.jpeg',
+                                          placeholder: '$assets/placeholder.jpeg',
                                           image: model.services[index].imgUrl!),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 12,
-                                          right: 12,
-                                          bottom: 250.h - 40.h),
+                                      padding: EdgeInsets.only(left: 12, right: 12, bottom: 250.h - 40.h),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
                                             height: 24.h,
                                             width: 24.w,
                                             decoration: BoxDecoration(
-                                                color: model.services[index]
-                                                            .availability ==
-                                                        "Available"
+                                                color: model.services[index].availability == "Available"
                                                     ? Color(0XFF0ACF83)
-                                                    : model.services[index]
-                                                                .availability ==
-                                                            "Available soon"
+                                                    : model.services[index].availability == "Available soon"
                                                         ? Color(0XFFFBF90A)
                                                         : Colors.red,
                                                 shape: BoxShape.circle),
@@ -316,73 +291,50 @@ class ProviderProfileScreen extends StatelessWidget {
                                     Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 0),
+                                        padding: const EdgeInsets.only(right: 0),
                                         child: Container(
                                           height: 76.h,
                                           // width:1.
                                           color: Colors.black26,
                                           child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0, top: 6.0),
+                                            padding: const EdgeInsets.only(left: 8.0, top: 6.0),
                                             child: Column(
                                               children: [
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     Expanded(
                                                       child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Row(
                                                             children: [
                                                               Flexible(
-                                                                child: Text(
-                                                                    "Desc: ${model.services[index].description}",
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    style: headingTextStyle
-                                                                        .copyWith(
-                                                                      fontSize:
-                                                                          12.sp,
-                                                                      color: Colors
-                                                                          .white,
-                                                                    )),
+                                                                child:
+                                                                    Text("Desc: ${model.services[index].description}",
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        style: headingTextStyle.copyWith(
+                                                                          fontSize: 12.sp,
+                                                                          color: Colors.white,
+                                                                        )),
                                                               ),
                                                             ],
                                                           ),
                                                           SizedBox(height: 4.h),
-                                                          Text(
-                                                              "Price: ${model.services[index].price} usd",
+                                                          Text("Price: ${model.services[index].price} usd",
                                                               // "Price: 50 usd",
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style:
-                                                                  headingTextStyle
-                                                                      .copyWith(
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: headingTextStyle.copyWith(
                                                                 fontSize: 12.sp,
-                                                                color: Colors
-                                                                    .white,
+                                                                color: Colors.white,
                                                               )),
                                                           SizedBox(height: 4.h),
-                                                          Text(
-                                                              "Cat: ${model.services[index].category}",
+                                                          Text("Cat: ${model.services[index].category}",
                                                               // "Price: 50 usd",
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style:
-                                                                  headingTextStyle
-                                                                      .copyWith(
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: headingTextStyle.copyWith(
                                                                 fontSize: 12.sp,
-                                                                color: Colors
-                                                                    .white,
+                                                                color: Colors.white,
                                                               )),
                                                         ],
                                                       ),
