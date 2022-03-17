@@ -12,6 +12,7 @@ import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/conversation/chat/customer-chat-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/customer_booking_screen_view_model.dart';
+import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/slotinfo.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/root/root_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -44,8 +45,7 @@ class CustomerBookingScreen extends StatefulWidget {
     required this.model,
   });
   @override
-  _CustomerBookingScreenScreenState createState() =>
-      _CustomerBookingScreenScreenState();
+  _CustomerBookingScreenScreenState createState() => _CustomerBookingScreenScreenState();
 }
 
 class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
@@ -59,8 +59,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
   DateTime currentDate = DateTime.now(); // DateTime(2019, 2, 3);
   DateTime currentDate2 = DateTime.now();
   NotificationsService notificationsService = NotificationsService();
-  String currentMonth = DateFormat.yMMM().format(
-      DateTime.now()); // DateFormat.yMMM().format(DateTime(2019, 2, 3));
+  String currentMonth = DateFormat.yMMM().format(DateTime.now()); // DateFormat.yMMM().format(DateTime(2019, 2, 3));
   DateTime targetDateTime = DateTime.now(); //DateTime(2019, 2, 3);
   List<Category> categories = [];
   AppUser? appUser;
@@ -78,8 +77,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
   );
   bool isLoading = true;
 
-  late final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  late final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   late var _razorpay;
   var amountController = TextEditingController();
@@ -117,11 +115,9 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
 
     print(channel.id);
 
-    AndroidInitializationSettings androidInitializationSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettingsIOs = IOSInitializationSettings();
-    var initSetttings = InitializationSettings(
-        android: androidInitializationSettings, iOS: initializationSettingsIOs);
+    var initSetttings = InitializationSettings(android: androidInitializationSettings, iOS: initializationSettingsIOs);
     flutterLocalNotificationsPlugin.initialize(
       initSetttings,
     );
@@ -138,7 +134,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     // TODO: implement dispose
     _razorpay.clear();
     super.dispose();
-  }    
+  }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
@@ -155,14 +151,12 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
   }
 
   showNotification(String title) async {
-    var android = new AndroidNotificationDetails(
-        'id', 'channel ', 'description',
+    var android = new AndroidNotificationDetails('id', 'channel ', 'description',
         priority: Priority.high, importance: Importance.max);
     var iOS = new IOSNotificationDetails();
     var platform = new NotificationDetails(android: android, iOS: iOS);
     await flutterLocalNotificationsPlugin
-        .show(0, 'Service Booked', title, platform,
-            payload: 'Welcome to the Local Notification demo')
+        .show(0, 'Service Booked', title, platform, payload: 'Welcome to the Local Notification demo')
         .then((value) {});
   }
 
@@ -174,22 +168,18 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     };
 
     try {
-      http.Response response =
-          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
-              headers: <String, String>{
-                'Content-Type': 'application/json',
-                'Authorization':
-                    'key=AAAAEBlwyYw:APA91bF_EAZodCwGiYANWguNUTIDdM30zkIsJTru0PG5hB4Sk3NynXrVJirhzpiOLCveklQEChRzmXW8WEpP82B8bL_tJyt94btQteQFuqkrVrpVQw45_DuiYIt4OkyGxKpx0r3lr6-v'
-              },
-              body: jsonEncode(<String, dynamic>{
-                'notification': <String, dynamic>{
-                  'title': title,
-                  'body': 'Accept or decline the service !!'
-                },
-                'priority': 'high',
-                'data': data,
-                'to': '$token'
-              }));
+      http.Response response = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization':
+                'key=AAAAEBlwyYw:APA91bF_EAZodCwGiYANWguNUTIDdM30zkIsJTru0PG5hB4Sk3NynXrVJirhzpiOLCveklQEChRzmXW8WEpP82B8bL_tJyt94btQteQFuqkrVrpVQw45_DuiYIt4OkyGxKpx0r3lr6-v'
+          },
+          body: jsonEncode(<String, dynamic>{
+            'notification': <String, dynamic>{'title': title, 'body': 'Accept or decline the service !!'},
+            'priority': 'high',
+            'data': data,
+            'to': '$token'
+          }));
 
       if (response.statusCode == 200) {
         print("Yeh notificatin is sended");
@@ -214,8 +204,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
-    } else if (settings.authorizationStatus ==
-        AuthorizationStatus.provisional) {
+    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
       print('User granted provisional permission');
     } else {
       print('User declined or has not accepted permission');
@@ -263,22 +252,20 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
       /// We use this channel in the `AndroidManifest.xml` file to override the
       /// default FCM channel to enable heads up notifications.
       await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()
+          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
           ?.createNotificationChannel(channel);
 
       /// Update the iOS foreground notification presentation options to allow
       /// heads up notifications.
-      await FirebaseMessaging.instance
-          .setForegroundNotificationPresentationOptions(
+      await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
         alert: true,
         badge: true,
         sound: true,
       );
     }
   }
-
   bool isBooked = false;
+  
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -288,9 +275,6 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
             return ModalProgressHUD(
               inAsyncCall: isLoading,
               child: Scaffold(
-                ////
-                ///FAB
-                ///
                 backgroundColor: Colors.white,
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
@@ -311,7 +295,9 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                       children: [
                         _topAppBar(),
                         searchTextField(),
-                        calendar(widget.model, model),
+                        //TODO : review the functionalities of this calender widget and why it was in this screen
+                        // calendar(widget.model, model),
+                        serviceDetails(widget.model, model)
                       ],
                     ),
                   ),
@@ -320,6 +306,242 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
             );
           },
         ));
+  }
+
+  serviceDetails(SErvice model, CustomerBookingScreenViewModel customermodel) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                "Service Details",
+                style: bodyTextStyle.copyWith(
+                  fontSize: 18.sp,
+                  fontFamily: robottoFontTextStyle,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 15.h,
+          ),
+          Stack(
+            children: [
+              Container(
+                height: 230.h,
+                width: 350.w,
+                child: FadeInImage.assetNetwork(
+                  placeholder: '$assets/placeholder.jpeg',
+                  image: model.imgUrl!,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                top: 10.h,
+                left: 10.w,
+                child: Container(
+                  height: 24.h,
+                  width: 24.w,
+                  decoration: BoxDecoration(
+                    color: model.availability == "Available"
+                        ? Color(0XFF0ACF83)
+                        : model.availability == "Available soon"
+                            ? Color(0XFFFBF90A)
+                            : Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 10.h,
+                right: 10.w,
+                child: GestureDetector(
+                  onTap: () {
+                    print("Launchig maps");
+                    try {
+                      MapsLauncher.launchCoordinates(
+                        double.parse(model.location!.lat!),
+                        double.parse(model.location!.long!),
+                      );
+                    } catch (e) {
+                      print("Exception ====> MAP LAUNCHER==> $e");
+                      Get.dialog(
+                        RequestFailedDialog(
+                          errorMessage: e.toString(),
+                        ),
+                      );
+                    }
+                  },
+                  child: Container(
+                    height: 36.h,
+                    width: 36.w,
+                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                    child: Icon(Icons.location_on, size: 18),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  height: 90.h,
+                  width: 350.w,
+                  color: Colors.black26,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 9.h,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Flexible(
+                            child: Text(
+                              "Desc: ${model.description}",
+                              softWrap: true,
+                              style: headingTextStyle.copyWith(
+                                fontSize: 12.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
+                        Text(
+                          "Price: ${model.price} CAD",
+                          // "Price: 50 CAD",
+                          overflow: TextOverflow.ellipsis,
+                          style: headingTextStyle.copyWith(
+                            fontSize: 12.sp,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 10.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: 30.h,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Get.to(
+                                    () => CustomerChatScreen(
+                                      providerId: model.providerId,
+                                      providerName: model.providerName,
+                                    ),
+                                  );
+                                },
+                                child: Text("Message"),
+                              ),
+                            ),
+                            Container(
+                              height: 30.h,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.green)),
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                    return SlotInfo();
+                                  }));
+                                },
+                                child: Text("Book service"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 50.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              !isBooked
+                  ? Container(
+                      height: 26.h,
+                      width: 172.w,
+                      child: RoundedRaisedButton(
+                        buttonText: "Book Service".toUpperCase(),
+                        textColor: primaryColor,
+                        color: Colors.white,
+                        onPressed: () async {
+                          model.isBooked = 'Yes';
+                          // TODO : add slot here
+                          model.serviceBookingDate = Timestamp.fromDate(bookingDates);
+                          model.isConfirmed = 'No';
+
+                          print(model.serviceBookingDate);
+                          print(":");
+                          // Get.back();
+                          isLoading = true;
+                          var price = double.parse(model.price!);
+                          setState(() {});
+                          Future.delayed(
+                            Duration(seconds: 3),
+                            () async {
+                              isLoading = false;
+                              isBooked = true;
+                              var options = {
+                                'key': "rzp_test_4qGWB3dkcHmRZT",
+                                'amount': price * 100,
+                                'name': 'Dev Bathani',
+                                'description': 'service payment',
+                                'timeout': 300,
+                                'prefill': {'contact': '7202897611', 'email': 'bathanid888@gmail.com'}
+                              };
+                              await _razorpay.open(options);
+
+                              print(model.fcmToken);
+                              sendPushNotification(
+                                'Confirm ' + model.title! + '?',
+                                model.fcmToken!,
+                              );
+                              model.fcmToken = fcmToken;
+                              showNotification(model.title!);
+
+                              print("Notification Sent ======>");
+                              await customermodel.updatedBookingStatus(model);
+                              setState(() {});
+
+                              Get.back(result: model);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    "The service has been booked successfully",
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    )
+                  : Container(
+                      height: 26.h,
+                      width: 172.w,
+                      child: RoundedRaisedButton(
+                        buttonText: "Continue Shopping".toUpperCase(),
+                        textColor: primaryColor,
+                        color: Colors.white,
+                        onPressed: () {
+                          print(":");
+                          Get.back();
+                        },
+                      ),
+                    ),
+            ],
+          ),
+          SizedBox(height: 88.h),
+        ],
+      ),
+    );
   }
 
   calendar(SErvice model, CustomerBookingScreenViewModel customermodel) {
@@ -335,8 +557,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
             children: [
               Text(
                 "Book your Service",
-                style: bodyTextStyle.copyWith(
-                    fontSize: 18.sp, fontFamily: robottoFontTextStyle),
+                style: bodyTextStyle.copyWith(fontSize: 18.sp, fontFamily: robottoFontTextStyle),
               ),
             ],
           ),
@@ -345,10 +566,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
             children: [
               Text(
                 "Choose your appointment slot",
-                style: bodyTextStyle.copyWith(
-                    color: Colors.grey,
-                    fontSize: 11.sp,
-                    fontFamily: robottoFontTextStyle),
+                style: bodyTextStyle.copyWith(color: Colors.grey, fontSize: 11.sp, fontFamily: robottoFontTextStyle),
               ),
             ],
           ),
@@ -392,13 +610,10 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                   showIconBehindDayText: true,
                   markedDateShowIcon: true,
                   markedDateIconMaxShown: 2,
-                  weekdayTextStyle: bodyTextStyle.copyWith(
-                      fontSize: 15.sp, color: Color(0xff191919)),
+                  weekdayTextStyle: bodyTextStyle.copyWith(fontSize: 15.sp, color: Color(0xff191919)),
                   //            daysTextStyle: mediumRegularTextStyle,
-                  weekendTextStyle: bodyTextStyle.copyWith(
-                      fontSize: 15.sp, color: Color(0xff191919)),
-                  selectedDayTextStyle: bodyTextStyle.copyWith(
-                      color: Colors.white, fontSize: 15.sp),
+                  weekendTextStyle: bodyTextStyle.copyWith(fontSize: 15.sp, color: Color(0xff191919)),
+                  selectedDayTextStyle: bodyTextStyle.copyWith(color: Colors.white, fontSize: 15.sp),
                   markedDateIconBuilder: (event) {
                     return event.icon ?? Icon(Icons.help_outline);
                   },
@@ -460,10 +675,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
             children: [
               Text(
                 "How often would you like the service?",
-                style: bodyTextStyle.copyWith(
-                    color: Colors.black45,
-                    fontSize: 13.sp,
-                    fontFamily: robottoFontTextStyle),
+                style: bodyTextStyle.copyWith(color: Colors.black45, fontSize: 13.sp, fontFamily: robottoFontTextStyle),
               )
             ],
           ),
@@ -485,218 +697,6 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                 }),
               )),
           SizedBox(height: 50.h),
-          Row(
-            children: [
-              Text(
-                "Service Detials",
-                style: bodyTextStyle.copyWith(
-                  fontSize: 18.sp,
-                  fontFamily: robottoFontTextStyle,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 15.h,
-          ),
-          Stack(
-            children: [
-              Container(
-                height: 230.h,
-                width: 350.w,
-                child: FadeInImage.assetNetwork(
-                  placeholder: '$assets/placeholder.jpeg',
-                  image: model.imgUrl!,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                top: 10.h,
-                left: 10.w,
-                child: Container(
-                  height: 24.h,
-                  width: 24.w,
-                  decoration: BoxDecoration(
-                    color: model.availability == "Available"
-                        ? Color(0XFF0ACF83)
-                        : model.availability == "Available soon"
-                            ? Color(0XFFFBF90A)
-                            : Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 10.h,
-                right: 10.w,
-                child: GestureDetector(
-                  onTap: () {
-                    print("Launchig maps");
-                    try {
-                      MapsLauncher.launchCoordinates(
-                        double.parse(model.location!.lat!),
-                        double.parse(model.location!.long!),
-                      );
-                    } catch (e) {
-                      print("Exception ====> MAP LAUNCHER==> $e");
-                      Get.dialog(
-                        RequestFailedDialog(
-                          errorMessage: e.toString(),
-                        ),
-                      );
-                    }
-                  },
-                  child: Container(
-                    height: 36.h,
-                    width: 36.w,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.white),
-                    child: Icon(Icons.location_on, size: 18),
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 0,
-                child: Container(
-                  height: 90.h,
-                  width: 350.w,
-                  color: Colors.black26,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10.w,
-                      vertical: 9.h,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Flexible(
-                            child: Text(
-                              "Desc: ${model.description}",
-                              softWrap: true,
-                              style: headingTextStyle.copyWith(
-                                fontSize: 12.sp,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 4.h),
-                        Text(
-                          "Price: ${model.price} CAD",
-                          // "Price: 50 CAD",
-                          overflow: TextOverflow.ellipsis,
-                          style: headingTextStyle.copyWith(
-                            fontSize: 12.sp,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(height: 10.h),
-                        Container(
-                          height: 30.h,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Get.to(
-                                () => CustomerChatScreen(
-                                  providerId: model.providerId,
-                                  providerName: model.providerName,
-                                ),
-                              );
-                            },
-                            child: Text("Message"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 50.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              !isBooked
-                  ? Container(
-                      height: 26.h,
-                      width: 172.w,
-                      child: RoundedRaisedButton(
-                        buttonText: "Book Service".toUpperCase(),
-                        textColor: primaryColor,
-                        color: Colors.white,
-                        onPressed: () async {
-                          model.isBooked = 'Yes';
-                          model.serviceBookingDate =
-                              Timestamp.fromDate(bookingDates);
-                          model.isConfirmed = 'No';
-
-                          print(model.serviceBookingDate);
-                          print(":");
-                          // Get.back();
-                          isLoading = true;
-                          var price = double.parse(model.price!);
-                          setState(() {});
-                          Future.delayed(
-                            Duration(seconds: 3),
-                            () async {
-                              isLoading = false;
-                              isBooked = true;
-                              var options = {
-                                'key': "rzp_test_4qGWB3dkcHmRZT",
-                                'amount': price * 100,
-                                'name': 'Dev Bathani',
-                                'description': 'service payment',
-                                'timeout': 300,
-                                'prefill': {
-                                  'contact': '7202897611',
-                                  'email': 'bathanid888@gmail.com'
-                                }
-                              };
-                              await _razorpay.open(options);
-
-                              print(model.fcmToken); 
-                              sendPushNotification(
-                                'Confirm ' + model.title! + '?',
-                                model.fcmToken!,
-                              );
-                              model.fcmToken = fcmToken;
-                              showNotification(model.title!);
-
-                              print("Notification Sent ======>");
-                              await customermodel.updatedBookingStatus(model);
-                              setState(() {});
-
-                              Get.back(result: model);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    "The service has been booked successfully",
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    )
-                  : Container(
-                      height: 26.h,
-                      width: 172.w,
-                      child: RoundedRaisedButton(
-                        buttonText: "Continue Shopping".toUpperCase(),
-                        textColor: primaryColor,
-                        color: Colors.white,
-                        onPressed: () {
-                          print(":");
-                          Get.back();
-                        },
-                      ),
-                    ),
-            ],
-          ),
-          SizedBox(height: 88.h),
         ],
       ),
     );
@@ -722,9 +722,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                 "${category.label}",
                 style: bodyTextStyle.copyWith(
                   fontSize: 10.sp,
-                  color: category.isSelected!
-                      ? Colors.white
-                      : Colors.grey.withOpacity(1),
+                  color: category.isSelected! ? Colors.white : Colors.grey.withOpacity(1),
                 ),
               ),
             ],
@@ -742,14 +740,11 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
         children: [
           Container(
             height: 52.h,
-            decoration: BoxDecoration(
-                border: Border.all(color: primaryColor, width: 2.w)),
+            decoration: BoxDecoration(border: Border.all(color: primaryColor, width: 2.w)),
             child: TextFormField(
               decoration: InputDecoration(
                 hintStyle: bodyTextStyle.copyWith(
-                    fontSize: 15.sp,
-                    fontFamily: robottoFontTextStyle,
-                    color: Colors.grey.withOpacity(1)),
+                    fontSize: 15.sp, fontFamily: robottoFontTextStyle, color: Colors.grey.withOpacity(1)),
                 hintText: "Search all services",
                 suffixIconConstraints: BoxConstraints(
                   maxHeight: 29.h,
@@ -801,9 +796,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                 Text(
                   "BACK",
                   style: subHeadingTextstyle.copyWith(
-                      fontSize: 13.sp,
-                      letterSpacing: 0.4,
-                      fontFamily: robottoFontTextStyle),
+                      fontSize: 13.sp, letterSpacing: 0.4, fontFamily: robottoFontTextStyle),
                 )
               ],
             ),
@@ -812,10 +805,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
             padding: const EdgeInsets.only(left: 16, top: 17.0),
             child: Text(
               "Search Services  and Products",
-              style: subHeadingTextstyle.copyWith(
-                  fontSize: 13.sp,
-                  letterSpacing: 0.4,
-                  fontWeight: FontWeight.w400),
+              style: subHeadingTextstyle.copyWith(fontSize: 13.sp, letterSpacing: 0.4, fontWeight: FontWeight.w400),
             ),
           )
         ],
