@@ -85,7 +85,7 @@ class _SlotSchedularState extends State<SlotSchedular> {
                   height: 10.h,
                 ),
                 Card(
-                  color: Colors.white54,
+                  color: Colors.white70,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -130,7 +130,7 @@ class _SlotSchedularState extends State<SlotSchedular> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
-              color: Colors.white54,
+              color: Colors.white70,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(children: [

@@ -84,7 +84,6 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
   bool isBooked = false;
 
   //TODO: add these for user
-
   // after confirm
   List bookedSlots = ["2022-03-23 16:00:00.000", "2022-03-26 10:50:00.000", "2022-03-29 09:30:00.000"];
 
@@ -635,55 +634,55 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                             bookingDates =
                                 DateTime(bookingDateTime.year, bookingDateTime.month, bookingDateTime.day, hour, min);
                             // TODO: send api req for booking slot and append this timing bookedSlots for user
-                          }
-                          model.isBooked = 'Yes';
-                          // TODO : add slot here
-                          model.serviceBookingDate = Timestamp.fromDate(bookingDates);
-                          model.isConfirmed = 'No';
+                            model.isBooked = 'Yes';
+                            // TODO : add slot here
+                            model.serviceBookingDate = Timestamp.fromDate(bookingDates);
+                            model.isConfirmed = 'No';
 
-                          print(model.serviceBookingDate);
-                          print(":");
-                          // Get.back();
-                          isLoading = true;
-                          var price = double.parse(model.price!);
-                          setState(() {});
-                          Future.delayed(
-                            Duration(seconds: 3),
-                            () async {
-                              isLoading = false;
-                              isBooked = true;
-                              var options = {
-                                'key': "rzp_test_4qGWB3dkcHmRZT",
-                                'amount': price * 100,
-                                'name': 'Dev Bathani',
-                                'description': 'service payment',
-                                'timeout': 300,
-                                'prefill': {'contact': '7202897611', 'email': 'bathanid888@gmail.com'}
-                              };
-                              await _razorpay.open(options);
+                            print(model.serviceBookingDate);
+                            print(":");
+                            // Get.back();
+                            isLoading = true;
+                            var price = double.parse(model.price!);
+                            setState(() {});
+                            Future.delayed(
+                              Duration(seconds: 3),
+                              () async {
+                                isLoading = false;
+                                isBooked = true;
+                                var options = {
+                                  'key': "rzp_test_4qGWB3dkcHmRZT",
+                                  'amount': price * 100,
+                                  'name': 'Dev Bathani',
+                                  'description': 'service payment',
+                                  'timeout': 300,
+                                  'prefill': {'contact': '7202897611', 'email': 'bathanid888@gmail.com'}
+                                };
+                                await _razorpay.open(options);
 
-                              print(model.fcmToken);
-                              sendPushNotification(
-                                'Confirm ' + model.title! + '?',
-                                model.fcmToken!,
-                              );
-                              model.fcmToken = fcmToken;
-                              showNotification(model.title!);
+                                print(model.fcmToken);
+                                sendPushNotification(
+                                  'Confirm ' + model.title! + '?',
+                                  model.fcmToken!,
+                                );
+                                model.fcmToken = fcmToken;
+                                showNotification(model.title!);
 
-                              print("Notification Sent ======>");
-                              await customermodel.updatedBookingStatus(model);
-                              setState(() {});
+                                print("Notification Sent ======>");
+                                await customermodel.updatedBookingStatus(model);
+                                setState(() {});
 
-                              Get.back(result: model);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    "The service has been booked successfully",
+                                Get.back(result: model);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      "The service has been booked successfully",
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
+                                );
+                              },
+                            );
+                          }
                         },
                       ),
                     )

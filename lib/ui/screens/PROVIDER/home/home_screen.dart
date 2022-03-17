@@ -80,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ]),
 
                   ratings(),
+                  
 
                   galleryView(model),
                   model.services.length < 5 && model.state == ViewState.idle ? Container() : seeMoreButton(),
