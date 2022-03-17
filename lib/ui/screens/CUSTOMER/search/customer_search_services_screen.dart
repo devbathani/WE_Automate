@@ -43,7 +43,8 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                 child: Column(
                   children: [
                     _topAppBar(),
-                    searchTextField(model),
+                    // searchTextField(model),
+                    
                     services(model),
                     model.services.length >= 5 && model.state == ViewState.idle ? seeMoreButton() : Container()
                   ],

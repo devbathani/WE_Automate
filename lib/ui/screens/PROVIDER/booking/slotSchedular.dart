@@ -165,12 +165,13 @@ class _SlotSchedularState extends State<SlotSchedular> {
                             ],
                           ),
                           Wrap(
-                            spacing: 10.w,
+                            spacing: 5.w,
                             children: List.generate(notAvailableSlots.length, (index) {
                               DateTime dateTime = DateTime.parse(notAvailableSlots[index].toString());
-                              String text = dateTime.toString().split('.')[0];
+                              List text = dateTime.toString().split('.')[0].split(' ');
+                              String timeText = text[1].toString().substring(0, text[1].toString().length - 3);
                               return InputChip(
-                                label: Text(text),
+                                label: Text(text[0] + " / " + timeText),
                                 onDeleted: () {
                                   setState(() {
                                     notAvailableSlots.remove(notAvailableSlots[index].toString());
