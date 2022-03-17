@@ -264,8 +264,9 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
       );
     }
   }
+
   bool isBooked = false;
-  
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -420,37 +421,19 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                           ),
                         ),
                         SizedBox(height: 10.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              height: 30.h,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Get.to(
-                                    () => CustomerChatScreen(
-                                      providerId: model.providerId,
-                                      providerName: model.providerName,
-                                    ),
-                                  );
-                                },
-                                child: Text("Message"),
-                              ),
-                            ),
-                            Container(
-                              height: 30.h,
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.green)),
-                                onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                    return SlotInfo();
-                                  }));
-                                },
-                                child: Text("Book service"),
-                              ),
-                            ),
-                          ],
+                        Container(
+                          height: 30.h,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Get.to(
+                                () => CustomerChatScreen(
+                                  providerId: model.providerId,
+                                  providerName: model.providerName,
+                                ),
+                              );
+                            },
+                            child: Text("Message"),
+                          ),
                         ),
                       ],
                     ),
