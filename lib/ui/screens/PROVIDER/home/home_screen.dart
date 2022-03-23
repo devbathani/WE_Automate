@@ -6,9 +6,9 @@ import 'package:antonx_flutter_template/core/enums/view_state.dart';
 import 'package:antonx_flutter_template/core/services/location_service.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
+import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/order_list.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/auth_signup/provider_auth_view_model.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/booking/booking-screen.dart';
-import 'package:antonx_flutter_template/ui/screens/PROVIDER/conversation/conversation-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/home/home_view_model.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/products/product-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/root/root-provider-screen.dart';
@@ -18,13 +18,12 @@ import 'package:antonx_flutter_template/ui/screens/PROVIDER/webview/webview-scre
 import 'package:antonx_flutter_template/ui/screens/common_ui/select_user_type_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../locator.dart';
-import '../booking/slotSchedular.dart';
+import '../booking/slotSchedular2.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -34,6 +33,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  final _messangerKey = GlobalKey<ScaffoldMessengerState>();
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -63,27 +65,54 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   buttonsArea(model),
                   SizedBox(height: 24.h),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Container(
-                      height: 26.h,
-                      width: 184.w,
-                      child: RoundedRaisedButton(
-                          buttonText: "Schedule Slots",
-                          textColor: primaryColor,
-                          color: Colors.white,
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) {
-                              return SlotSchedular();
-                            }));
-                          }),
-                    ),
-                  ]),
+
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 26.h,
+                        width: 172.w,
+                        child: RoundedRaisedButton(
+                            buttonText: "My Slots",
+                            color: Colors.white,
+                            textColor: primaryColor,
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                    return SlotSchedular();
+                                  })).then((value) {
+                                    if(value!=null){
+                                      _messangerKey.currentState?.showSnackBar(
+                                          SnackBar(content: Text('Schedule has been updated')));
+                                    }
+                              } );
+                            }),
+                      ),
+                      SizedBox(width: 8.w),
+                      Container(
+                        height: 26.h,
+                        width: 172.w,
+                        child: RoundedRaisedButton(
+                            buttonText: "My Order",
+                            color: Colors.white,
+                            textColor: primaryColor,
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                    return OrderList(isProvider: true,);
+                                  }));
+                            }),
+                      ),
+                    ],
+                  ),
 
                   ratings(),
-                  
 
                   galleryView(model),
-                  model.services.length < 5 && model.state == ViewState.idle ? Container() : seeMoreButton(),
+                  model.services.length < 5 && model.state == ViewState.idle
+                      ? Container()
+                      : seeMoreButton(),
                 ],
               ),
             ),
@@ -99,7 +128,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
           height: 54.h,
           child: RoundedRaisedButton(
-              buttonText: "SEE MORE", color: Colors.white, textColor: primaryColor, onPressed: () {})),
+              buttonText: "SEE MORE",
+              color: Colors.white,
+              textColor: primaryColor,
+              onPressed: () {})),
     );
   }
 
@@ -115,7 +147,8 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {
-                  Provider.of<ProviderAuthViewModel>(context, listen: false).logout();
+                  Provider.of<ProviderAuthViewModel>(context, listen: false)
+                      .logout();
                   Get.offAll(() => SelectUserTypeScreen());
                 },
                 icon: Icon(Icons.logout)),
@@ -152,7 +185,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   "${locator<LocationService>().address}".toUpperCase(),
                   // "Toronto, CA".toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: headingTextStyle.copyWith(height: 1.6, fontSize: 13.sp, fontFamily: robottoFontTextStyle),
+                  style: headingTextStyle.copyWith(
+                      height: 1.6,
+                      fontSize: 13.sp,
+                      fontFamily: robottoFontTextStyle),
                 ),
               ),
             ],
@@ -235,7 +271,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Get.offAll(() => RootProviderScreen(index: 3));
                   }),
             ),
+            if(false)
             SizedBox(width: 8.w),
+            if(false)
             Container(
               height: 26.h,
               width: 172.w,
@@ -263,7 +301,8 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             "RATING",
-            style: headingTextStyle.copyWith(fontSize: 13, fontFamily: robottoFontTextStyle),
+            style: headingTextStyle.copyWith(
+                fontSize: 13, fontFamily: robottoFontTextStyle),
           ),
           SizedBox(width: 5.0.w),
           RatingBarIndicator(
@@ -292,7 +331,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   shrinkWrap: true,
                   physics: BouncingScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, mainAxisExtent: 280.h, crossAxisSpacing: 10),
+                      crossAxisCount: 2,
+                      mainAxisExtent: 280.h,
+                      crossAxisSpacing: 10),
                   itemCount: (model.services.length),
                   itemBuilder: (context, index) {
                     return Column(
@@ -308,7 +349,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           alignment: Alignment.topRight,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 8.0, right: 10),
+                              padding:
+                                  const EdgeInsets.only(top: 8.0, right: 10),
                               child: GestureDetector(
                                 onTap: () {
                                   Get.to(
@@ -327,23 +369,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                         width: 1.sw / 2.4,
                                         child: FadeInImage.assetNetwork(
                                           fit: BoxFit.cover,
-                                          placeholder: '$assets/placeholder.jpeg',
+                                          placeholder:
+                                              '$assets/placeholder.jpeg',
                                           image: model.services[index].imgUrl!,
                                         ),
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 12, right: 12, bottom: 250.h - 40.h),
+                                      padding: EdgeInsets.only(
+                                          left: 12,
+                                          right: 12,
+                                          bottom: 250.h - 40.h),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
                                             height: 24.h,
                                             width: 24.w,
                                             decoration: BoxDecoration(
-                                                color: model.services[index].availability == "Available"
+                                                color: model.services[index]
+                                                            .availability ==
+                                                        "Available"
                                                     ? Color(0XFF0ACF83)
-                                                    : model.services[index].availability == "Available soon"
+                                                    : model.services[index]
+                                                                .availability ==
+                                                            "Available soon"
                                                         ? Color(0XFFFBF90A)
                                                         : Colors.red,
                                                 shape: BoxShape.circle),
@@ -365,50 +416,73 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Padding(
-                                        padding: const EdgeInsets.only(right: 0),
+                                        padding:
+                                            const EdgeInsets.only(right: 0),
                                         child: Container(
                                           height: 76.h,
                                           // width:1.
                                           color: Colors.black26,
                                           child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, top: 6.0),
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0, top: 6.0),
                                             child: Column(
                                               children: [
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
                                                     Expanded(
                                                       child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           Row(
                                                             children: [
                                                               Flexible(
-                                                                child:
-                                                                    Text("Desc: ${model.services[index].description}",
-                                                                        overflow: TextOverflow.ellipsis,
-                                                                        style: headingTextStyle.copyWith(
-                                                                          fontSize: 12.sp,
-                                                                          color: Colors.white,
-                                                                        )),
+                                                                child: Text(
+                                                                    "Desc: ${model.services[index].description}",
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    style: headingTextStyle
+                                                                        .copyWith(
+                                                                      fontSize:
+                                                                          12.sp,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    )),
                                                               ),
                                                             ],
                                                           ),
                                                           SizedBox(height: 4.h),
-                                                          Text("Price: ${model.services[index].price} CAD",
+                                                          Text(
+                                                              "Price: ${model.services[index].price} CAD",
                                                               // "Price: 50 CAD",
-                                                              overflow: TextOverflow.ellipsis,
-                                                              style: headingTextStyle.copyWith(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style:
+                                                                  headingTextStyle
+                                                                      .copyWith(
                                                                 fontSize: 12.sp,
-                                                                color: Colors.white,
+                                                                color: Colors
+                                                                    .white,
                                                               )),
                                                           SizedBox(height: 4.h),
-                                                          Text("Cat: ${model.services[index].category}",
+                                                          Text(
+                                                              "Cat: ${model.services[index].category}",
                                                               // "Price: 50 CAD",
-                                                              overflow: TextOverflow.ellipsis,
-                                                              style: headingTextStyle.copyWith(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style:
+                                                                  headingTextStyle
+                                                                      .copyWith(
                                                                 fontSize: 12.sp,
-                                                                color: Colors.white,
+                                                                color: Colors
+                                                                    .white,
                                                               )),
                                                         ],
                                                       ),

@@ -81,6 +81,9 @@ class _MyBookingsState extends State<MyBookings> {
                                             Get.to(
                                               () => CustomerBookingScreen(
                                                 model: model.services[index],
+                                                providerId: model.services[index].providerId??"",
+                                                serviceId: model.services[index].id??"",
+                                                price: model.services[index].price??"",
                                               ),
                                             );
                                           },

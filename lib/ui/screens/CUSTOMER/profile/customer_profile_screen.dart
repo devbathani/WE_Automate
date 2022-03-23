@@ -6,7 +6,7 @@ import 'package:antonx_flutter_template/core/services/auth_service.dart';
 import 'package:antonx_flutter_template/core/services/location_service.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
-import 'package:antonx_flutter_template/ui/screens/CUSTOMER/mybookings/mybookings.dart';
+import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/order_list.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/root/root_screen.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/search/customer_search_services_screen.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/search/detail/customer_search_detail_screen.dart';
@@ -190,7 +190,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                 color: Colors.white,
                 onPressed: () {
                   print(":");
-                  Get.to(MyBookings());
+                  Get.to(OrderList());
                 }),
           ),
         ]),

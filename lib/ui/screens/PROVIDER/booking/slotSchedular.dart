@@ -22,7 +22,8 @@ class _SlotSchedularState extends State<SlotSchedular> {
   ];
   TimeOfDay? pickedTime = TimeOfDay.now();
   TimeOfDay? startTime = TimeOfDay.now();
-  TimeOfDay? endTime = TimeOfDay.now().replacing(hour: TimeOfDay.now().hour + 1);
+  TimeOfDay? endTime =
+      TimeOfDay.now().replacing(hour: TimeOfDay.now().hour + 1);
   int duration = 30;
   int gap = 0;
   List selectedRepeatDays = [];
@@ -31,20 +32,26 @@ class _SlotSchedularState extends State<SlotSchedular> {
   List selectedDays = [];
   List finalSlots = [];
   List notAvaliableDate = [];
-  List notAvailableSlots = ["2022-03-14 09:30:00.000", "2022-03-28 10:10:00.000"];
+  List notAvailableSlots = [
+    "2022-03-14 09:30:00.000",
+    "2022-03-28 10:10:00.000"
+  ];
 
 // format of finalSlots = [startTime, endTime, duration, gap, selectedRepeatDays];
 
   timePicker(BuildContext context) async {
-    pickedTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+    pickedTime =
+        await showTimePicker(context: context, initialTime: TimeOfDay.now());
     pickedTime ??= TimeOfDay.now();
     return pickedTime;
   }
 
   cleaner() {
     DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
-    notAvaliableDate.removeWhere((element) => yesterday.compareTo(DateTime.parse(element)) == 1);
-    notAvailableSlots.removeWhere((element) => yesterday.compareTo(DateTime.parse(element)) == 1);
+    notAvaliableDate.removeWhere(
+        (element) => yesterday.compareTo(DateTime.parse(element)) == 1);
+    notAvailableSlots.removeWhere(
+        (element) => yesterday.compareTo(DateTime.parse(element)) == 1);
     print(notAvailableSlots);
   }
 
@@ -144,13 +151,17 @@ class _SlotSchedularState extends State<SlotSchedular> {
                         children: [
                           Row(
                             children: [
-                              Flexible(child: const Text("I am not available at this time slot:")),
+                              Flexible(
+                                  child: const Text(
+                                      "I am not available at this time slot:")),
                               TextButton(
                                   onPressed: () {
                                     DatePicker.showDateTimePicker(context,
                                         showTitleActions: true,
                                         minTime: DateTime.now(),
-                                        maxTime: DateTime.now().add(const Duration(days: 180)), onChanged: (date) {
+                                        maxTime: DateTime.now()
+                                            .add(const Duration(days: 180)),
+                                        onChanged: (date) {
                                       print('change $date');
                                     }, onConfirm: (date) {
                                       setState(() {
@@ -166,15 +177,21 @@ class _SlotSchedularState extends State<SlotSchedular> {
                           ),
                           Wrap(
                             spacing: 5.w,
-                            children: List.generate(notAvailableSlots.length, (index) {
-                              DateTime dateTime = DateTime.parse(notAvailableSlots[index].toString());
-                              List text = dateTime.toString().split('.')[0].split(' ');
-                              String timeText = text[1].toString().substring(0, text[1].toString().length - 3);
+                            children: List.generate(notAvailableSlots.length,
+                                (index) {
+                              DateTime dateTime = DateTime.parse(
+                                  notAvailableSlots[index].toString());
+                              List text =
+                                  dateTime.toString().split('.')[0].split(' ');
+                              String timeText = text[1]
+                                  .toString()
+                                  .substring(0, text[1].toString().length - 3);
                               return InputChip(
                                 label: Text(text[0] + " / " + timeText),
                                 onDeleted: () {
                                   setState(() {
-                                    notAvailableSlots.remove(notAvailableSlots[index].toString());
+                                    notAvailableSlots.remove(
+                                        notAvailableSlots[index].toString());
                                   });
                                 },
                               );
@@ -220,7 +237,8 @@ class _SlotSchedularState extends State<SlotSchedular> {
                     DatePicker.showDatePicker(context,
                         showTitleActions: true,
                         minTime: DateTime.now(),
-                        maxTime: DateTime.now().add(Duration(days: 180)), onChanged: (date) {
+                        maxTime: DateTime.now().add(Duration(days: 180)),
+                        onChanged: (date) {
                       print('change $date');
                     }, onConfirm: (date) {
                       setState(() {
@@ -237,8 +255,13 @@ class _SlotSchedularState extends State<SlotSchedular> {
           Wrap(
             spacing: 10.w,
             children: List.generate(notAvaliableDate.length, (index) {
-              DateTime dateTime = DateTime.parse(notAvaliableDate[index].toString());
-              String text = dateTime.day.toString() + '/' + dateTime.month.toString() + '/' + dateTime.year.toString();
+              DateTime dateTime =
+                  DateTime.parse(notAvaliableDate[index].toString());
+              String text = dateTime.day.toString() +
+                  '/' +
+                  dateTime.month.toString() +
+                  '/' +
+                  dateTime.year.toString();
               return InputChip(
                 label: Text(text),
                 onDeleted: () {
@@ -259,9 +282,11 @@ class _SlotSchedularState extends State<SlotSchedular> {
 
     finalSlots.forEach((element) {
       TimeOfDay startTime1 = TimeOfDay(
-          hour: int.parse(element[0].toString().split(':')[0]), minute: int.parse(element[0].toString().split(':')[1]));
+          hour: int.parse(element[0].toString().split(':')[0]),
+          minute: int.parse(element[0].toString().split(':')[1]));
       TimeOfDay endTime1 = TimeOfDay(
-          hour: int.parse(element[1].toString().split(':')[0]), minute: int.parse(element[1].toString().split(':')[1]));
+          hour: int.parse(element[1].toString().split(':')[0]),
+          minute: int.parse(element[1].toString().split(':')[1]));
 
       addedSlots.add(Card(
         elevation: 5,
@@ -316,7 +341,8 @@ class _SlotSchedularState extends State<SlotSchedular> {
                                 (index) {
                                   return ChoiceChip(
                                     label: Text(days[index].values.first),
-                                    selected: element[4].contains(days[index].keys.first),
+                                    selected: element[4]
+                                        .contains(days[index].keys.first),
                                     onSelected: (val) {},
                                     selectedColor: Colors.green,
                                     disabledColor: Colors.grey.shade100,
@@ -380,7 +406,8 @@ class _SlotSchedularState extends State<SlotSchedular> {
                           child: Card(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(startTime!.format(context).toString()),
+                              child:
+                                  Text(startTime!.format(context).toString()),
                             ),
                             borderOnForeground: true,
                             elevation: 2,
@@ -515,11 +542,13 @@ class _SlotSchedularState extends State<SlotSchedular> {
           List repeatdays = List.unmodifiable(selectedRepeatDays);
           String slotStartTime = '${startTime!.hour}:${startTime!.minute}';
           String slotEndTime = '${endTime!.hour}:${endTime!.minute}';
-          finalSlots.add([slotStartTime, slotEndTime, duration, gap, repeatdays]);
+          finalSlots
+              .add([slotStartTime, slotEndTime, duration, gap, repeatdays]);
           setState(() {});
         } else {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("Invalid Time : End Time Should not be less than start timne ")));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                  "Invalid Time : End Time Should not be less than start timne ")));
         }
       },
       child: Card(

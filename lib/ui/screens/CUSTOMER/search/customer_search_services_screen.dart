@@ -11,8 +11,8 @@ import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/cus
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/customer_booking_screen_view_model.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/root/root_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:maps_launcher/maps_launcher.dart';
 import 'package:get/get.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
@@ -21,10 +21,12 @@ class CustomerSearchServicesScreen extends StatefulWidget {
   const CustomerSearchServicesScreen({this.isBottom = false});
 
   @override
-  _CustomerSearchServicesScreenState createState() => _CustomerSearchServicesScreenState();
+  _CustomerSearchServicesScreenState createState() =>
+      _CustomerSearchServicesScreenState();
 }
 
-class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScreen> {
+class _CustomerSearchServicesScreenState
+    extends State<CustomerSearchServicesScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -44,7 +46,9 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                     // searchTextField(model),
 
                     services(model),
-                    model.services.length >= 5 && model.state == ViewState.idle ? seeMoreButton() : Container()
+                    model.services.length >= 5 && model.state == ViewState.idle
+                        ? seeMoreButton()
+                        : Container()
                   ],
                 ),
               ),
@@ -86,12 +90,16 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                           alignment: Alignment.topRight,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 8.0, right: 10),
+                              padding:
+                                  const EdgeInsets.only(top: 8.0, right: 10),
                               child: GestureDetector(
                                 onTap: () {
                                   Get.to(
                                     () => CustomerBookingScreen(
                                       model: model.services[index],
+                                        providerId: model.services[index].providerId??"",
+                                        serviceId: model.services[index].id??"",
+                                      price: model.services[index].price??"",
                                     ),
                                   );
                                 },
@@ -104,7 +112,8 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                       child: FadeInImage.assetNetwork(
                                         fit: BoxFit.cover,
                                         placeholder: '$assets/placeholder.jpeg',
-                                        image: model.filteredServices[index].imgUrl!,
+                                        image: model
+                                            .filteredServices[index].imgUrl!,
                                       ),
                                     ),
                                     Padding(
@@ -114,15 +123,24 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                         bottom: 250.h - 50.h,
                                       ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
                                             height: 24.h,
                                             width: 24.w,
                                             decoration: BoxDecoration(
-                                              color: model.filteredServices[index].availability == "Available"
+                                              color: model
+                                                          .filteredServices[
+                                                              index]
+                                                          .availability ==
+                                                      "Available"
                                                   ? Color(0XFF0ACF83)
-                                                  : model.filteredServices[index].availability == "Available soon"
+                                                  : model
+                                                              .filteredServices[
+                                                                  index]
+                                                              .availability ==
+                                                          "Available soon"
                                                       ? Color(0XFFFBF90A)
                                                       : Colors.red,
                                               shape: BoxShape.circle,
@@ -133,19 +151,31 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                               print("Launchig maps");
                                               try {
                                                 MapsLauncher.launchCoordinates(
-                                                  double.parse(model.filteredServices[index].location!.lat!),
-                                                  double.parse(model.filteredServices[index].location!.long!),
+                                                  double.parse(model
+                                                      .filteredServices[index]
+                                                      .location!
+                                                      .lat!),
+                                                  double.parse(model
+                                                      .filteredServices[index]
+                                                      .location!
+                                                      .long!),
                                                 );
                                               } catch (e) {
-                                                print("Exception ====> MAP LAUNCHER==> $e");
-                                                Get.dialog(RequestFailedDialog(errorMessage: e.toString()));
+                                                print(
+                                                    "Exception ====> MAP LAUNCHER==> $e");
+                                                Get.dialog(RequestFailedDialog(
+                                                    errorMessage:
+                                                        e.toString()));
                                               }
                                             },
                                             child: Container(
                                               height: 36.h,
                                               width: 36.w,
-                                              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-                                              child: Icon(Icons.location_on, size: 18),
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white),
+                                              child: Icon(Icons.location_on,
+                                                  size: 18),
                                             ),
                                           )
                                         ],
@@ -154,56 +184,78 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                     Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Padding(
-                                        padding: const EdgeInsets.only(right: 0),
+                                        padding:
+                                            const EdgeInsets.only(right: 0),
                                         child: Container(
                                           height: 100.h,
                                           // width:1.
                                           color: Colors.black26,
                                           child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, top: 6.0),
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0, top: 6.0),
                                             child: Column(
                                               children: [
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
                                                     Expanded(
                                                       child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           Row(
                                                             children: [
                                                               Flexible(
                                                                 child: Text(
                                                                     "Desc: ${model.filteredServices[index].description}",
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    style: headingTextStyle.copyWith(
-                                                                      fontSize: 12.sp,
-                                                                      color: Colors.white,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    style: headingTextStyle
+                                                                        .copyWith(
+                                                                      fontSize:
+                                                                          12.sp,
+                                                                      color: Colors
+                                                                          .white,
                                                                     )),
                                                               ),
                                                             ],
                                                           ),
                                                           SizedBox(height: 4.h),
-                                                          Text("Price: ${model.filteredServices[index].price} CAD",
+                                                          Text(
+                                                              "Price: ${model.filteredServices[index].price} CAD",
                                                               // "Price: 50 CAD",
-                                                              overflow: TextOverflow.ellipsis,
-                                                              style: headingTextStyle.copyWith(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style:
+                                                                  headingTextStyle
+                                                                      .copyWith(
                                                                 fontSize: 12.sp,
-                                                                color: Colors.white,
+                                                                color: Colors
+                                                                    .white,
                                                               )),
-                                                          SizedBox(height: 10.h),
+                                                          SizedBox(
+                                                              height: 10.h),
                                                           Container(
                                                             height: 30.h,
-                                                            child: ElevatedButton(
-                                                                onPressed: () {
-                                                                  Get.to(() => CustomerChatScreen(
-                                                                        providerId:
-                                                                            model.filteredServices[index].providerId,
-                                                                        providerName:
-                                                                            model.filteredServices[index].providerName,
-                                                                      ));
-                                                                },
-                                                                child: Text("Message")),
+                                                            child:
+                                                                ElevatedButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Get.to(() =>
+                                                                          CustomerChatScreen(
+                                                                            providerId:
+                                                                                model.filteredServices[index].providerId,
+                                                                            providerName:
+                                                                                model.filteredServices[index].providerName,
+                                                                          ));
+                                                                    },
+                                                                    child: Text(
+                                                                        "Message")),
                                                           ),
                                                         ],
                                                       ),
@@ -225,6 +277,9 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                 Get.to(
                                   () => CustomerBookingScreen(
                                     model: model.services[index],
+                                      providerId: model.services[index].providerId??"",
+                                      serviceId: model.services[index].id??"",
+                                    price: model.services[index].price??"",
                                   ),
                                 );
                               },
@@ -274,6 +329,9 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                 Get.to(
                                   () => CustomerBookingScreen(
                                     model: model.services[index],
+                                      providerId: model.services[index].providerId??"",
+                                      serviceId: model.services[index].id??"",
+                                    price: model.services[index].price??"",
                                   ),
                                 );
                               },
@@ -294,9 +352,11 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                 height: 24.h,
                                 width: 24.w,
                                 decoration: BoxDecoration(
-                                  color: model.services[index].availability == "Available"
+                                  color: model.services[index].availability ==
+                                          "Available"
                                       ? Color(0XFF0ACF83)
-                                      : model.services[index].availability == "Available soon"
+                                      : model.services[index].availability ==
+                                              "Available soon"
                                           ? Color(0XFFFBF90A)
                                           : Colors.red,
                                   shape: BoxShape.circle,
@@ -311,8 +371,10 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                   print("Launchig maps");
                                   try {
                                     MapsLauncher.launchCoordinates(
-                                      double.parse(model.services[index].location!.lat!),
-                                      double.parse(model.services[index].location!.long!),
+                                      double.parse(
+                                          model.services[index].location!.lat!),
+                                      double.parse(model
+                                          .services[index].location!.long!),
                                     );
                                   } catch (e) {
                                     print("Exception ====> MAP LAUNCHER==> $e");
@@ -326,7 +388,9 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                 child: Container(
                                   height: 36.h,
                                   width: 36.w,
-                                  decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white),
                                   child: Icon(Icons.location_on, size: 18),
                                 ),
                               ),
@@ -343,7 +407,8 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                     vertical: 9.h,
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
@@ -370,7 +435,8 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                       ),
                                       SizedBox(height: 10.h),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
                                             height: 30.h,
@@ -378,8 +444,12 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                               onPressed: () {
                                                 Get.to(
                                                   () => CustomerChatScreen(
-                                                    providerId: model.services[index].providerId,
-                                                    providerName: model.services[index].providerName,
+                                                    providerId: model
+                                                        .services[index]
+                                                        .providerId,
+                                                    providerName: model
+                                                        .services[index]
+                                                        .providerName,
                                                   ),
                                                 );
                                               },
@@ -392,11 +462,18 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                             child: ElevatedButton(
                                               style: ButtonStyle(
                                                   backgroundColor:
-                                                      MaterialStateProperty.resolveWith((states) => Colors.green)),
+                                                      MaterialStateProperty
+                                                          .resolveWith(
+                                                              (states) => Colors
+                                                                  .green)),
                                               onPressed: () {
                                                 Get.to(
                                                   () => CustomerBookingScreen(
-                                                    model: model.services[index],
+                                                    model:
+                                                        model.services[index],
+                                                      providerId: model.services[index].providerId??"",
+                                                      serviceId: model.services[index].id??"",
+                                                    price: model.services[index].price??"",
                                                   ),
                                                 );
                                               },
@@ -442,7 +519,8 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Container(
           height: 52.h,
-          decoration: BoxDecoration(border: Border.all(color: primaryColor, width: 2.w)),
+          decoration: BoxDecoration(
+              border: Border.all(color: primaryColor, width: 2.w)),
           child: TextField(
             onChanged: (value) {
               if (value.isNotEmpty) {
@@ -456,7 +534,9 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
             },
             decoration: InputDecoration(
                 hintStyle: bodyTextStyle.copyWith(
-                    fontSize: 15.sp, fontFamily: robottoFontTextStyle, color: Colors.grey.withOpacity(1)),
+                    fontSize: 15.sp,
+                    fontFamily: robottoFontTextStyle,
+                    color: Colors.grey.withOpacity(1)),
                 hintText: "Search all services",
                 suffixIconConstraints: BoxConstraints(
                   maxHeight: 29.h,
@@ -464,7 +544,11 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                 ),
                 suffixIcon: Padding(
                   padding: EdgeInsets.only(right: 11.w),
-                  child: ImageContainer(assets: "$assets/pin.png", height: 29.h, width: 36.w, fit: BoxFit.contain),
+                  child: ImageContainer(
+                      assets: "$assets/pin.png",
+                      height: 29.h,
+                      width: 36.w,
+                      fit: BoxFit.contain),
                 ),
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.only(left: 18, top: 2.h)),
@@ -500,7 +584,9 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                 Text(
                   "BACK",
                   style: subHeadingTextstyle.copyWith(
-                      fontSize: 13.sp, letterSpacing: 0.4, fontFamily: robottoFontTextStyle),
+                      fontSize: 13.sp,
+                      letterSpacing: 0.4,
+                      fontFamily: robottoFontTextStyle),
                 )
               ],
             ),
@@ -510,7 +596,10 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
           padding: const EdgeInsets.only(left: 16, top: 17.0),
           child: Text(
             "Search Services  and Products",
-            style: subHeadingTextstyle.copyWith(fontSize: 13.sp, letterSpacing: 0.4, fontWeight: FontWeight.w400),
+            style: subHeadingTextstyle.copyWith(
+                fontSize: 13.sp,
+                letterSpacing: 0.4,
+                fontWeight: FontWeight.w400),
           ),
         )
       ],
