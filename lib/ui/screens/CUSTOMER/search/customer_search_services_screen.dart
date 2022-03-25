@@ -21,12 +21,10 @@ class CustomerSearchServicesScreen extends StatefulWidget {
   const CustomerSearchServicesScreen({this.isBottom = false});
 
   @override
-  _CustomerSearchServicesScreenState createState() =>
-      _CustomerSearchServicesScreenState();
+  _CustomerSearchServicesScreenState createState() => _CustomerSearchServicesScreenState();
 }
 
-class _CustomerSearchServicesScreenState
-    extends State<CustomerSearchServicesScreen> {
+class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -43,12 +41,9 @@ class _CustomerSearchServicesScreenState
                 child: Column(
                   children: [
                     _topAppBar(),
-                    // searchTextField(model),
-
+                    searchTextField(model),
                     services(model),
-                    model.services.length >= 5 && model.state == ViewState.idle
-                        ? seeMoreButton()
-                        : Container()
+                    model.services.length >= 5 && model.state == ViewState.idle ? seeMoreButton() : Container()
                   ],
                 ),
               ),
@@ -90,16 +85,15 @@ class _CustomerSearchServicesScreenState
                           alignment: Alignment.topRight,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 8.0, right: 10),
+                              padding: const EdgeInsets.only(top: 8.0, right: 10),
                               child: GestureDetector(
                                 onTap: () {
                                   Get.to(
                                     () => CustomerBookingScreen(
                                       model: model.services[index],
-                                        providerId: model.services[index].providerId??"",
-                                        serviceId: model.services[index].id??"",
-                                      price: model.services[index].price??"",
+                                      providerId: model.services[index].providerId ?? "",
+                                      serviceId: model.services[index].id ?? "",
+                                      price: model.services[index].price ?? "",
                                     ),
                                   );
                                 },
@@ -107,13 +101,14 @@ class _CustomerSearchServicesScreenState
                                   alignment: Alignment.bottomCenter,
                                   children: [
                                     Container(
-                                      height: 250.h,
-                                      width: 250.w,
+                                      // height: 250.h,
+                                      // width: 250.w,
+                                      height: 230.h,
+                                      width: 350.w,
                                       child: FadeInImage.assetNetwork(
                                         fit: BoxFit.cover,
                                         placeholder: '$assets/placeholder.jpeg',
-                                        image: model
-                                            .filteredServices[index].imgUrl!,
+                                        image: model.filteredServices[index].imgUrl!,
                                       ),
                                     ),
                                     Padding(
@@ -123,24 +118,15 @@ class _CustomerSearchServicesScreenState
                                         bottom: 250.h - 50.h,
                                       ),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
                                             height: 24.h,
                                             width: 24.w,
                                             decoration: BoxDecoration(
-                                              color: model
-                                                          .filteredServices[
-                                                              index]
-                                                          .availability ==
-                                                      "Available"
+                                              color: model.filteredServices[index].availability == "Available"
                                                   ? Color(0XFF0ACF83)
-                                                  : model
-                                                              .filteredServices[
-                                                                  index]
-                                                              .availability ==
-                                                          "Available soon"
+                                                  : model.filteredServices[index].availability == "Available soon"
                                                       ? Color(0XFFFBF90A)
                                                       : Colors.red,
                                               shape: BoxShape.circle,
@@ -151,31 +137,19 @@ class _CustomerSearchServicesScreenState
                                               print("Launchig maps");
                                               try {
                                                 MapsLauncher.launchCoordinates(
-                                                  double.parse(model
-                                                      .filteredServices[index]
-                                                      .location!
-                                                      .lat!),
-                                                  double.parse(model
-                                                      .filteredServices[index]
-                                                      .location!
-                                                      .long!),
+                                                  double.parse(model.filteredServices[index].location!.lat!),
+                                                  double.parse(model.filteredServices[index].location!.long!),
                                                 );
                                               } catch (e) {
-                                                print(
-                                                    "Exception ====> MAP LAUNCHER==> $e");
-                                                Get.dialog(RequestFailedDialog(
-                                                    errorMessage:
-                                                        e.toString()));
+                                                print("Exception ====> MAP LAUNCHER==> $e");
+                                                Get.dialog(RequestFailedDialog(errorMessage: e.toString()));
                                               }
                                             },
                                             child: Container(
                                               height: 36.h,
                                               width: 36.w,
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.white),
-                                              child: Icon(Icons.location_on,
-                                                  size: 18),
+                                              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                                              child: Icon(Icons.location_on, size: 18),
                                             ),
                                           )
                                         ],
@@ -184,78 +158,59 @@ class _CustomerSearchServicesScreenState
                                     Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 0),
+                                        padding: const EdgeInsets.only(right: 0),
                                         child: Container(
-                                          height: 100.h,
-                                          // width:1.
+                                          // height: 100.h,
+                                          height: 90.h,
+                                          width: 350.w,
                                           color: Colors.black26,
                                           child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0, top: 6.0),
+                                            padding: const EdgeInsets.only(left: 8.0, top: 6.0),
                                             child: Column(
                                               children: [
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     Expanded(
                                                       child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Row(
                                                             children: [
                                                               Flexible(
                                                                 child: Text(
                                                                     "Desc: ${model.filteredServices[index].description}",
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    style: headingTextStyle
-                                                                        .copyWith(
-                                                                      fontSize:
-                                                                          12.sp,
-                                                                      color: Colors
-                                                                          .white,
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    style: headingTextStyle.copyWith(
+                                                                      fontSize: 12.sp,
+                                                                      color: Colors.white,
                                                                     )),
                                                               ),
                                                             ],
                                                           ),
                                                           SizedBox(height: 4.h),
-                                                          Text(
-                                                              "Price: ${model.filteredServices[index].price} CAD",
+                                                          Text("Price: ${model.filteredServices[index].price} CAD",
                                                               // "Price: 50 CAD",
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style:
-                                                                  headingTextStyle
-                                                                      .copyWith(
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: headingTextStyle.copyWith(
                                                                 fontSize: 12.sp,
-                                                                color: Colors
-                                                                    .white,
+                                                                color: Colors.white,
                                                               )),
-                                                          SizedBox(
-                                                              height: 10.h),
+                                                          SizedBox(height: 10.h),
+                                                          // TODO: here is after search
+
                                                           Container(
                                                             height: 30.h,
-                                                            child:
-                                                                ElevatedButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Get.to(() =>
-                                                                          CustomerChatScreen(
-                                                                            providerId:
-                                                                                model.filteredServices[index].providerId,
-                                                                            providerName:
-                                                                                model.filteredServices[index].providerName,
-                                                                          ));
-                                                                    },
-                                                                    child: Text(
-                                                                        "Message")),
+                                                            child: ElevatedButton(
+                                                                onPressed: () {
+                                                                  Get.to(() => CustomerChatScreen(
+                                                                        providerId:
+                                                                            model.filteredServices[index].providerId,
+                                                                        providerName:
+                                                                            model.filteredServices[index].providerName,
+                                                                      ));
+                                                                },
+                                                                child: Text("Message")),
                                                           ),
                                                         ],
                                                       ),
@@ -277,9 +232,9 @@ class _CustomerSearchServicesScreenState
                                 Get.to(
                                   () => CustomerBookingScreen(
                                     model: model.services[index],
-                                      providerId: model.services[index].providerId??"",
-                                      serviceId: model.services[index].id??"",
-                                    price: model.services[index].price??"",
+                                    providerId: model.services[index].providerId ?? "",
+                                    serviceId: model.services[index].id ?? "",
+                                    price: model.services[index].price ?? "",
                                   ),
                                 );
                               },
@@ -310,7 +265,7 @@ class _CustomerSearchServicesScreenState
                     vertical: 20.h,
                   ),
                   child: Container(
-                    height: 265.h,
+                    height: 300.h,
                     width: 350.w,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -329,15 +284,15 @@ class _CustomerSearchServicesScreenState
                                 Get.to(
                                   () => CustomerBookingScreen(
                                     model: model.services[index],
-                                      providerId: model.services[index].providerId??"",
-                                      serviceId: model.services[index].id??"",
-                                    price: model.services[index].price??"",
+                                    providerId: model.services[index].providerId ?? "",
+                                    serviceId: model.services[index].id ?? "",
+                                    price: model.services[index].price ?? "",
                                   ),
                                 );
                               },
                               child: Container(
-                                height: 230.h,
-                                width: 350.w,
+                                height: 250.h,
+                                width: double.infinity,
                                 child: FadeInImage.assetNetwork(
                                   placeholder: '$assets/placeholder.jpeg',
                                   image: model.services[index].imgUrl!,
@@ -352,11 +307,9 @@ class _CustomerSearchServicesScreenState
                                 height: 24.h,
                                 width: 24.w,
                                 decoration: BoxDecoration(
-                                  color: model.services[index].availability ==
-                                          "Available"
+                                  color: model.services[index].availability == "Available"
                                       ? Color(0XFF0ACF83)
-                                      : model.services[index].availability ==
-                                              "Available soon"
+                                      : model.services[index].availability == "Available soon"
                                           ? Color(0XFFFBF90A)
                                           : Colors.red,
                                   shape: BoxShape.circle,
@@ -371,10 +324,8 @@ class _CustomerSearchServicesScreenState
                                   print("Launchig maps");
                                   try {
                                     MapsLauncher.launchCoordinates(
-                                      double.parse(
-                                          model.services[index].location!.lat!),
-                                      double.parse(model
-                                          .services[index].location!.long!),
+                                      double.parse(model.services[index].location!.lat!),
+                                      double.parse(model.services[index].location!.long!),
                                     );
                                   } catch (e) {
                                     print("Exception ====> MAP LAUNCHER==> $e");
@@ -388,9 +339,7 @@ class _CustomerSearchServicesScreenState
                                 child: Container(
                                   height: 36.h,
                                   width: 36.w,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white),
+                                  decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
                                   child: Icon(Icons.location_on, size: 18),
                                 ),
                               ),
@@ -398,8 +347,9 @@ class _CustomerSearchServicesScreenState
                             Positioned(
                               bottom: 0,
                               child: Container(
-                                height: 90.h,
-                                width: 350.w,
+                                padding: EdgeInsets.only(right: 20),
+                                height: 120.h,
+                                width: MediaQuery.of(context).size.width,
                                 color: Colors.black26,
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
@@ -407,8 +357,7 @@ class _CustomerSearchServicesScreenState
                                     vertical: 9.h,
                                   ),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
@@ -434,53 +383,46 @@ class _CustomerSearchServicesScreenState
                                         ),
                                       ),
                                       SizedBox(height: 10.h),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            height: 30.h,
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                Get.to(
-                                                  () => CustomerChatScreen(
-                                                    providerId: model
-                                                        .services[index]
-                                                        .providerId,
-                                                    providerName: model
-                                                        .services[index]
-                                                        .providerName,
-                                                  ),
-                                                );
-                                              },
-                                              child: Text("Message"),
+                                      Flexible(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              height: 30.h,
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  Get.to(
+                                                    () => CustomerChatScreen(
+                                                      providerId: model.services[index].providerId,
+                                                      providerName: model.services[index].providerName,
+                                                    ),
+                                                  );
+                                                },
+                                                child: Text("Message"),
+                                              ),
                                             ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(right: 10),
-                                            height: 30.h,
-                                            child: ElevatedButton(
-                                              style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStateProperty
-                                                          .resolveWith(
-                                                              (states) => Colors
-                                                                  .green)),
-                                              onPressed: () {
-                                                Get.to(
-                                                  () => CustomerBookingScreen(
-                                                    model:
-                                                        model.services[index],
-                                                      providerId: model.services[index].providerId??"",
-                                                      serviceId: model.services[index].id??"",
-                                                    price: model.services[index].price??"",
-                                                  ),
-                                                );
-                                              },
-                                              child: Text("Book service"),
+                                            Container(
+                                              padding: EdgeInsets.only(right: 10),
+                                              height: 30.h,
+                                              child: ElevatedButton(
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty.resolveWith((states) => Colors.green)),
+                                                onPressed: () {
+                                                  Get.to(
+                                                    () => CustomerBookingScreen(
+                                                      model: model.services[index],
+                                                      providerId: model.services[index].providerId ?? "",
+                                                      serviceId: model.services[index].id ?? "",
+                                                      price: model.services[index].price ?? "",
+                                                    ),
+                                                  );
+                                                },
+                                                child: Text("Book service"),
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -519,8 +461,7 @@ class _CustomerSearchServicesScreenState
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Container(
           height: 52.h,
-          decoration: BoxDecoration(
-              border: Border.all(color: primaryColor, width: 2.w)),
+          decoration: BoxDecoration(border: Border.all(color: primaryColor, width: 2.w)),
           child: TextField(
             onChanged: (value) {
               if (value.isNotEmpty) {
@@ -534,9 +475,7 @@ class _CustomerSearchServicesScreenState
             },
             decoration: InputDecoration(
                 hintStyle: bodyTextStyle.copyWith(
-                    fontSize: 15.sp,
-                    fontFamily: robottoFontTextStyle,
-                    color: Colors.grey.withOpacity(1)),
+                    fontSize: 15.sp, fontFamily: robottoFontTextStyle, color: Colors.grey.withOpacity(1)),
                 hintText: "Search all services",
                 suffixIconConstraints: BoxConstraints(
                   maxHeight: 29.h,
@@ -544,11 +483,7 @@ class _CustomerSearchServicesScreenState
                 ),
                 suffixIcon: Padding(
                   padding: EdgeInsets.only(right: 11.w),
-                  child: ImageContainer(
-                      assets: "$assets/pin.png",
-                      height: 29.h,
-                      width: 36.w,
-                      fit: BoxFit.contain),
+                  child: ImageContainer(assets: "$assets/pin.png", height: 29.h, width: 36.w, fit: BoxFit.contain),
                 ),
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.only(left: 18, top: 2.h)),
@@ -584,9 +519,7 @@ class _CustomerSearchServicesScreenState
                 Text(
                   "BACK",
                   style: subHeadingTextstyle.copyWith(
-                      fontSize: 13.sp,
-                      letterSpacing: 0.4,
-                      fontFamily: robottoFontTextStyle),
+                      fontSize: 13.sp, letterSpacing: 0.4, fontFamily: robottoFontTextStyle),
                 )
               ],
             ),
@@ -596,10 +529,7 @@ class _CustomerSearchServicesScreenState
           padding: const EdgeInsets.only(left: 16, top: 17.0),
           child: Text(
             "Search Services  and Products",
-            style: subHeadingTextstyle.copyWith(
-                fontSize: 13.sp,
-                letterSpacing: 0.4,
-                fontWeight: FontWeight.w400),
+            style: subHeadingTextstyle.copyWith(fontSize: 13.sp, letterSpacing: 0.4, fontWeight: FontWeight.w400),
           ),
         )
       ],

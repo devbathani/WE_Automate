@@ -52,7 +52,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
 
             buttonsArea(),
 
-            ratings(),
+            // ratings(),
           ],
         ),
       ),
@@ -71,8 +71,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
             IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {
-                  Provider.of<ProviderAuthViewModel>(context, listen: false)
-                      .logout();
+                  Provider.of<ProviderAuthViewModel>(context, listen: false).logout();
                   Get.offAll(() => SelectUserTypeScreen());
                 },
                 icon: Icon(Icons.logout)),
@@ -110,10 +109,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                   "${locator<LocationService>().address}".toUpperCase(),
                   // "Toronto, CA".toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: headingTextStyle.copyWith(
-                      height: 1.6,
-                      fontSize: 13.sp,
-                      fontFamily: robottoFontTextStyle),
+                  style: headingTextStyle.copyWith(height: 1.6, fontSize: 13.sp, fontFamily: robottoFontTextStyle),
                 ),
               ),
             ],
@@ -185,7 +181,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
             height: 26.h,
             width: 172.w,
             child: RoundedRaisedButton(
-                buttonText: "BOOKINGS",
+                buttonText: "My BOOKINGS",
                 textColor: primaryColor,
                 color: Colors.white,
                 onPressed: () {
@@ -206,8 +202,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
         children: [
           Text(
             "RATING",
-            style: headingTextStyle.copyWith(
-                fontSize: 13.sp, fontFamily: robottoFontTextStyle),
+            style: headingTextStyle.copyWith(fontSize: 13.sp, fontFamily: robottoFontTextStyle),
           ),
           SizedBox(width: 23.0.w),
           RatingBarIndicator(

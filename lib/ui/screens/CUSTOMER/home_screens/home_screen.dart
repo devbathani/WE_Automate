@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
 import 'package:antonx_flutter_template/core/constants/strings.dart';
@@ -41,31 +43,6 @@ class CustomerHomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Icon(Icons.arrow_back, color: Colors.black),
-                Container(
-                  height: 40,
-                  width: 50,
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            blurRadius: 6.0,
-                            spreadRadius: 4.0,
-                            offset: Offset(0.0, 3.0))
-                      ],
-                      color: const Color(0xFFC6E7FE),
-                      shape: BoxShape.circle,
-                      image: const DecorationImage(
-                          image: AssetImage(
-                            "assets/static_assets/profile_avatar.png",
-                          ),
-                          fit: BoxFit.contain)),
-                ),
-              ],
-            ),
             SizedBox(
               height: 20.h,
             ),
@@ -117,8 +94,7 @@ class CustomerHomeScreen extends StatelessWidget {
                     child: Center(
                       child: Text(
                         'Book a service',
-                        style: GoogleFonts.poppins(
-                            fontSize: 17.sp, fontWeight: FontWeight.w400),
+                        style: GoogleFonts.poppins(fontSize: 17.sp, fontWeight: FontWeight.w400),
                       ),
                     ),
                   ),
@@ -128,9 +104,10 @@ class CustomerHomeScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.to(
-                      () => CustomerSearchDetailScreen(),
-                    );
+                    log("Button is disabled");
+                    // Get.to(
+                    //   () => CustomerSearchDetailScreen(),
+                    // );
                   },
                   child: Container(
                     height: 100.h,
@@ -141,11 +118,8 @@ class CustomerHomeScreen extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        'Make a purchase',
-                        style: GoogleFonts.poppins(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white),
+                        'Buy Products',
+                        style: GoogleFonts.poppins(fontSize: 16.sp, fontWeight: FontWeight.w400, color: Colors.white),
                       ),
                     ),
                   ),
@@ -164,8 +138,7 @@ class CustomerHomeScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Upcoming Services',
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w600, fontSize: 18.sp),
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 18.sp),
                       ),
                       SizedBox(
                         width: 5.w,
@@ -175,8 +148,7 @@ class CustomerHomeScreen extends StatelessWidget {
                         height: 30.h,
                         width: 40.w,
                         child: Center(
-                          child: Image.asset(
-                              'assets/static_assets/upcoming_services.jpg'),
+                          child: Image.asset('assets/static_assets/upcoming_services.jpg'),
                         ),
                       )
                     ],
@@ -192,10 +164,8 @@ class CustomerHomeScreen extends StatelessWidget {
                         height: 150.h,
                         decoration: BoxDecoration(
                           color: Color(0XFFf4f4f4),
-                          image: DecorationImage(
-                              image:
-                                  AssetImage('assets/static_assets/image1.jpg'),
-                              fit: BoxFit.cover),
+                          image:
+                              DecorationImage(image: AssetImage('assets/static_assets/image1.jpg'), fit: BoxFit.cover),
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(10.r),
                             bottomRight: Radius.circular(20.r),
@@ -211,10 +181,8 @@ class CustomerHomeScreen extends StatelessWidget {
                         width: 150.w,
                         height: 150.h,
                         decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image:
-                                  AssetImage('assets/static_assets/image4.jpg'),
-                              fit: BoxFit.fill),
+                          image:
+                              DecorationImage(image: AssetImage('assets/static_assets/image4.jpg'), fit: BoxFit.fill),
                           color: Color(0XFFf4f4f4),
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(45.r),
@@ -236,10 +204,8 @@ class CustomerHomeScreen extends StatelessWidget {
                         width: 150.w,
                         height: 150.h,
                         decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image:
-                                  AssetImage('assets/static_assets/image3.jpg'),
-                              fit: BoxFit.cover),
+                          image:
+                              DecorationImage(image: AssetImage('assets/static_assets/image3.jpg'), fit: BoxFit.cover),
                           color: Color(0XFFf4f4f4),
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(10.r),
@@ -256,10 +222,8 @@ class CustomerHomeScreen extends StatelessWidget {
                         width: 150.w,
                         height: 150.h,
                         decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/static_assets/image2.jpeg'),
-                              fit: BoxFit.cover),
+                          image:
+                              DecorationImage(image: AssetImage('assets/static_assets/image2.jpeg'), fit: BoxFit.cover),
                           color: Color(0XFFf4f4f4),
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(45.r),

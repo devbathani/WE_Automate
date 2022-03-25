@@ -39,7 +39,7 @@ class ProviderProfileScreen extends StatelessWidget {
                   avatarArea(),
                   buttonsArea(),
 
-                  ratings(),
+                  // ratings(),
 
                   galleryView(model),
                   model.services.length < 5 && model.state == ViewState.idle ? Container() : seeMoreButton(),
@@ -144,7 +144,7 @@ class ProviderProfileScreen extends StatelessWidget {
               height: 26.h,
               width: 172.w,
               child: RoundedRaisedButton(
-                  buttonText: "MESSAGE",
+                  buttonText: "My MESSAGES",
                   color: Colors.white,
                   textColor: primaryColor,
                   onPressed: () {
@@ -158,7 +158,7 @@ class ProviderProfileScreen extends StatelessWidget {
               height: 26.h,
               width: 172.w,
               child: RoundedRaisedButton(
-                  buttonText: "BOOKING",
+                  buttonText: "My BOOKINGS",
                   color: Colors.white,
                   textColor: primaryColor,
                   onPressed: () {
