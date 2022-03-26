@@ -40,9 +40,7 @@ class WebviewScreen extends StatelessWidget {
             ///
             Expanded(
               child: WebView(
-                initialUrl:
-                    'https://empowered4x.com/we-automate/', //'https://www.shopify.com/',
-                // 'https://www.daraz.pk/products/i7-single-wireless-stereo-bluetooth-connect-with-all-smart-phones-i247569318-s1468419271.html?spm=a2a0e.home.flashSale.4.6a274937Jo2Wfd&search=1&mp=1&c=fs' //'https://flutter.dev',
+                initialUrl: 'https://web.weautomation.ca/',
               ),
             ),
           ],
@@ -67,10 +65,7 @@ class WebviewScreen extends StatelessWidget {
           SizedBox(width: 13.29),
           Text(
             "BACK",
-            style: subHeadingTextstyle.copyWith(
-                fontSize: 13.sp,
-                letterSpacing: 0.4,
-                fontFamily: robottoFontTextStyle),
+            style: subHeadingTextstyle.copyWith(fontSize: 13.sp, letterSpacing: 0.4, fontFamily: robottoFontTextStyle),
           )
         ],
       ),

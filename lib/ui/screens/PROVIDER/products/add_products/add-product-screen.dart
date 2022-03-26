@@ -55,12 +55,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   void initState() {
-    availableOptions
-        .add(Availability(color: Color(0xFFF91515), label: "Not available"));
-    availableOptions
-        .add(Availability(color: Color(0XFFFBF90A), label: "Available soon"));
-    availableOptions
-        .add(Availability(color: Color(0XFF0ACF83), label: "Available"));
+    availableOptions.add(Availability(color: Color(0xFFF91515), label: "Not available"));
+    availableOptions.add(Availability(color: Color(0XFFFBF90A), label: "Available soon"));
+    availableOptions.add(Availability(color: Color(0XFF0ACF83), label: "Available"));
 
     init();
     super.initState();
@@ -70,8 +67,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     _googleMapsUrl =
         'https://www.google.com/maps/dir/?api=1 & destination=23.3, 23.5&travelmode=driving&dir_action=navigate';
 
-    markerPosition = LatLng(34.015137,
-        71.524918); //LatLng(company.locationLat, company.locationLong);
+    markerPosition = LatLng(34.015137, 71.524918); //LatLng(company.locationLat, company.locationLong);
     this.initialCameraPosition = CameraPosition(
       target: markerPosition,
       zoom: 10,
@@ -83,8 +79,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   final picker = ImagePicker();
   _imgFromCamera() async {
-    final pickedFile =
-        await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+    final pickedFile = await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
 
     setState(() {
       if (pickedFile != null)
@@ -97,8 +92,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   _imgFromGallery() async {
-    final pickedFile =
-        await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
 
     setState(() {
       if (pickedFile != null)
@@ -185,9 +179,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             Text(
                               "BACK",
                               style: subHeadingTextstyle.copyWith(
-                                  fontSize: 13.sp,
-                                  letterSpacing: 0.4,
-                                  fontFamily: robottoFontTextStyle),
+                                  fontSize: 13.sp, letterSpacing: 0.4, fontFamily: robottoFontTextStyle),
                             )
                           ],
                         ),
@@ -249,8 +241,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     var long = _locationService.currentLocation!.longitude;
     _kLocation = CameraPosition(
         bearing: 192.8334901395799,
-        target:
-            LatLng(lat, long), //LatLng(37.43296265331129, -122.08832357078792),
+        target: LatLng(lat, long), //LatLng(37.43296265331129, -122.08832357078792),
         // tilt: 59.440717697143555,
         zoom: 19.151926040649414);
     final GoogleMapController cntrlr = await controller.future;
@@ -269,8 +260,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   form() {
     return Padding(
-      padding:
-          const EdgeInsets.only(left: 62.0, right: 62.0, bottom: 0, top: 32),
+      padding: const EdgeInsets.only(left: 62.0, right: 62.0, bottom: 0, top: 32),
       child: Column(
         children: [
           Container(
@@ -463,8 +453,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     for (int i = 0; i < availableOptions.length; i++) {
                       if (i == index) {
                         availableOptions[i].isSelected = true;
-                        productToBeAdded.availability =
-                            availableOptions[i].label;
+                        productToBeAdded.availability = availableOptions[i].label;
                         print(availableOptions[i].isSelected);
                       } else {
                         availableOptions[i].isSelected = false;
@@ -479,29 +468,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       Container(
                         height: 26.h,
                         width: 26.w,
-                        padding: availableOptions[index].isSelected!
-                            ? EdgeInsets.all(4.0)
-                            : EdgeInsets.zero,
+                        padding: availableOptions[index].isSelected! ? EdgeInsets.all(4.0) : EdgeInsets.zero,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                                color: availableOptions[index].isSelected!
-                                    ? Colors.black
-                                    : Colors.transparent)),
+                                color: availableOptions[index].isSelected! ? Colors.black : Colors.transparent)),
                         child: Container(
                             height: 23.h,
                             width: 23.w,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: availableOptions[index].color)),
+                            decoration: BoxDecoration(shape: BoxShape.circle, color: availableOptions[index].color)),
                       ),
                       SizedBox(
                         height: 5.h,
                       ),
                       Text("${availableOptions[index].label}",
-                          style: bodyTextStyle.copyWith(
-                              fontSize: 12.sp,
-                              fontFamily: robottoFontTextStyle))
+                          style: bodyTextStyle.copyWith(fontSize: 12.sp, fontFamily: robottoFontTextStyle))
                     ],
                   ),
                 ),
@@ -536,15 +517,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   _formKey.currentState!.save();
                   if (_image != null) {
                     productToBeAdded.imgFile = _image;
-                    print(
-                        "--------------------" + '${productToBeAdded.imgFile}');
-                    productToBeAdded.providerId =
-                        locator<LocalStorageService>().accessTokenProvider;
+                    print("--------------------" + '${productToBeAdded.imgFile}');
+                    productToBeAdded.providerId = locator<LocalStorageService>().accessTokenProvider;
                     productToBeAdded.location = Locationn(
-                      lat:
-                          _locationService.currentLocation!.latitude.toString(),
-                      long: _locationService.currentLocation!.longitude
-                          .toString(),
+                      lat: _locationService.currentLocation!.latitude.toString(),
+                      long: _locationService.currentLocation!.longitude.toString(),
                     );
                     if (widget.isBottom) {
                       //then i have to add it here
@@ -555,8 +532,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     }
                   } else {
                     Get.dialog(
-                      RequestFailedDialog(
-                          errorMessage: "add image before moving ahead"),
+                      RequestFailedDialog(errorMessage: "add image before moving ahead"),
                     );
                   }
                 }
@@ -602,10 +578,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   "${locator<LocationService>().address}".toUpperCase(),
                   // "Toronto, CA".toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: headingTextStyle.copyWith(
-                      height: 1.6,
-                      fontSize: 13.sp,
-                      fontFamily: robottoFontTextStyle),
+                  style: headingTextStyle.copyWith(height: 1.6, fontSize: 13.sp, fontFamily: robottoFontTextStyle),
                 ),
               ),
             ],
@@ -616,8 +589,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         ),
         Text(
           "FOOD PROVIDER".toUpperCase(),
-          style: headingTextStyle.copyWith(
-              fontSize: 13.sp, fontFamily: robottoFontTextStyle),
+          style: headingTextStyle.copyWith(fontSize: 13.sp, fontFamily: robottoFontTextStyle),
         )
       ],
     );

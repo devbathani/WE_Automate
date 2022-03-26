@@ -11,8 +11,8 @@ import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/cus
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/customer_booking_screen_view_model.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/root/root_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:maps_launcher/maps_launcher.dart';
 import 'package:get/get.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
@@ -41,8 +41,7 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                 child: Column(
                   children: [
                     _topAppBar(),
-                    // searchTextField(model),
-
+                    searchTextField(model),
                     services(model),
                     model.services.length >= 5 && model.state == ViewState.idle ? seeMoreButton() : Container()
                   ],
@@ -92,6 +91,9 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                   Get.to(
                                     () => CustomerBookingScreen(
                                       model: model.services[index],
+                                      providerId: model.services[index].providerId ?? "",
+                                      serviceId: model.services[index].id ?? "",
+                                      price: model.services[index].price ?? "",
                                     ),
                                   );
                                 },
@@ -99,8 +101,10 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                   alignment: Alignment.bottomCenter,
                                   children: [
                                     Container(
-                                      height: 250.h,
-                                      width: 250.w,
+                                      // height: 250.h,
+                                      // width: 250.w,
+                                      height: 230.h,
+                                      width: 350.w,
                                       child: FadeInImage.assetNetwork(
                                         fit: BoxFit.cover,
                                         placeholder: '$assets/placeholder.jpeg',
@@ -156,8 +160,9 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                       child: Padding(
                                         padding: const EdgeInsets.only(right: 0),
                                         child: Container(
-                                          height: 100.h,
-                                          // width:1.
+                                          // height: 100.h,
+                                          height: 90.h,
+                                          width: 350.w,
                                           color: Colors.black26,
                                           child: Padding(
                                             padding: const EdgeInsets.only(left: 8.0, top: 6.0),
@@ -192,6 +197,8 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                                                 color: Colors.white,
                                                               )),
                                                           SizedBox(height: 10.h),
+                                                          // TODO: here is after search
+
                                                           Container(
                                                             height: 30.h,
                                                             child: ElevatedButton(
@@ -225,6 +232,9 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                 Get.to(
                                   () => CustomerBookingScreen(
                                     model: model.services[index],
+                                    providerId: model.services[index].providerId ?? "",
+                                    serviceId: model.services[index].id ?? "",
+                                    price: model.services[index].price ?? "",
                                   ),
                                 );
                               },
@@ -255,7 +265,7 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                     vertical: 20.h,
                   ),
                   child: Container(
-                    height: 265.h,
+                    height: 300.h,
                     width: 350.w,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -274,12 +284,15 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                 Get.to(
                                   () => CustomerBookingScreen(
                                     model: model.services[index],
+                                    providerId: model.services[index].providerId ?? "",
+                                    serviceId: model.services[index].id ?? "",
+                                    price: model.services[index].price ?? "",
                                   ),
                                 );
                               },
                               child: Container(
-                                height: 230.h,
-                                width: 350.w,
+                                height: 250.h,
+                                width: double.infinity,
                                 child: FadeInImage.assetNetwork(
                                   placeholder: '$assets/placeholder.jpeg',
                                   image: model.services[index].imgUrl!,
@@ -334,8 +347,9 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                             Positioned(
                               bottom: 0,
                               child: Container(
-                                height: 90.h,
-                                width: 350.w,
+                                padding: EdgeInsets.only(right: 20),
+                                height: 120.h,
+                                width: MediaQuery.of(context).size.width,
                                 color: Colors.black26,
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
@@ -369,41 +383,46 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                         ),
                                       ),
                                       SizedBox(height: 10.h),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            height: 30.h,
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                Get.to(
-                                                  () => CustomerChatScreen(
-                                                    providerId: model.services[index].providerId,
-                                                    providerName: model.services[index].providerName,
-                                                  ),
-                                                );
-                                              },
-                                              child: Text("Message"),
+                                      Flexible(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              height: 30.h,
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  Get.to(
+                                                    () => CustomerChatScreen(
+                                                      providerId: model.services[index].providerId,
+                                                      providerName: model.services[index].providerName,
+                                                    ),
+                                                  );
+                                                },
+                                                child: Text("Message"),
+                                              ),
                                             ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(right: 10),
-                                            height: 30.h,
-                                            child: ElevatedButton(
-                                              style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStateProperty.resolveWith((states) => Colors.green)),
-                                              onPressed: () {
-                                                Get.to(
-                                                  () => CustomerBookingScreen(
-                                                    model: model.services[index],
-                                                  ),
-                                                );
-                                              },
-                                              child: Text("Book service"),
+                                            Container(
+                                              padding: EdgeInsets.only(right: 10),
+                                              height: 30.h,
+                                              child: ElevatedButton(
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty.resolveWith((states) => Colors.green)),
+                                                onPressed: () {
+                                                  Get.to(
+                                                    () => CustomerBookingScreen(
+                                                      model: model.services[index],
+                                                      providerId: model.services[index].providerId ?? "",
+                                                      serviceId: model.services[index].id ?? "",
+                                                      price: model.services[index].price ?? "",
+                                                    ),
+                                                  );
+                                                },
+                                                child: Text("Book service"),
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),

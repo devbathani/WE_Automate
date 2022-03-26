@@ -6,7 +6,6 @@ import 'package:antonx_flutter_template/core/enums/view_state.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/booking/booking-screen.dart';
-import 'package:antonx_flutter_template/ui/screens/PROVIDER/conversation/conversation-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/home/home_view_model.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/root/root-provider-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/services/service-details-screen.dart';
@@ -23,6 +22,8 @@ import '../../../../locator.dart';
 import '../../common_ui/select_user_type_screen.dart';
 import '../auth_signup/provider_auth_view_model.dart';
 import '../booking/slotSchedular.dart';
+import '../conversation/conversation-screen.dart';
+import '../services/add_services/add-service-screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -32,6 +33,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _messangerKey = GlobalKey<ScaffoldMessengerState>();
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -196,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 30.w,
                     ),
                     Text(
-                      "Services",
+                      "My Services",
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           color: Colors.white,
@@ -257,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 30.w,
                     ),
                     Text(
-                      "Bookings",
+                      "My Bookings",
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           color: Colors.white,
@@ -321,7 +324,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 30.w,
                     ),
                     Text(
-                      "Slots",
+                      "My Slots",
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           color: Colors.white,
@@ -384,7 +387,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 30.w,
                     ),
                     Text(
-                      "Messages",
+                      "My Messages",
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           color: Colors.white,
@@ -616,7 +619,28 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 )
               : Center(
-                  child: Text("No service available"),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("No service available"),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Container(
+                        height: 26.h,
+                        width: 172.w,
+                        child: RoundedRaisedButton(
+                            buttonText: "Add services",
+                            color: Colors.white,
+                            textColor: primaryColor,
+                            onPressed: () {
+                              print(":");
+
+                              Get.to(() => AddServiceScreen());
+                            }),
+                      ),
+                    ],
+                  ),
                 ),
         ),
         SizedBox(height: 100)

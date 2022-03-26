@@ -295,7 +295,7 @@ class ProviderProfileScreen extends StatelessWidget {
                       width: 30.w,
                     ),
                     Text(
-                      "Website",
+                      "My Website",
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           color: Colors.white,

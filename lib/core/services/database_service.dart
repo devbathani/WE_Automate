@@ -1,10 +1,12 @@
 import 'dart:io';
+
 import 'package:antonx_flutter_template/core/constants/api_end_pionts.dart';
 import 'package:antonx_flutter_template/core/models/app-user.dart';
 import 'package:antonx_flutter_template/core/models/body/login_body.dart';
 import 'package:antonx_flutter_template/core/models/body/reset_password_body.dart';
 import 'package:antonx_flutter_template/core/models/body/signup_body.dart';
 import 'package:antonx_flutter_template/core/models/message.dart';
+import 'package:antonx_flutter_template/core/models/order_data.dart';
 import 'package:antonx_flutter_template/core/models/product.dart';
 import 'package:antonx_flutter_template/core/models/reponses/auth_response.dart';
 import 'package:antonx_flutter_template/core/models/reponses/base_responses/base_response.dart';
@@ -12,9 +14,15 @@ import 'package:antonx_flutter_template/core/models/reponses/base_responses/requ
 import 'package:antonx_flutter_template/core/models/reponses/onboarding_reponse.dart';
 import 'package:antonx_flutter_template/core/models/reponses/user_profile_response.dart';
 import 'package:antonx_flutter_template/core/models/service.dart';
+import 'package:antonx_flutter_template/core/models/slot_data_model.dart';
+import 'package:antonx_flutter_template/core/models/time_slot.dart';
 import 'package:antonx_flutter_template/core/services/api_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../models/schedule_info.dart';
 
 class DatabaseService {
   final ApiServices _apiServices = ApiServices();
@@ -87,7 +95,7 @@ class DatabaseService {
           .collection('provider_user')
           .doc(uid)
           .get();
-      if (snapshot.data != null) {
+      if (snapshot.data() != null) {
         final user = AppUser.fromJson(snapshot.data(), uid);
         print('@DatabaseService/getProviderUserData: ${user.toJson()}');
         return user;
@@ -255,7 +263,8 @@ class DatabaseService {
       print("Exception/getGlobalProducts=========> $e, $s");
     }
   }
-    getProvidersInfo() async {
+
+  getProvidersInfo() async {
     try {
       List<AppUser> appuser = [];
       // DocumentSnapshot docSnapshot =
@@ -402,6 +411,161 @@ class DatabaseService {
     }
   }
 
+  //Map<int, Coin> map = Map.fromIterable(list, key: (item) => item.id, value: (item) => item);
+  Future<bool> createProviderSlots(
+      uid, List<SlotDataModel> scheduleList, List<DateTime> offdays) async {
+    //print('@createProviderSlots: uid is ${providerUser.uid}');
+    //FieldValue.arrayUnion(providerUser)
+
+    var slotData = scheduleList.map((e) => e.toJson()).toList();
+    var offData = offdays.map((e) => e.toIso8601String()).toList();
+
+    List<TimeSlotData> timeSlots = [];
+    //timeSlots.add(slotsList[0].start);
+
+    for (int count = 0; count < scheduleList.length; count++) {
+      SlotDataModel element = scheduleList[count];
+
+      int totalHours = element.end.difference(element.start).inMinutes;
+      int requireTime = element.breakDuration + element.gapDuration;
+      int slotCount = totalHours ~/ requireTime;
+      var requireSlots = List.generate(
+          slotCount,
+          (index) => TimeSlotData(
+              id: index,
+              time: element.start.add(Duration(minutes: requireTime * index)),
+              scheduleId: count));
+      timeSlots.addAll(requireSlots);
+    }
+
+    var timeSlotsFormat = timeSlots.map((e) => e.toJson()).toList();
+
+    try {
+      await firestoreRef.collection('provider_slot').doc(uid).set(
+          {'schedule': slotData, "offdays": offData, 'slots': timeSlotsFormat});
+      return true;
+    } catch (e, stack) {
+      debugPrintStack(stackTrace: stack);
+      print('Exception @createProviderSlots: $e');
+      return false;
+      throw e;
+    }
+  }
+
+  Future<ScheduleInfoData?> getProviderSlots(uid) async {
+    print("getProviderSlots");
+    try {
+      List<SErvice> services = [];
+      // DocumentSnapshot docSnapshot =
+      DocumentSnapshot snapshot =
+          await firestoreRef.collection('provider_slot').doc(uid).get();
+      var data = snapshot.data() as Map<String, dynamic>;
+
+      ScheduleInfoData object = ScheduleInfoData.fromJson(data);
+
+      return object;
+    } catch (e, s) {
+      debugPrintStack(stackTrace: s);
+      print("Exception/getGlobalServices=========> $e, $s");
+      return null;
+    }
+  }
+
+  Future<bool> bookOrder(uid, consumer, schId, slotId,serviceId,date) async {
+    print("bookOrder schId $schId slotId $slotId");
+    try {
+      List<SErvice> services = [];
+      await firestoreRef.collection('order').doc().set({
+        "providerId": uid,
+        "consumerId": consumer,
+        "scheduleId": schId,
+        "timeslotId": slotId,
+        "serviceId": serviceId,
+        "date":date,
+        "status": "pending"
+      }).then((value) async {
+        DocumentSnapshot snapshot =
+            await firestoreRef.collection('provider_slot').doc(uid).get();
+        var data = snapshot.data() as Map<String, dynamic>;
+        data["slots"][slotId]["status"] = "pending";
+        await firestoreRef.collection('provider_slot').doc(uid).update(data);
+        return true;
+      });
+      return true;
+    } catch (e, s) {
+      debugPrintStack(stackTrace: s);
+      print("Exception/getGlobalServices=========> $e, $s");
+      return false;
+    }
+  }
+
+  Future<bool> bookingAction(uid, consumer, schId, slotId,OrderData orderData) async {
+    print("getProviderSlots");
+    try {
+      DocumentSnapshot snapshot =
+      await firestoreRef.collection('provider_slot').doc(uid).get();
+      var data = snapshot.data() as Map<String, dynamic>;
+      data["slots"][slotId]["status"] = "${orderData.status}";
+      await firestoreRef.collection('provider_slot').doc(uid).update(data);
+
+     await firestoreRef
+          .collection('order').doc("${orderData.orderId}").update(orderData.toJson());
+
+    return true;
+
+    } catch (e, s) {
+      debugPrintStack(stackTrace: s);
+      print("Exception/getGlobalServices=========> $e, $s");
+      return false;
+    }
+  }
+
+  Future<ScheduleInfoData?> getScheduleInfo(uid,{bool isProvider=false}) async {
+    print("getProviderSlots");
+    try {
+      var schedule = await firestoreRef.collection("provider_slot").doc(uid).get();
+      if(schedule.data()!=null){
+        return ScheduleInfoData.fromJson(schedule.data() as Map<String,dynamic>);
+      }else{
+        return null;
+      }
+
+
+    } catch (e, s) {
+      debugPrintStack(stackTrace: s);
+      print("Exception/getGlobalServices=========> $e, $s");
+      return null;
+    }
+  }
+
+  Future<List<OrderData>> getOrders(uid,{bool isProvider=false}) async {
+    print("getProviderSlots");
+    try {
+      List<OrderData> orderList= [];
+      QuerySnapshot querySnap = await firestoreRef
+          .collection('order').where(isProvider?"providerId":"consumerId",isEqualTo: uid).get();
+
+
+
+      for(var element in querySnap.docs){
+        var schedule = await firestoreRef.collection("provider_slot").doc((element.data()! as Map)["providerId"]).get();
+        var serviceInfo = await firestoreRef.collection("global_services").doc((element.data()! as Map)["serviceId"]).get();
+        orderList.add(OrderData.fromJson(element.data() as Map<String,dynamic>)
+          ..orderId=element.id
+          ..schedule = ScheduleInfoData.fromJson(schedule.data() as Map<String, dynamic>)
+            ..service = SErvice.fromJson(serviceInfo, (element.data()! as Map)["serviceId"])
+        );
+      }
+
+
+    return orderList;
+    } catch (e, s) {
+      debugPrintStack(stackTrace: s);
+      print("Exception/getGlobalServices=========> $e, $s");
+      return [];
+    }
+  }
+
 //   Future<void> addService(Service service, uid) async {
 //     print('@addService:===================> USER UID is ==> $uid ');
 //     try {
@@ -471,5 +635,12 @@ class DatabaseService {
     } catch (e) {
       print('Exception @SendMessage: $e');
     }
+  }
+}
+
+extension IndexedIterable<E> on Iterable<E> {
+  Iterable<T> mapIndexed<T>(T Function(E e, int i) f) {
+    var i = 0;
+    return map((e) => f(e, i++));
   }
 }

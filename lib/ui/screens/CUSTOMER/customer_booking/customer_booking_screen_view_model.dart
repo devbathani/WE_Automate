@@ -49,6 +49,7 @@ class CustomerBookingScreenViewModel extends BaseViewModel {
   }
 
   getAllProviderData() async {
+    print("Provider side update");
     setState(ViewState.loading);
     appuser = (await _dbService
         .getProviderUserData(_localStorageService.accessTokenProvider))!;

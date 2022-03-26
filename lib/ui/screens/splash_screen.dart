@@ -184,7 +184,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24.0),
                     child: Text(
-                        "Improving  sales and purchases automation by connecting businesses and customers in one market place.",
+                        "WE ARE AUTOMATION",
                         style: bodyTextStyle.copyWith(
                           color: Colors.black,
                           letterSpacing: 0.4,
