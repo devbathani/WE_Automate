@@ -17,6 +17,8 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../locator.dart';
+import '../../common_ui/select_user_type_screen.dart';
+import '../auth_signup/provider_auth_view_model.dart';
 
 class ProviderProfileScreen extends StatelessWidget {
   const ProviderProfileScreen({Key? key}) : super(key: key);
@@ -72,6 +74,22 @@ class ProviderProfileScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    Provider.of<ProviderAuthViewModel>(context, listen: false)
+                        .logout();
+                    Get.offAll(() => SelectUserTypeScreen());
+                  },
+                  icon: Icon(Icons.logout)),
+              SizedBox(
+                width: 20.w,
+              )
+            ],
+          ),
           SizedBox(
             height: 100.h,
           ),

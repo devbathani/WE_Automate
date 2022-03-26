@@ -20,6 +20,8 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/services/auth_service.dart';
 import '../../../../locator.dart';
+import '../../common_ui/select_user_type_screen.dart';
+import '../auth_signup/provider_auth_view_model.dart';
 import '../booking/slotSchedular.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -98,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             height: 100.h,
           ),
+          
           Text(
             "Welcome",
             style: GoogleFonts.poppins(
