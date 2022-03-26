@@ -177,15 +177,13 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                                         children: [
                                                           Row(
                                                             children: [
-                                                              Flexible(
-                                                                child: Text(
-                                                                    "Desc: ${model.filteredServices[index].description}",
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    style: headingTextStyle.copyWith(
-                                                                      fontSize: 12.sp,
-                                                                      color: Colors.white,
-                                                                    )),
-                                                              ),
+                                                              Text(
+                                                                  "Desc: ${model.filteredServices[index].description}",
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: headingTextStyle.copyWith(
+                                                                    fontSize: 12.sp,
+                                                                    color: Colors.white,
+                                                                  )),
                                                             ],
                                                           ),
                                                           SizedBox(height: 4.h),
@@ -359,17 +357,13 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: Flexible(
-                                          child: Text(
-                                            "Desc: ${model.services[index].description}",
-                                            softWrap: true,
-                                            style: headingTextStyle.copyWith(
-                                              fontSize: 12.sp,
-                                              color: Colors.white,
-                                            ),
-                                          ),
+                                      Text(
+                                        "Desc: ${model.services[index].description}",
+                                        softWrap: true,
+                                        maxLines: 2,
+                                        style: headingTextStyle.copyWith(
+                                          fontSize: 12.sp,
+                                          color: Colors.white,
                                         ),
                                       ),
                                       SizedBox(height: 4.h),
@@ -383,46 +377,45 @@ class _CustomerSearchServicesScreenState extends State<CustomerSearchServicesScr
                                         ),
                                       ),
                                       SizedBox(height: 10.h),
-                                      Flexible(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              height: 30.h,
-                                              child: ElevatedButton(
-                                                onPressed: () {
-                                                  Get.to(
-                                                    () => CustomerChatScreen(
-                                                      providerId: model.services[index].providerId,
-                                                      providerName: model.services[index].providerName,
-                                                    ),
-                                                  );
-                                                },
-                                                child: Text("Message"),
-                                              ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            height: 30.h,
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                Get.to(
+                                                  () => CustomerChatScreen(
+                                                    providerId: model.services[index].providerId,
+                                                    providerName: model.services[index].providerName,
+                                                  ),
+                                                );
+                                              },
+                                              child: Text("Message"),
                                             ),
-                                            Container(
-                                              padding: EdgeInsets.only(right: 10),
-                                              height: 30.h,
-                                              child: ElevatedButton(
-                                                style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty.resolveWith((states) => Colors.green)),
-                                                onPressed: () {
-                                                  Get.to(
-                                                    () => CustomerBookingScreen(
-                                                      model: model.services[index],
-                                                      providerId: model.services[index].providerId ?? "",
-                                                      serviceId: model.services[index].id ?? "",
-                                                      price: model.services[index].price ?? "",
-                                                    ),
-                                                  );
-                                                },
-                                                child: Text("Book service"),
-                                              ),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.symmetric(horizontal: 10),
+                                            margin: EdgeInsets.symmetric(horizontal: 10),
+                                            height: 30.h,
+                                            child: ElevatedButton(
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.resolveWith((states) => Colors.green)),
+                                              onPressed: () {
+                                                Get.to(
+                                                  () => CustomerBookingScreen(
+                                                    model: model.services[index],
+                                                    providerId: model.services[index].providerId ?? "",
+                                                    serviceId: model.services[index].id ?? "",
+                                                    price: model.services[index].price ?? "",
+                                                  ),
+                                                );
+                                              },
+                                              child: Text("Book service"),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

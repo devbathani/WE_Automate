@@ -46,7 +46,7 @@ class CustomerHomeScreen extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            Row(
+            Wrap(
               children: [
                 Text(
                   "Welcome",
@@ -63,12 +63,14 @@ class CustomerHomeScreen extends StatelessWidget {
                 ),
                 Text(
                   "${locator<AuthService>().customerProfile!.firstName}",
+                  overflow: TextOverflow.visible,
                   style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                       color: Color.fromARGB(221, 55, 82, 238),
                       fontSize: 40.sp,
                       fontWeight: FontWeight.bold,
                     ),
+
                   ),
                 ),
               ],
