@@ -471,18 +471,20 @@ class DatabaseService {
     }
   }
 
-  Future<bool> bookOrder(uid, consumer, schId, slotId,serviceId,date) async {
+  Future<bool> bookOrder(uid, consumer, schId, slotId,serviceId,date,paid, String firstName) async {
     print("bookOrder schId $schId slotId $slotId");
     try {
       List<SErvice> services = [];
       await firestoreRef.collection('order').doc().set({
         "providerId": uid,
         "consumerId": consumer,
+        "consumerName": firstName,
         "scheduleId": schId,
         "timeslotId": slotId,
         "serviceId": serviceId,
         "date":date,
-        "status": "pending"
+        "status": "pending",
+        "isPaid":paid,
       }).then((value) async {
         DocumentSnapshot snapshot =
             await firestoreRef.collection('provider_slot').doc(uid).get();
@@ -539,11 +541,12 @@ class DatabaseService {
   }
 
   Future<List<OrderData>> getOrders(uid,{bool isProvider=false}) async {
-    print("getProviderSlots");
+    print("getProviderSlots $uid provider:$isProvider");
     try {
       List<OrderData> orderList= [];
       QuerySnapshot querySnap = await firestoreRef
           .collection('order').where(isProvider?"providerId":"consumerId",isEqualTo: uid).get();
+
 
 
 

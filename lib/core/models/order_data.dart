@@ -10,6 +10,8 @@ class OrderData {
     required this.serviceId,
     required this.status,
     required this.date,
+    required this.isPaid,
+    required this.customerName,
   });
 
   String consumerId;
@@ -18,10 +20,12 @@ class OrderData {
   int timeslotId;
   String status;
   String serviceId;
+  String customerName;
   String? orderId;
   DateTime date;
   ScheduleInfoData? schedule;
   SErvice? service;
+  bool isPaid;
 
   factory OrderData.fromJson(Map<String, dynamic> json) => OrderData(
         consumerId: json["consumerId"],
@@ -30,6 +34,8 @@ class OrderData {
         timeslotId: json["timeslotId"],
         serviceId: json["serviceId"],
         status: json["status"],
+    customerName: json["customerName"]??"",
+    isPaid: json["isPaid"]??false,
         date:  DateTime.fromMillisecondsSinceEpoch(
   json["date"].millisecondsSinceEpoch),
       );
@@ -40,6 +46,8 @@ class OrderData {
         "scheduleId": scheduleId,
         "timeslotId": timeslotId,
         "serviceId": serviceId,
+        "isPaid": isPaid,
+        "customerName": customerName,
         "status": status,        "date":  DateTime.fromMillisecondsSinceEpoch(
         date.millisecondsSinceEpoch),
       };

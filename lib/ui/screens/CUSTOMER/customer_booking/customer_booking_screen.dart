@@ -29,6 +29,7 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../../../../core/services/auth_service.dart';
 import '../../../../core/services/database_service.dart';
 import '../../../../core/services/local_storage_service.dart';
 import '../../../../locator.dart';
@@ -353,64 +354,24 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                     },
                   ),
                   SizedBox(height: 50.h),
-                  RoundedRaisedButton(
-                    buttonText: "Book Service".toUpperCase(),
-                    textColor: primaryColor,
-                    color: Colors.white,
-                    onPressed: () async {
-                      var options = {
-                        'key': "rzp_test_4qGWB3dkcHmRZT",
-                        'amount': double.parse(widget.price) * 100,
-                        'name': 'Dev Bathani',
-                        'description': 'service payment',
-                        'timeout': 300,
-                        'prefill': {'contact': '7202897611', 'email': 'bathanid888@gmail.com'}
-                      };
-                      await _razorpay.open(options);
-
-                      if (paySucess) if (selectedSchedule != -1 && selectedTimeslot != -1) {
-                        _dbService
-                            .bookOrder(widget.providerId, _localStorageService.accessTokenCustomer, selectedSchedule,
-                                selectedTimeslot, widget.serviceId, bookDate!)
-                            .then((value) {
-                          if (value) {
-                            Navigator.pop(context);
-                            Navigator.pushReplacement(
-                                context, MaterialPageRoute(builder: (BuildContext context) => OrderList()));
-                          }
-                        });
-                      }
-                    },
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: RoundedRaisedButton(
+                      buttonText: "Book Service".toUpperCase(),
+                      textColor: primaryColor,
+                      color: Colors.white,
+                      onPressed: ()=>bookAndPay(true),
+                    ),
                   ),
-                  SizedBox(height: 40.h),
-                  RoundedRaisedButton(
-                    buttonText: "Pay In person".toUpperCase(),
-                    textColor: primaryColor,
-                    color: Colors.white,
-                    onPressed: () async {
-                      var options = {
-                        'key': "rzp_test_4qGWB3dkcHmRZT",
-                        'amount': double.parse(widget.price) * 100,
-                        'name': 'Dev Bathani',
-                        'description': 'service payment',
-                        'timeout': 300,
-                        'prefill': {'contact': '7202897611', 'email': 'bathanid888@gmail.com'}
-                      };
-                      // await _razorpay.open(options);
-
-                      if (paySucess) if (selectedSchedule != -1 && selectedTimeslot != -1) {
-                        _dbService
-                            .bookOrder(widget.providerId, _localStorageService.accessTokenCustomer, selectedSchedule,
-                                selectedTimeslot, widget.serviceId, bookDate!)
-                            .then((value) {
-                          if (value) {
-                            Navigator.pop(context);
-                            Navigator.pushReplacement(
-                                context, MaterialPageRoute(builder: (BuildContext context) => OrderList()));
-                          }
-                        });
-                      }
-                    },
+                  SizedBox(height: 20.h),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: RoundedRaisedButton(
+                      buttonText: "Pay In person".toUpperCase(),
+                      textColor: primaryColor,
+                      color: Colors.white,
+                      onPressed: ()=>bookAndPay(false),
+                    ),
                   ),
                   SizedBox(height: 88.h),
                 ],
@@ -428,7 +389,76 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     );
   }
 
+  bookAndPay(bool payOnline) async {
+print("bookAndPay: $payOnline  $selectedSchedule != -1 && $selectedTimeslot != -1");
+    if(payOnline) {
+      var options = {
+        'key': "rzp_test_4qGWB3dkcHmRZT",
+        'amount': double.parse(widget.price) * 100,
+        'name': 'Dev Bathani',
+        'description': 'service payment',
+        'timeout': 300,
+        'prefill': {'contact': '7202897611', 'email': 'bathanid888@gmail.com'}
+      };
+
+
+      await _razorpay.open(options);
+
+      if(paySucess)
+      if (selectedSchedule != -1 && selectedTimeslot != -1) {
+        _dbService
+            .bookOrder(
+            widget.providerId,
+            _localStorageService.accessTokenCustomer,
+            selectedSchedule,
+            selectedTimeslot,
+            widget.serviceId,
+            bookDate!,
+            payOnline,
+            locator<AuthService>().customerProfile!.firstName ?? "")
+            .then((value) {
+          if (value) {
+            Navigator.pop(context);
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(
+                builder: (BuildContext context) => OrderList()));
+          }
+        });
+      }
+    }else{
+        if (selectedSchedule != -1 && selectedTimeslot != -1) {
+          _dbService
+              .bookOrder(
+              widget.providerId,
+              _localStorageService.accessTokenCustomer,
+              selectedSchedule,
+              selectedTimeslot,
+              widget.serviceId,
+              bookDate!,
+              payOnline,
+              locator<AuthService>().customerProfile!.firstName ?? "")
+              .then((value) {
+            if (value) {
+              Navigator.pop(context);
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(
+                  builder: (BuildContext context) => OrderList()));
+            }
+          });
+        }
+    }
+  }
+
   void onSelectDay(DateTime? initDate, DateRangePickerSelectionChangedArgs? args, ScheduleInfoData schData) {
+
+
+    int index = schData.offdays.indexWhere((element) {
+      print("chk: $element == $initDate");
+      return "${element.day}${element.month}${element.year}"=="${initDate?.day}${initDate?.month}${initDate?.year}";});
+
+
+    if(index!=-1) return;
+
     if (initDate == null)
       bookDate = args!.value as DateTime;
     else
