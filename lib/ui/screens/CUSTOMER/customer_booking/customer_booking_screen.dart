@@ -54,8 +54,7 @@ class CustomerBookingScreen extends StatefulWidget {
     this.price = '0.0',
   });
   @override
-  _CustomerBookingScreenScreenState createState() =>
-      _CustomerBookingScreenScreenState();
+  _CustomerBookingScreenScreenState createState() => _CustomerBookingScreenScreenState();
 }
 
 class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
@@ -69,8 +68,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
   DateTime currentDate = DateTime.now(); // DateTime(2019, 2, 3);
   DateTime currentDate2 = DateTime.now();
   NotificationsService notificationsService = NotificationsService();
-  String currentMonth = DateFormat.yMMM().format(
-      DateTime.now()); // DateFormat.yMMM().format(DateTime(2019, 2, 3));
+  String currentMonth = DateFormat.yMMM().format(DateTime.now()); // DateFormat.yMMM().format(DateTime(2019, 2, 3));
   DateTime targetDateTime = DateTime.now(); //DateTime(2019, 2, 3);
   List<Category> categories = [];
   AppUser? appUser;
@@ -97,11 +95,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
 
   //TODO: add these for user
   // after confirm
-  List bookedSlots = [
-    "2022-03-23 16:00:00.000",
-    "2022-03-26 10:50:00.000",
-    "2022-03-29 09:30:00.000"
-  ];
+  List bookedSlots = ["2022-03-23 16:00:00.000", "2022-03-26 10:50:00.000", "2022-03-29 09:30:00.000"];
 
   //
   List availableDays = [1, 2, 3, 4, 5, 6];
@@ -144,8 +138,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
   );
   bool isLoading = false;
 
-  late final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  late final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   late var _razorpay;
   var amountController = TextEditingController();
@@ -162,12 +155,11 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
   final _localStorageService = locator<LocalStorageService>();
   final _dbService = locator<DatabaseService>();
 
-  bool paySucess=false;
+  bool paySucess = false;
 
   @override
   void initState() {
     getToken();
-
 
     setupPay();
 
@@ -179,26 +171,23 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     super.initState();
   }
 
-
   void setupPay() {
     _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,(PaymentSuccessResponse response) {
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, (PaymentSuccessResponse response) {
       // Do something when payment succeeds
       print("Payment Done");
-      paySucess=true;
+      paySucess = true;
     });
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, (PaymentFailureResponse response) {
       // Do something when payment fails
       print("Payment Fail");
-      paySucess=false;
+      paySucess = false;
     });
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, (ExternalWalletResponse response) {
       // Do something when an external wallet is selected
-      paySucess=true;
+      paySucess = true;
     });
   }
-
-
 
   @override
   void dispose() {
@@ -260,7 +249,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
         } else {
           if (snapshot.hasData) {
             ScheduleInfoData schData = snapshot.data!;
-            onSelectDay(DateTime.now(),null,schData);
+            onSelectDay(DateTime.now(), null, schData);
 
             final List<DateTime>? offdates = schData.offdays;
             return Padding(
@@ -275,8 +264,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                     children: [
                       Text(
                         "Book your Service",
-                        style: bodyTextStyle.copyWith(
-                            fontSize: 18.sp, fontFamily: robottoFontTextStyle),
+                        style: bodyTextStyle.copyWith(fontSize: 18.sp, fontFamily: robottoFontTextStyle),
                       ),
                     ],
                   ),
@@ -284,14 +272,11 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                   Row(
                     children: [
                       Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                         child: Text(
                           "Choose your appointment date",
                           style: bodyTextStyle.copyWith(
-                              color: Colors.grey,
-                              fontSize: 15.sp,
-                              fontFamily: robottoFontTextStyle),
+                              color: Colors.grey, fontSize: 15.sp, fontFamily: robottoFontTextStyle),
                         ),
                       ),
                     ],
@@ -300,26 +285,20 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                     enablePastDates: false,
                     minDate: today.subtract(const Duration(days: 0)),
                     maxDate: today.add(const Duration(days: 60)),
-                    monthViewSettings:  DateRangePickerMonthViewSettings(
+                    monthViewSettings: DateRangePickerMonthViewSettings(
                       firstDayOfWeek: 1,
                       blackoutDates: offdates,
                     ),
-
-                    onSelectionChanged:
-                        (DateRangePickerSelectionChangedArgs args) {
+                    onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
                       //timeSlot = schData.selectedTimeSlot();
 
-                          onSelectDay(null,args,schData);
-
-
+                      onSelectDay(null, args, schData);
                     },
-
                     selectableDayPredicate: (DateTime dateTime) {
                       print("selectableDayPredicate: ${dateTime}");
                       return schData.workingWeeks.contains(dateTime.weekday);
                     },
                   ),
-
                   SizedBox(
                     height: 20.h,
                   ),
@@ -329,31 +308,26 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                       return Wrap(
                         spacing: 5.0,
                         runSpacing: 3.0,
-                        children:
-                            List<Widget>.generate(timeSlot.length, (index) {
+                        children: List<Widget>.generate(timeSlot.length, (index) {
                           //int key = timeSlot.keys.toList()[index];
                           DateTime data = timeSlot[index].time;
                           int schID = timeSlot[index].scheduleId;
-                          int end = schData.schedule[schID].breakDuration +
-                              schData.schedule[schID].gapDuration;
+                          int end = schData.schedule[schID].breakDuration + schData.schedule[schID].gapDuration;
                           String label =
                               "${DateFormat("HH:mm a").format(data)} - ${DateFormat("HH:mm a").format(data.add(Duration(minutes: end)))}";
 
-                          bool canSelect = timeSlot[index].status==null ||timeSlot[index].status==""
-                              || timeSlot[index].status =="reject";
+                          bool canSelect = timeSlot[index].status == null ||
+                              timeSlot[index].status == "" ||
+                              timeSlot[index].status == "reject";
 
                           return ChoiceChip(
                             shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Colors.grey.shade500, width: 1),
+                              side: BorderSide(color: Colors.grey.shade500, width: 1),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             labelPadding: EdgeInsets.all(2.0),
                             onSelected: (val) {
-
-
-
-                              if(!canSelect) return;
+                              if (!canSelect) return;
 
                               timeSlot[index].selected = val;
                               selectedSchedule = schID;
@@ -368,11 +342,11 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                             selectedColor: Colors.green,
                             label: Text(
                               label,
-                              style:  TextStyle(color: Colors.black.withOpacity(!canSelect?0.5:1),decoration:
-                              !canSelect?TextDecoration.lineThrough:TextDecoration.none),
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(!canSelect ? 0.5 : 1),
+                                  decoration: !canSelect ? TextDecoration.lineThrough : TextDecoration.none),
                             ),
-                            selected: index == selectedTimeslot &&
-                                selectedSchedule == schID,
+                            selected: index == selectedTimeslot && selectedSchedule == schID,
                           );
                         }),
                       );
@@ -384,40 +358,58 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
                     textColor: primaryColor,
                     color: Colors.white,
                     onPressed: () async {
-
-
                       var options = {
                         'key': "rzp_test_4qGWB3dkcHmRZT",
                         'amount': double.parse(widget.price) * 100,
                         'name': 'Dev Bathani',
                         'description': 'service payment',
                         'timeout': 300,
-                        'prefill': {
-                          'contact': '7202897611',
-                          'email': 'bathanid888@gmail.com'
-                        }
+                        'prefill': {'contact': '7202897611', 'email': 'bathanid888@gmail.com'}
                       };
                       await _razorpay.open(options);
 
-                      if(paySucess)
-                        if(selectedSchedule!=-1 && selectedTimeslot!=-1) {
-                        _dbService.bookOrder(
-                            widget.providerId,
-                            _localStorageService.accessTokenCustomer,
-                            selectedSchedule,
-                            selectedTimeslot,
-                            widget.serviceId,
-                            bookDate!
-                        ).then((value) {
-                          if(value){
+                      if (paySucess) if (selectedSchedule != -1 && selectedTimeslot != -1) {
+                        _dbService
+                            .bookOrder(widget.providerId, _localStorageService.accessTokenCustomer, selectedSchedule,
+                                selectedTimeslot, widget.serviceId, bookDate!)
+                            .then((value) {
+                          if (value) {
                             Navigator.pop(context);
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => OrderList()));
+                            Navigator.pushReplacement(
+                                context, MaterialPageRoute(builder: (BuildContext context) => OrderList()));
                           }
                         });
-
-
                       }
+                    },
+                  ),
+                  SizedBox(height: 40.h),
+                  RoundedRaisedButton(
+                    buttonText: "Pay In person".toUpperCase(),
+                    textColor: primaryColor,
+                    color: Colors.white,
+                    onPressed: () async {
+                      var options = {
+                        'key': "rzp_test_4qGWB3dkcHmRZT",
+                        'amount': double.parse(widget.price) * 100,
+                        'name': 'Dev Bathani',
+                        'description': 'service payment',
+                        'timeout': 300,
+                        'prefill': {'contact': '7202897611', 'email': 'bathanid888@gmail.com'}
+                      };
+                      // await _razorpay.open(options);
 
+                      if (paySucess) if (selectedSchedule != -1 && selectedTimeslot != -1) {
+                        _dbService
+                            .bookOrder(widget.providerId, _localStorageService.accessTokenCustomer, selectedSchedule,
+                                selectedTimeslot, widget.serviceId, bookDate!)
+                            .then((value) {
+                          if (value) {
+                            Navigator.pop(context);
+                            Navigator.pushReplacement(
+                                context, MaterialPageRoute(builder: (BuildContext context) => OrderList()));
+                          }
+                        });
+                      }
                     },
                   ),
                   SizedBox(height: 88.h),
@@ -436,9 +428,9 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     );
   }
 
-  void onSelectDay(DateTime? initDate,DateRangePickerSelectionChangedArgs? args, ScheduleInfoData schData) {
-    if(initDate==null)
-    bookDate = args!.value as DateTime;
+  void onSelectDay(DateTime? initDate, DateRangePickerSelectionChangedArgs? args, ScheduleInfoData schData) {
+    if (initDate == null)
+      bookDate = args!.value as DateTime;
     else
       bookDate = initDate;
 
@@ -450,8 +442,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     for (int i = 0; i < schData.schedule.length; i++) {
       SlotDataModel data = schData.schedule[i];
       if (data.workingDays.contains(weekday)) {
-        timeSlot.addAll(schData.slots
-            .where((element) => element.scheduleId == i));
+        timeSlot.addAll(schData.slots.where((element) => element.scheduleId == i));
       }
     }
 
@@ -460,6 +451,4 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     updateTimeSlot.value = !updateTimeSlot.value;
     print(timeSlot);
   }
-
-
 }
