@@ -38,7 +38,7 @@ class ProviderProfileScreen extends StatelessWidget {
                 children: [
                   ///avatar user one area
                   avatarArea(context),
-                  buttonsArea(),
+                  buttonsArea(context),
 
                   //ratings(),
 
@@ -74,22 +74,20 @@ class ProviderProfileScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {
-                    Provider.of<ProviderAuthViewModel>(context, listen: false)
-                        .logout();
-                    Get.offAll(() => SelectUserTypeScreen());
-                  },
-                  icon: Icon(Icons.logout)),
-              SizedBox(
-                width: 20.w,
-              )
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: [
+          //     IconButton(
+          //         padding: EdgeInsets.zero,
+          //         onPressed: () {
+
+          //         },
+          //         icon: Icon(Icons.logout)),
+          //     SizedBox(
+          //       width: 20.w,
+          //     )
+          //   ],
+          // ),
           SizedBox(
             height: 100.h,
           ),
@@ -121,7 +119,7 @@ class ProviderProfileScreen extends StatelessWidget {
     );
   }
 
-  buttonsArea() {
+  buttonsArea(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Column(
@@ -296,6 +294,68 @@ class ProviderProfileScreen extends StatelessWidget {
                     ),
                     Text(
                       "My Website",
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 50.h),
+          InkWell(
+            onTap: () {
+              Provider.of<ProviderAuthViewModel>(context, listen: false)
+                  .logout();
+              Get.offAll(() => SelectUserTypeScreen());
+            },
+            child: Container(
+              height: 60.h,
+              width: 350.w,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.redAccent,
+                    Colors.red,
+                  ],
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.red.shade400,
+                    offset: Offset(4, 4),
+                    blurRadius: 5,
+                    spreadRadius: 1,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Provider.of<ProviderAuthViewModel>(context,
+                                listen: false)
+                            .logout();
+                        Get.offAll(() => SelectUserTypeScreen());
+                      },
+                      icon: Icon(
+                        Icons.edit,
+                      ),
+                      iconSize: 25.w,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 30.w,
+                    ),
+                    Text(
+                      "Log Out",
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           color: Colors.white,

@@ -79,7 +79,7 @@ class ServicesScreen extends StatelessWidget {
 
                   buttonsArea(model),
 
-                  ratings(),
+                  //ratings(),
 
                   galleryView(model),
 
