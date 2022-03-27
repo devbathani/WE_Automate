@@ -6,6 +6,7 @@ import 'package:antonx_flutter_template/core/enums/view_state.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/booking/booking-screen.dart';
+import 'package:antonx_flutter_template/ui/screens/PROVIDER/booking/slotSchedular2.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/home/home_view_model.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/root/root-provider-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/services/service-details-screen.dart';
@@ -19,8 +20,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/services/auth_service.dart';
 import '../../../../locator.dart';
-import '../../common_ui/select_user_type_screen.dart';
-import '../auth_signup/provider_auth_view_model.dart';
 import '../booking/slotSchedular.dart';
 import '../conversation/conversation-screen.dart';
 import '../services/add_services/add-service-screen.dart';
@@ -103,7 +102,6 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             height: 100.h,
           ),
-          
           Text(
             "Welcome",
             style: GoogleFonts.poppins(
@@ -280,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
           InkWell(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return SlotSchedular();
+                return SlotSchedular2();
               }));
             },
             child: Container(

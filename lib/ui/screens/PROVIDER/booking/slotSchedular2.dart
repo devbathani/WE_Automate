@@ -13,14 +13,14 @@ import '../../../../core/services/local_storage_service.dart';
 import '../../../../locator.dart';
 import '../booking/slotSchedular.dart' as old;
 
-class SlotSchedular extends StatefulWidget {
-  const SlotSchedular({Key? key}) : super(key: key);
+class SlotSchedular2 extends StatefulWidget {
+  const SlotSchedular2({Key? key}) : super(key: key);
 
   @override
-  State<SlotSchedular> createState() => _SlotSchedularState();
+  State<SlotSchedular2> createState() => _SlotSchedular2State();
 }
 
-class _SlotSchedularState extends State<SlotSchedular> {
+class _SlotSchedular2State extends State<SlotSchedular2> {
   ValueNotifier<bool> updateList = ValueNotifier<bool>(false);
   ValueNotifier<bool> updateOffList = ValueNotifier<bool>(false);
 
