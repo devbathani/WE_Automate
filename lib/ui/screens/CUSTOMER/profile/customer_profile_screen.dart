@@ -1,20 +1,16 @@
-import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
 import 'package:antonx_flutter_template/core/constants/strings.dart';
 import 'package:antonx_flutter_template/core/constants/text_styles.dart';
 import 'package:antonx_flutter_template/core/services/auth_service.dart';
-import 'package:antonx_flutter_template/core/services/location_service.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
-import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/order_list.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/root/root_screen.dart';
-import 'package:antonx_flutter_template/ui/screens/CUSTOMER/search/customer_search_services_screen.dart';
-import 'package:antonx_flutter_template/ui/screens/CUSTOMER/search/detail/customer_search_detail_screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/auth_signup/provider_auth_view_model.dart';
 import 'package:antonx_flutter_template/ui/screens/common_ui/select_user_type_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../locator.dart';
@@ -45,12 +41,13 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ///avatar user one area
             ///
-            avatarArea(),
+            avatarArea(context),
 
-            buttonsArea(),
+            buttonsArea(context),
 
             // ratings(),
           ],
@@ -59,138 +56,226 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
     );
   }
 
-  avatarArea() {
-    return Column(
-      children: [
-        SizedBox(
-          height: 40.h,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  Provider.of<ProviderAuthViewModel>(context, listen: false).logout();
-                  Get.offAll(() => SelectUserTypeScreen());
-                },
-                icon: Icon(Icons.logout)),
-            SizedBox(
-              width: 20.w,
-            )
-          ],
-        ),
-        ImageContainer(
-          assets: "$assets/avatar03.png",
-          height: 128.h,
-          width: 128.w,
-          fit: BoxFit.contain,
-        ),
-        SizedBox(
-          height: 32.h,
-        ),
-        Text(
-          "${locator<AuthService>().customerProfile!.firstName}",
-          // "Ben",
-          style: bodyTextStyle.copyWith(
-            fontSize: 36.sp,
+  avatarArea(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 100.h,
           ),
-        ),
-        SizedBox(
-          height: 16.h,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 80.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                child: Text(
-                  "${locator<LocationService>().address}".toUpperCase(),
-                  // "Toronto, CA".toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: headingTextStyle.copyWith(height: 1.6, fontSize: 13.sp, fontFamily: robottoFontTextStyle),
-                ),
+          Text(
+            "Hey there..",
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                color: Colors.black87,
+                fontSize: 25.sp,
+                fontWeight: FontWeight.w600,
               ),
-            ],
+            ),
           ),
-        ),
-      ],
+          SizedBox(
+            height: 5.w,
+          ),
+          Text(
+            "${locator<AuthService>().customerProfile!.firstName}",
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                color: Color.fromARGB(221, 55, 82, 238),
+                fontSize: 30.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  buttonsArea() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SizedBox(height: 64.h),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Container(
-            height: 26.h,
-            width: 172.w,
-            child: RoundedRaisedButton(
-                buttonText: "MESSAGE",
-                textColor: primaryColor,
-                color: Colors.white,
-                onPressed: () {
-                  print(":");
-                  Get.offAll(() => RootSCustomercreen(index: 2));
-                }),
-          ),
-        ]),
-        SizedBox(
-          height: 28.h,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 26.h,
-              width: 172.w,
-              child: RoundedRaisedButton(
-                  buttonText: "FIND SERVICES/PRODUCTS",
-                  color: Colors.white,
-                  textColor: primaryColor,
-                  onPressed: () {
-                    print(":");
-
-                    Get.to(() => CustomerSearchServicesScreen());
-                  }),
+  buttonsArea(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 60.h),
+          InkWell(
+            onTap: () {
+              print(":");
+              Get.offAll(() => RootSCustomercreen(index: 2));
+            },
+            child: Container(
+              height: 60.h,
+              width: 350.w,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.orangeAccent, Colors.orange],
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.orange.shade400,
+                    offset: Offset(4, 4),
+                    blurRadius: 5,
+                    spreadRadius: 1,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        print(":");
+                        Get.offAll(() => RootSCustomercreen(index: 2));
+                      },
+                      icon: Icon(Icons.message),
+                      iconSize: 25.w,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 30.w,
+                    ),
+                    Text(
+                      "My Messages",
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            SizedBox(width: 8.w),
-            Container(
-              height: 26.h,
-              width: 172.w,
-              child: RoundedRaisedButton(
-                  buttonText: "BUY PRODUCTS",
-                  color: Colors.white,
-                  textColor: primaryColor,
-                  onPressed: () {
-                    print(":");
-
-                    Get.to(() => CustomerSearchDetailScreen());
-                  }),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 28.h,
-        ),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Container(
-            height: 26.h,
-            width: 172.w,
-            child: RoundedRaisedButton(
-                buttonText: "My BOOKINGS",
-                textColor: primaryColor,
-                color: Colors.white,
-                onPressed: () {
-                  print(":");
-                  Get.to(OrderList());
-                }),
           ),
-        ]),
-      ],
+          SizedBox(height: 30.h),
+          InkWell(
+            onTap: () {
+              print(":");
+              Get.to(OrderList());
+            },
+            child: Container(
+              height: 60.h,
+              width: 350.w,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.lightGreen,
+                    Colors.green,
+                  ],
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.green.shade400,
+                    offset: Offset(4, 4),
+                    blurRadius: 5,
+                    spreadRadius: 1,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        print(":");
+                        Get.to(OrderList());
+                      },
+                      icon: Icon(
+                        Icons.link,
+                      ),
+                      iconSize: 25.w,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 30.w,
+                    ),
+                    Text(
+                      "My Bookings",
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 50.h),
+          InkWell(
+            onTap: () {
+              Provider.of<ProviderAuthViewModel>(context, listen: false)
+                  .logout();
+              Get.offAll(() => SelectUserTypeScreen());
+            },
+            child: Container(
+              height: 60.h,
+              width: 350.w,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.redAccent,
+                    Colors.red,
+                  ],
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.red.shade400,
+                    offset: Offset(4, 4),
+                    blurRadius: 5,
+                    spreadRadius: 1,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Provider.of<ProviderAuthViewModel>(context,
+                                listen: false)
+                            .logout();
+                        Get.offAll(() => SelectUserTypeScreen());
+                      },
+                      icon: Icon(
+                        Icons.edit,
+                      ),
+                      iconSize: 25.w,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 30.w,
+                    ),
+                    Text(
+                      "Log Out",
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -202,7 +287,8 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
         children: [
           Text(
             "RATING",
-            style: headingTextStyle.copyWith(fontSize: 13.sp, fontFamily: robottoFontTextStyle),
+            style: headingTextStyle.copyWith(
+                fontSize: 13.sp, fontFamily: robottoFontTextStyle),
           ),
           SizedBox(width: 23.0.w),
           RatingBarIndicator(

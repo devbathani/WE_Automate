@@ -1,14 +1,10 @@
 import 'dart:developer';
 
-import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
 import 'package:antonx_flutter_template/core/constants/strings.dart';
-import 'package:antonx_flutter_template/core/constants/text_styles.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
-import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/root/root_screen.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/search/customer_search_services_screen.dart';
-import 'package:antonx_flutter_template/ui/screens/CUSTOMER/search/detail/customer_search_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,7 +42,8 @@ class CustomerHomeScreen extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            Wrap(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   "Welcome",
@@ -67,10 +64,9 @@ class CustomerHomeScreen extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                       color: Color.fromARGB(221, 55, 82, 238),
-                      fontSize: 40.sp,
+                      fontSize: 35.sp,
                       fontWeight: FontWeight.bold,
                     ),
-
                   ),
                 ),
               ],
@@ -96,7 +92,8 @@ class CustomerHomeScreen extends StatelessWidget {
                     child: Center(
                       child: Text(
                         'Book a service',
-                        style: GoogleFonts.poppins(fontSize: 17.sp, fontWeight: FontWeight.w400),
+                        style: GoogleFonts.poppins(
+                            fontSize: 17.sp, fontWeight: FontWeight.w400),
                       ),
                     ),
                   ),
@@ -121,7 +118,10 @@ class CustomerHomeScreen extends StatelessWidget {
                     child: Center(
                       child: Text(
                         'Buy Products',
-                        style: GoogleFonts.poppins(fontSize: 16.sp, fontWeight: FontWeight.w400, color: Colors.white),
+                        style: GoogleFonts.poppins(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white),
                       ),
                     ),
                   ),
@@ -140,7 +140,8 @@ class CustomerHomeScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Upcoming Services',
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 18.sp),
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w600, fontSize: 18.sp),
                       ),
                       SizedBox(
                         width: 5.w,
@@ -150,7 +151,8 @@ class CustomerHomeScreen extends StatelessWidget {
                         height: 30.h,
                         width: 40.w,
                         child: Center(
-                          child: Image.asset('assets/static_assets/upcoming_services.jpg'),
+                          child: Image.asset(
+                              'assets/static_assets/upcoming_services.jpg'),
                         ),
                       )
                     ],
@@ -166,8 +168,10 @@ class CustomerHomeScreen extends StatelessWidget {
                         height: 150.h,
                         decoration: BoxDecoration(
                           color: Color(0XFFf4f4f4),
-                          image:
-                              DecorationImage(image: AssetImage('assets/static_assets/image1.jpg'), fit: BoxFit.cover),
+                          image: DecorationImage(
+                              image:
+                                  AssetImage('assets/static_assets/image1.jpg'),
+                              fit: BoxFit.cover),
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(10.r),
                             bottomRight: Radius.circular(20.r),
@@ -183,8 +187,10 @@ class CustomerHomeScreen extends StatelessWidget {
                         width: 150.w,
                         height: 150.h,
                         decoration: BoxDecoration(
-                          image:
-                              DecorationImage(image: AssetImage('assets/static_assets/image4.jpg'), fit: BoxFit.fill),
+                          image: DecorationImage(
+                              image:
+                                  AssetImage('assets/static_assets/image4.jpg'),
+                              fit: BoxFit.fill),
                           color: Color(0XFFf4f4f4),
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(45.r),
@@ -206,8 +212,10 @@ class CustomerHomeScreen extends StatelessWidget {
                         width: 150.w,
                         height: 150.h,
                         decoration: BoxDecoration(
-                          image:
-                              DecorationImage(image: AssetImage('assets/static_assets/image3.jpg'), fit: BoxFit.cover),
+                          image: DecorationImage(
+                              image:
+                                  AssetImage('assets/static_assets/image3.jpg'),
+                              fit: BoxFit.cover),
                           color: Color(0XFFf4f4f4),
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(10.r),
@@ -224,8 +232,10 @@ class CustomerHomeScreen extends StatelessWidget {
                         width: 150.w,
                         height: 150.h,
                         decoration: BoxDecoration(
-                          image:
-                              DecorationImage(image: AssetImage('assets/static_assets/image2.jpeg'), fit: BoxFit.cover),
+                          image: DecorationImage(
+                              image: AssetImage(
+                                  'assets/static_assets/image2.jpeg'),
+                              fit: BoxFit.cover),
                           color: Color(0XFFf4f4f4),
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(45.r),

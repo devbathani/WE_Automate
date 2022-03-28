@@ -74,20 +74,6 @@ class ProviderProfileScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.end,
-          //   children: [
-          //     IconButton(
-          //         padding: EdgeInsets.zero,
-          //         onPressed: () {
-
-          //         },
-          //         icon: Icon(Icons.logout)),
-          //     SizedBox(
-          //       width: 20.w,
-          //     )
-          //   ],
-          // ),
           SizedBox(
             height: 100.h,
           ),
