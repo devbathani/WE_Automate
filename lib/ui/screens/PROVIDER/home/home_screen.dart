@@ -5,6 +5,7 @@ import 'package:antonx_flutter_template/core/constants/text_styles.dart';
 import 'package:antonx_flutter_template/core/enums/view_state.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
+import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/order_list.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/booking/booking-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/booking/slotSchedular2.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/home/home_view_model.dart';
@@ -214,9 +215,11 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(height: 30.h),
           InkWell(
             onTap: () {
-              print(":");
-
-              Get.to(() => BookingScreen());
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return OrderList(
+                  isProvider: true,
+                );
+              }));
             },
             child: Container(
               height: 60.h,
@@ -244,9 +247,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        print(":");
-
-                        Get.to(() => BookingScreen());
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return OrderList(
+                            isProvider: true,
+                          );
+                        }));
                       },
                       icon: Icon(
                         Icons.monetization_on,
