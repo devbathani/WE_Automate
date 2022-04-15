@@ -1,110 +1,66 @@
-import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
-import 'package:antonx_flutter_template/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextField extends StatelessWidget {
-  final controller;
-  final bool? obscure;
-  final String? errorText;
+  final String? Function(String?)? validator;
+  final void Function(String?)? onSaved;
   final String? hintText;
-  final bool? enabled;
-  final Widget? suffixIcon;
-  final Widget? prefixIcon;
-  final validator;
-  final double? fontSize;
-  final String? label;
-  final onSaved;
-  final maxline;
-  final onTap;
-  final bool disableBorder;
-  final onChanged;
-  final inputType;
-  CustomTextField(
-      {this.controller,
-      this.onTap,
-      this.inputType = TextInputType.text,
-      this.disableBorder = false,
-      this.label,
-      this.maxline = 1,
-      this.obscure = false,
-      this.enabled = true,
-      this.validator,
-      this.errorText,
-      this.fontSize = 13.0,
-      this.hintText,
-      this.onSaved,
-      this.suffixIcon,
-      this.prefixIcon,
-      this.onChanged});
+  final bool? obscureText;
+
+  CustomTextField({
+    this.hintText,
+    this.onSaved,
+    this.validator,
+    this.obscureText,
+  });
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onChanged: onChanged,
-      onTap: onTap,
-      keyboardType: this.inputType,
-      maxLines: this.maxline,
+      validator: validator,
       onSaved: onSaved,
-      enabled: enabled,
-      style: bodyTextStyle.copyWith(
-//              color: Color(0XFF686868),
-          fontFamily: robottoFontTextStyle,
-          color: Colors.black,
-          fontSize: fontSize),
-      // ),
-      cursorColor: primaryColor,
-      controller: this.controller,
-      obscureText: this.obscure!,
-      validator: validator ??
-          (value) {
-            if (value != null) {
-              return this.errorText;
-            } else {
-              return null;
-            }
-          },
+      maxLines: 1,
+      keyboardType: TextInputType.name,
+      style: GoogleFonts.poppins(
+        textStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: 20.sp,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      obscureText: obscureText!,
       decoration: InputDecoration(
-        fillColor: Colors.white,
-        filled: true,
-        // alignLabelWithHint: true,
-        // prefixIconConstraints: BoxConstraints(
-//            maxHeight: 25.h,
-//            maxWidth: 25.w,
-        // ),
-        // prefixIcon: Padding(
-        //   padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-        //   child: prefixIcon ?? Container(),
-        // ),
-        suffixIcon: Padding(
-            padding: const EdgeInsets.only(),
-            child: suffixIcon != null ? suffixIcon : Container()),
-        suffixIconConstraints: BoxConstraints(maxHeight: 40, maxWidth: 50),
-        focusedBorder: OutlineInputBorder(
-          // borderRadius: BorderRadius.circular(14.0),
-          borderSide: BorderSide(color: Colors.black, width: 1.4.w),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 25.w,
+          vertical: 10.h,
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: 1.4.w),
-          // borderRadius: BorderRadius.circular(14.0),
+          borderSide: const BorderSide(
+            color: Color(0xff8B53FF),
+            width: 7,
+          ),
+          borderRadius: BorderRadius.all(
+            Radius.circular(12.r),
+          ),
         ),
-        disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: 1.4.w),
-          // borderRadius: BorderRadius.circular(14.0),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Color(0xff8B53FF),
+            width: 7,
+          ),
+          borderRadius: BorderRadius.all(
+            Radius.circular(12.r),
+          ),
         ),
-        border: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: 1.4.w),
-          // borderRadius: BorderRadius.circular(14.0),
+        hintText: hintText,
+        hintStyle: GoogleFonts.openSans(
+          textStyle: TextStyle(
+            color: Colors.grey,
+            fontSize: 25.sp,
+            fontWeight: FontWeight.w800,
+          ),
         ),
-        contentPadding: EdgeInsets.only(
-            left: 21.0, top: double.parse(maxline.toString()) > 1 ? 120 : 0),
-        hintText: this.hintText,
-        hintStyle: bodyTextStyle.copyWith(
-//              color: Color(0XFF686868),
-            fontFamily: robottoFontTextStyle,
-            color: Colors.black,
-            fontWeight: FontWeight.w400,
-            fontSize: fontSize),
-        // ),
       ),
     );
   }

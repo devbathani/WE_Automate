@@ -1,17 +1,16 @@
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
-import 'package:antonx_flutter_template/core/constants/text_styles.dart';
 import 'package:antonx_flutter_template/core/services/auth_service.dart';
 import 'package:antonx_flutter_template/core/services/database_service.dart';
 import 'package:antonx_flutter_template/core/services/local_storage_service.dart';
 import 'package:antonx_flutter_template/core/services/location_service.dart';
 import 'package:antonx_flutter_template/core/services/notification-service.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/dailogs/network_error_dialog.dart';
-import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
+import '../../core/constants/strings.dart';
 import '../../locator.dart';
 import 'CUSTOMER/root/root_screen.dart';
 import 'PROVIDER/root/root-provider-screen.dart';
@@ -58,28 +57,10 @@ class _SplashScreenState extends State<SplashScreen> {
     ////
     ///initializing notification services
     ///
-    // await NotificationsService().initConfigure();
-    // var fcm = await NotificationsService().getFcmToken();
-    // print("FCM TOKEN is =====> $fcm");
     await _notificationService.initConfigure();
 
     ///getting onboarding data for pre loading purpose
-    // onboardingList = await _getOnboardingData();
-//routing to the last onboarding screen user seen
-    // if (_localStorateService.onBoardingPageCount + 1 < onboardingList.length) {
-    //   final List<Image> preCachedImages =
-    //       await _preCacheOnboardingImages(onboardingList);
-    //   await Get.to(() => OnboardingScreen(
-    //       currentIndex: _localStorateService.onBoardingPageCount,
-    //       onboardingList: this.onboardingList,
-    //       preCachedImages: preCachedImages));
-    //   return;
-    // }
     await _authService.doSetup();
-    ////
-    ///checking if the user is login or not
-    ///
-    // log.d('Login State: ${_authService.isLogin}');
 
     isInit = true;
     setState(() {});
@@ -97,108 +78,152 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ///
-    /// Splash Screen UI goes here.
-    ///
-    final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        // child: Center(child: Text('Splash Screen')),
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image: AssetImage(
-        //       "${assets}l.png",
-        //     ),
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              //first space bar element
-              SizedBox(height: 80.h),
-              //second element
-              Column(
-                children: [
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 30.0.w),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "W",
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                  color: Color.fromARGB(255, 4, 67, 139),
-                                  fontSize: 45.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "E",
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                  color: Color.fromARGB(255, 195, 224, 28),
-                                  fontSize: 45.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20.h),
-                              child: Text(
-                                "Automate",
-                                style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                    color: Color.fromARGB(255, 4, 67, 139),
-                                    fontSize: 35.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            // Image.asset(
-                            //   'assets/static_assets/weautomate_logo.png',
-                            //   height: 50.h,
-                            // )
-                          ],
-                        ),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Stack(
+          children: [
+            ClipPath(
+              clipper: MyClipper(),
+              child: Container(
+                height: 600.h,
+                width: w,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white,
+                      Color(0xffCEDFEF).withOpacity(0.29),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [
+                      0.4,
+                      0.9,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: 50.h,
+              ),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Image.asset(
+                  '$assets/app_icon.png',
+                  fit: BoxFit.cover,
+                  height: 100.h,
+                  width: 250.w,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 180.h,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Container(
+                  width: 350.w,
+                  child: Text(
+                    "Get Everything you need to Grow Your Online business!",
+                    style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                  SizedBox(
-                    height: 12.h,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Text(
-                        "WE ARE AUTOMATION",
-                        style: bodyTextStyle.copyWith(
-                          color: Colors.black,
-                          letterSpacing: 0.4,
-                          fontWeight: FontWeight.w900,
-                          fontFamily: robottoFontTextStyle,
-                        )),
-                  )
-                ],
+                ),
               ),
-
-              ///third element
-              getStartAndLoader(),
-            ],
-          ),
+            ),
+            Positioned(
+              top: 300.h,
+              left: 10.w,
+              child: Container(
+                height: 70.h,
+                width: 300.w,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(
+                    width: 0.05,
+                    color: Colors.grey,
+                  ),
+                ),
+                child: Image.asset(
+                  '$static_assets/1_onboard.png',
+                ),
+              ),
+            ),
+            Positioned(
+              top: 380.h,
+              right: 10.w,
+              child: Container(
+                height: 70.h,
+                width: 300.w,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(
+                    width: 0.05,
+                    color: Colors.grey,
+                  ),
+                ),
+                child: Image.asset(
+                  '$static_assets/2_onboard.png',
+                ),
+              ),
+            ),
+            Positioned(
+              top: 460.h,
+              left: 10.w,
+              child: Container(
+                height: 70.h,
+                width: 300.w,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(
+                    width: 0.05,
+                    color: Colors.grey,
+                  ),
+                ),
+                child: Image.asset(
+                  '$static_assets/3_onboard.png',
+                ),
+              ),
+            ),
+            Positioned(
+              top: 540.h,
+              right: 10.w,
+              child: Container(
+                height: 70.h,
+                width: 300.w,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(
+                    width: 0.05,
+                    color: Colors.grey,
+                  ),
+                ),
+                child: Image.asset(
+                  '$static_assets/4_onboard.png',
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 30.h),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  child: getStartAndLoader(),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -207,57 +232,64 @@ class _SplashScreenState extends State<SplashScreen> {
   getStartAndLoader() {
     if (isInit) {
       return !_authService.isProviderLogin && !_authService.isCustomerLogin
-          ? Column(
-              children: [
-                Text("let's start discovering !!",
-                    style: bodyTextStyle.copyWith(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: robottoFontTextStyle,
-                    )),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 38),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 167.h,
-                        height: 52.w,
-                        child: InkWell(
-                          child: ElevatedButton(
-                            child: Text(
-                              "START",
-                              style: GoogleFonts.poppins(fontSize: 16.sp),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              primary: Color.fromARGB(255, 4, 67, 139),
-                            ),
-                            // fontWeight: FontWeight.w400,
-                            onPressed: () async {
-                              Get.to(() => SelectUserTypeScreen());
-                            },
-                          ),
-                        ),
-                      )
-                    ],
+          ? InkWell(
+              onTap: () {
+                Get.to(() => SelectUserTypeScreen());
+              },
+              child: Container(
+                height: 60.h,
+                width: 300.w,
+                decoration: BoxDecoration(
+                  color: Color(0XFF8B53FF),
+                  borderRadius: BorderRadius.circular(13.r),
+                ),
+                child: Center(
+                  child: Text(
+                    "Get started for free",
+                    style: GoogleFonts.roboto(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                )
-              ],
+                ),
+              ),
             )
           : Padding(
               padding: const EdgeInsets.only(top: 10.0, bottom: 38),
               child: CircularProgressIndicator(
-                color: Color(0XFF1A6094),
+                color: Color(0XFF8B53FF),
               ),
             );
     } else {
       return Padding(
         padding: const EdgeInsets.only(top: 10.0, bottom: 38),
         child: CircularProgressIndicator(
-          color: Color(0XFF1A6094),
+          color: Color(0XFF8B53FF),
         ),
       );
-      // Text("....", style: bodyTextStyle.copyWith(color: Colors.white));
     }
+  }
+}
+
+class MyClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    double height = size.height;
+    double width = size.width;
+    var path = Path();
+
+    path.lineTo(0, height - 50);
+    path.quadraticBezierTo(width / 2, height, width, height - 50);
+    path.lineTo(width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return false;
   }
 }

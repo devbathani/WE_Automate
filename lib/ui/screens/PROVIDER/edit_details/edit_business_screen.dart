@@ -97,20 +97,20 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
                       child: Column(
                         children: [
                           CustomTextField(
-                              // controller: model.emailController,
-                              onTap: () {},
-                              validator: (val) {
-                                if (val.toString().trim().isEmpty) {
-                                  return 'Invalid Field';
-                                } else {
-                                  return null;
-                                }
-                              },
-                              onSaved: (val) {
-                                appUser.businessName = val;
-                              },
-                              hintText: "Name of business",
-                              prefixIcon: Container()),
+                            // controller: model.emailController,
+
+                            validator: (val) {
+                              if (val.toString().trim().isEmpty) {
+                                return 'Invalid Field';
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (val) {
+                              appUser.businessName = val;
+                            },
+                            hintText: "Name of business",
+                          ),
 
                           // CustomTextField(
                           //     // controller: model.emailController,
@@ -134,40 +134,39 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
                           ),
 
                           CustomTextField(
-                              // controller: model.emailController,
-                              onTap: () {},
-                              validator: (val) {
-                                if (val.toString().trim().isEmpty) {
-                                  return 'Invalid Field';
-                                } else {
-                                  return null;
-                                }
-                              },
-                              onSaved: (val) {
-                                appUser.typeOfBusiness = val;
-                              },
-                              hintText: "Type of business",
-                              prefixIcon: Container()),
+                            // controller: model.emailController,
+
+                            validator: (val) {
+                              if (val.toString().trim().isEmpty) {
+                                return 'Invalid Field';
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (val) {
+                              appUser.typeOfBusiness = val;
+                            },
+                            hintText: "Type of business",
+                          ),
 
                           SizedBox(
                             height: 24,
                           ),
                           CustomTextField(
-                              maxline: 5,
-                              // controller: model.emailController,
-                              onTap: () {},
-                              validator: (val) {
-                                if (val.toString().trim().isEmpty) {
-                                  return 'Invalid Field';
-                                } else {
-                                  return null;
-                                }
-                              },
-                              onSaved: (val) {
-                                appUser.description = val;
-                              },
-                              hintText: "Description / History",
-                              prefixIcon: Container()),
+                            // controller: model.emailController,
+
+                            validator: (val) {
+                              if (val.toString().trim().isEmpty) {
+                                return 'Invalid Field';
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (val) {
+                              appUser.description = val;
+                            },
+                            hintText: "Description / History",
+                          ),
 
                           SizedBox(
                             height: 24,
@@ -224,7 +223,7 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
 
                           CustomTextField(
                             // controller: model.emailController,
-                            onTap: () {},
+
                             validator: (val) {
                               if (val.toString().isEmpty) {
                                 return 'Invalid Field';
@@ -236,7 +235,6 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
                               appUser.address = val;
                             },
                             hintText: "Address",
-                            prefixIcon: Container(),
                           ),
 
                           SizedBox(

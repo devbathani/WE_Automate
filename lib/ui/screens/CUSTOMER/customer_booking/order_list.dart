@@ -92,14 +92,14 @@ class _OrderListScreenState extends State<OrderList> {
                             String date =
                                 DateFormat("EEE dd, MMM yy").format(data.date);
 
-                            var customerName = data.customerName ?? '';
+                            var customerName = data.customerName;
                             var providerName = data.service?.providerName ?? "";
 
                             String name =
                                 widget.isProvider ? customerName : providerName;
 
                             print(
-                                "name: $name ${widget.isProvider} $customerName $providerName ${name} ${data.service?.providerName}");
+                                "name: $name ${widget.isProvider} $customerName $providerName $name ${data.service?.providerName}");
                             return Container(
                               margin: EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 10),

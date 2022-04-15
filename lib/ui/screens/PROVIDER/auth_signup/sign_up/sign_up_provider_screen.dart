@@ -1,18 +1,16 @@
-import 'package:antonx_flutter_template/core/constants/strings.dart';
-import 'package:antonx_flutter_template/core/constants/text_styles.dart';
 import 'package:antonx_flutter_template/core/enums/view_state.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/custom_text_field.dart';
-import 'package:antonx_flutter_template/ui/custom_widgets/dailogs/request_failed_dailog.dart';
-import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
-import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
-import 'package:antonx_flutter_template/ui/screens/PROVIDER/root/root-provider-screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../core/constants/strings.dart';
+import '../../../../custom_widgets/dailogs/request_failed_dailog.dart';
+import '../../root/root-provider-screen.dart';
 import '../provider_auth_view_model.dart';
 
 class SignUpProviderScreen extends StatefulWidget {
@@ -48,363 +46,284 @@ class _SignUpProviderScreenState extends State<SignUpProviderScreen> {
         child: SafeArea(
           child: Scaffold(
             backgroundColor: Colors.white,
-            body: Stack(
-              children: [
-                Container(
-                    // color: greyColor,
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 20.h,
                     ),
-
-                ///
-                /// Column Contain app Bar And  User profile Image
-                ///
-                SingleChildScrollView(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 48.0, left: 16, right: 16),
-                    child: Column(
-                      children: [
-                        ///
-                        /// ========== This Section Contain Back Button And Avatar =============
-                        ///
-                        ///
-                        ///back button
-                        ///
-                        GestureDetector(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Row(
-                            children: [
-                              ImageContainer(
-                                assets: "$static_assets/back.png",
-                                height: 10,
-                                width: 10,
-                              ),
-                              SizedBox(width: 13.29),
-                              Text(
-                                "BACK",
-                                style: subHeadingTextstyle.copyWith(
-                                    fontSize: 13.sp,
-                                    letterSpacing: 0.4,
-                                    fontFamily: robottoFontTextStyle),
-                              )
-                            ],
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Text(
+                        "Back",
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25.sp,
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
-                        SizedBox(
-                          height: 26.h,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                      ),
+                      child: Text(
+                        "Register",
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 40.sp,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              "Register",
-                              style: headingTextStyle.copyWith(
-                                fontWeight: FontWeight.normal,
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 32.h,
-                        ),
-
-                        ///
-                        /// ========= Login Form Section =========
-                        ///
-
-                        Form(
-                          key: _formKey,
-                          child: Column(
-//                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          CustomTextField(
+                            obscureText: false,
+                            hintText: "Name of Business",
+                            validator: (value) {
+                              if (value.toString().trim().isEmpty) {
+                                return 'Invalid Field';
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (value) {
+                              model.providerUser.businessName = value;
+                            },
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          CustomTextField(
+                            obscureText: false,
+                            validator: (val) {
+                              if (!val.toString().trim().isEmail) {
+                                return 'Please Enter a Valid Email';
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (val) {
+                              model.providerUser.email = val;
+                            },
+                            hintText: "Email",
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          CustomTextField(
+                              obscureText: model.passwordVisibility,
+                              validator: (val) {
+                                if (val!.length < 1) {
+                                  return 'Please enter your password';
+                                } else if (val.length < 8) {
+                                  return 'Password must include 8 characters';
+                                } else {
+                                  return null;
+                                }
+                              },
+                              onSaved: (val) {
+                                model.providerUser.password = val;
+                              },
+                              hintText: "Password"),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          CustomTextField(
+                            obscureText: false,
+                            validator: (val) {
+                              if (val.toString().trim().isEmpty) {
+                                return 'Invalid Field';
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (val) {
+                              model.providerUser.typeOfBusiness = val;
+                            },
+                            hintText: "Type of business",
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          CustomTextField(
+                            obscureText: false,
+                            validator: (val) {
+                              if (val.toString().trim().isEmpty) {
+                                return 'Invalid Field';
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (val) {
+                              model.providerUser.description = val;
+                            },
+                            hintText: "Short Description / History",
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Row(
                             children: [
-                              ///
-                              /// business name field
-                              ///
-                              CustomTextField(
-                                  // controller: model.emailController,
-                                  onTap: () {},
-                                  validator: (val) {
-                                    if (val.toString().trim().isEmpty) {
-                                      return 'Invalid Field';
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (val) {
-                                    model.providerUser.businessName = val;
-                                  },
-                                  hintText: "Name of business",
-                                  prefixIcon: Container()),
-
-                              SizedBox(
-                                height: 24,
-                              ),
-                              CustomTextField(
-                                  // controller: model.emailController,
-                                  onTap: () {},
-                                  validator: (val) {
-                                    if (!val.toString().trim().isEmail) {
-                                      return 'Please Enter a Valid Email';
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (val) {
-                                    model.providerUser.email = val;
-                                  },
-                                  hintText: "Email",
-                                  prefixIcon: Container()),
-
-                              SizedBox(
-                                height: 24,
-                              ),
-
-                              ///
-                              /// Password field
-                              ///
-                              CustomTextField(
-                                  obscure: model.passwordVisibility,
-                                  validator: (val) {
-                                    if (val.length < 1) {
-                                      return 'Please enter your password';
-                                    } else if (val.length < 8) {
-                                      return 'Password must include 8 characters';
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  // controller: modela.passwordController,
-                                  onTap: () {},
-                                  onSaved: (val) {
-                                    model.providerUser.password = val;
-                                  },
-                                  // label: "Password",
-                                  hintText: "Password"
-                                  // suffixIcon: IconButton(
-                                  //   icon: Icon(
-                                  //     model.passwordVisibility
-                                  //         ? Icons.visibility_off
-                                  //         : Icons.visibility,
-                                  //     size: 18.h,
-                                  //     color: Color(0xFFB1B1B1),
-                                  //   ),
-                                  //   onPressed: () {
-                                  //     model.togglePasswordVisibility();
-                                  //   },
-                                  // ),
-                                  // prefixIcon: Icon(Icons.password)
-                                  // ImageContainer(
-                                  //   width: 22.w,
-                                  //   height: 22.h,
-                                  //   assets:
-                                  //       "${staticAssetsPath}pasword_field_icon.png",
-                                  //   fit: BoxFit.contain,
-                                  // ),
+                              Checkbox(
+                                  value: _isBipoc,
+                                  onChanged: (value) {
+                                    _isBipoc = value!;
+                                    model.providerUser.isBipoc = value;
+                                    setState(() {});
+                                  }),
+                              Text(
+                                "BIPOC owned",
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.bold,
                                   ),
-
-                              SizedBox(
-                                height: 24,
+                                ),
                               ),
-                              CustomTextField(
-                                  // controller: model.emailController,
-                                  onTap: () {},
-                                  validator: (val) {
-                                    if (val.toString().trim().isEmpty) {
-                                      return 'Invalid Field';
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (val) {
-                                    model.providerUser.typeOfBusiness = val;
-                                  },
-                                  hintText: "Type of business",
-                                  prefixIcon: Container()),
-
-                              SizedBox(
-                                height: 24,
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Checkbox(
+                                  fillColor: MaterialStateColor.resolveWith(
+                                      (states) => Colors.black),
+                                  value: _isOther,
+                                  onChanged: (value) {
+                                    _isOther = value!;
+                                    model.providerUser.isOther = value;
+                                    setState(() {});
+                                  }),
+                              Text(
+                                "Other-",
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                              CustomTextField(
-                                  maxline: 5,
-                                  // controller: model.emailController,
-                                  onTap: () {},
-                                  validator: (val) {
-                                    if (val.toString().trim().isEmpty) {
-                                      return 'Invalid Field';
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (val) {
-                                    model.providerUser.description = val;
-                                  },
-                                  hintText: "Description / History",
-                                  prefixIcon: Container()),
-
-                              SizedBox(
-                                height: 24,
-                              ),
-                              Column(
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          CustomTextField(
+                            obscureText: false,
+                            validator: (val) {
+                              if (val.toString().isEmpty) {
+                                return 'Invalid Field';
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (val) {
+                              model.providerUser.address = val;
+                            },
+                            hintText: "Address",
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            model.providerUser.createdAt =
+                                DateTime.now().toString();
+                            model.providerUser.fcmToken = fcmToken;
+                            // Get.to(() => RootProviderScreen());
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              await model.createAccount();
+                              if (model.status) {
+                                print("SignUp Successfully");
+                                Get.offAll(() => RootProviderScreen());
+                              } else {
+                                Get.dialog(RequestFailedDialog(
+                                  errorMessage: model.errorMessage,
+                                ));
+                              }
+                            }
+                          },
+                          child: Container(
+                            height: 60.h,
+                            width: 350.w,
+                            decoration: BoxDecoration(
+                              color: Color(0xff8B53FF),
+                              borderRadius: BorderRadius.circular(13.r),
+                            ),
+                            child: Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Row(
-                                    children: [
-                                      Checkbox(
-                                          value: _isBipoc,
-                                          onChanged: (value) {
-                                            _isBipoc = value!;
-                                            model.providerUser.isBipoc = value;
-                                            setState(() {});
-                                          }),
-                                      Text(
-                                        "BIPOC owned",
-                                        style: bodyTextStyle.copyWith(
-                                            fontFamily: robottoFontTextStyle,
-                                            fontSize: 15.sp,
-                                            color: Colors.black,
-                                            letterSpacing: 0.4,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ],
+                                  Image.asset(
+                                    "$assets/female.png",
+                                    height: 50.h,
+                                    width: 50.w,
                                   ),
-                                  Row(
-                                    children: [
-                                      Checkbox(
-                                          fillColor:
-                                              MaterialStateColor.resolveWith(
-                                                  (states) => Colors.black),
-                                          value: _isOther,
-                                          onChanged: (value) {
-                                            _isOther = value!;
-                                            model.providerUser.isOther = value;
-                                            setState(() {});
-                                          }),
-                                      Text(
-                                        "Other-",
-                                        style: bodyTextStyle.copyWith(
-                                            fontFamily: robottoFontTextStyle,
-                                            fontSize: 15.sp,
-                                            color: Colors.black,
-                                            letterSpacing: 0.4,
-                                            fontWeight: FontWeight.normal),
+                                  SizedBox(
+                                    width: 20.w,
+                                  ),
+                                  Text(
+                                    "SIGN UP",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 40.sp,
+                                        fontWeight: FontWeight.w800,
                                       ),
-                                    ],
-                                  )
+                                    ),
+                                  ),
                                 ],
                               ),
-                              SizedBox(
-                                height: 24,
-                              ),
-
-                              CustomTextField(
-                                  // controller: model.emailController,
-                                  onTap: () {},
-                                  validator: (val) {
-                                    if (val.toString().isEmpty) {
-                                      return 'Invalid Field';
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (val) {
-                                    model.providerUser.address = val;
-                                  },
-                                  hintText: "Address",
-                                  prefixIcon: Container()),
-
-                              SizedBox(
-                                height: 43.h,
-                              ),
-                              RoundedRaisedButton(
-                                textColor: Colors.white,
-                                onPressed: () async {
-                                  model.providerUser.createdAt =
-                                      DateTime.now().toString();
-                                  model.providerUser.fcmToken = fcmToken;
-                                  // Get.to(() => RootProviderScreen());
-                                  if (_formKey.currentState!.validate()) {
-                                    _formKey.currentState!.save();
-                                    await model.createAccount();
-                                    if (model.status) {
-                                      print("SignUp Successfully");
-                                      Get.offAll(() => RootProviderScreen());
-                                    } else {
-                                      Get.dialog(RequestFailedDialog(
-                                        errorMessage: model.errorMessage,
-                                      ));
-                                    }
-                                  }
-                                },
-                                buttonText: "SIGN UP",
-                              ),
-                              TextButton(
-                                  onPressed: () {},
-                                  child: RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                        text:
-                                            "By signing up, you agree to Photo’s ",
-                                        style: bodyTextStyle.copyWith(
-                                            fontFamily: robottoFontTextStyle,
-                                            fontSize: 13.sp,
-                                            color: Colors.black,
-                                            letterSpacing: 0.4,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      TextSpan(
-                                        text: "Terms of Service",
-                                        style: bodyTextStyle.copyWith(
-                                            fontFamily: robottoFontTextStyle,
-                                            fontSize: 13.sp,
-                                            decoration:
-                                                TextDecoration.underline,
-                                            color: Colors.black,
-                                            letterSpacing: 0.4,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      TextSpan(
-                                        text: " and ",
-                                        style: bodyTextStyle.copyWith(
-                                            fontFamily: robottoFontTextStyle,
-                                            fontSize: 13.sp,
-                                            color: Colors.black,
-                                            letterSpacing: 0.4,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      TextSpan(
-                                        text: "Privacy Policy.",
-                                        style: bodyTextStyle.copyWith(
-                                            fontFamily: robottoFontTextStyle,
-                                            fontSize: 13.sp,
-                                            color: Colors.black,
-                                            decoration:
-                                                TextDecoration.underline,
-                                            letterSpacing: 0.4,
-                                            fontWeight: FontWeight.normal),
-                                      )
-                                    ]),
-                                  )),
-                              //   Text(
-                              //     "By signing up, you agree to Photo’s Terms of Service and\nPrivacy Policy.",
-                              //   style: bodyTextStyle.copyWith(
-                              //       fontFamily: robottoFontTextStyle,
-                              //       fontSize: 13.sp,
-                              //       color: Colors.black,
-                              //       letterSpacing: 0.4,
-                              //       fontWeight: FontWeight.normal),
-                              //   textAlign: TextAlign.left,
-                              // ),
-                              // ),
-                              SizedBox(
-                                height: 100.h,
-                              )
-                            ],
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: Text(
+                        "By signing up, you agree to Terms of Service and Privacy Policy",
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
