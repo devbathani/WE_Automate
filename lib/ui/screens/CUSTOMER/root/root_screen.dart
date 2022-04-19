@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/constants/strings.dart';
 import 'package:antonx_flutter_template/core/constants/text_styles.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/home_screens/home_screen.dart';
@@ -148,8 +147,7 @@ class _RootSCustomercreenState extends State<RootSCustomercreen> {
           title: 'Are you sure?',
           content: new Text('Do you want to exit an App'),
           actions: <Widget>[
-            new FlatButton(
-              textColor: primaryColor,
+            new TextButton(
               onPressed: () {
                 Navigator.of(context).pop(false);
                 // _updateConnectionFlag(true);
@@ -161,9 +159,7 @@ class _RootSCustomercreenState extends State<RootSCustomercreen> {
                   )),
             ),
             SizedBox(height: 16),
-            new FlatButton(
-              textColor: Colors.white,
-              color: primaryColor,
+            new TextButton(
               onPressed: () {
                 exit(0);
               },

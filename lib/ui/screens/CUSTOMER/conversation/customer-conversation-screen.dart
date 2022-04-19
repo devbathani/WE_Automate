@@ -44,8 +44,8 @@ class CustomerConversationScreen extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             GestureDetector(
               onTap: () {
@@ -62,18 +62,16 @@ class CustomerConversationScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Chats",
-                  style: GoogleFonts.openSans(
-                    color: Color(0xff8B53FF),
-                    fontSize: 28.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+            SizedBox(
+              width: 70.w,
+            ),
+            Text(
+              "Chats",
+              style: GoogleFonts.openSans(
+                color: Color(0xff8B53FF),
+                fontSize: 28.sp,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),

@@ -16,7 +16,8 @@ class RoundedRaisedButton extends StatelessWidget {
       this.fontWeight = FontWeight.bold,
       this.onPressed,
       this.color = primaryColor,
-      this.textColor = Colors.white});
+      this.textColor = Colors.white,
+      });
   @override
   Widget build(BuildContext context) {
     return Container(

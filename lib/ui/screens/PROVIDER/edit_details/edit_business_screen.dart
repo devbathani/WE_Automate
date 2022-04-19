@@ -1,11 +1,10 @@
 import 'package:antonx_flutter_template/core/constants/colors.dart';
-import 'package:antonx_flutter_template/core/constants/strings.dart';
 import 'package:antonx_flutter_template/core/models/app-user.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/custom_text_field.dart';
-import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/edit_details/edit_business_details_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:antonx_flutter_template/core/constants/text_styles.dart';
@@ -52,27 +51,21 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     GestureDetector(
                       onTap: () {
                         Get.back();
                       },
-                      child: Row(
-                        children: [
-                          ImageContainer(
-                            assets: "$static_assets/back.png",
-                            height: 10,
-                            width: 10,
+                      child: Text(
+                        "Back",
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25.sp,
+                            fontWeight: FontWeight.w800,
                           ),
-                          SizedBox(width: 13.29),
-                          Text(
-                            "BACK",
-                            style: subHeadingTextstyle.copyWith(
-                                fontSize: 13.sp,
-                                letterSpacing: 0.4,
-                                fontFamily: robottoFontTextStyle),
-                          )
-                        ],
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -82,9 +75,12 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
                       children: [
                         Text(
                           "Edit Business Details",
-                          style: headingTextStyle.copyWith(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 25.sp,
+                          style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                              color: Color(0xff8B53FF),
+                              fontSize: 28.sp,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                         )
                       ],
@@ -97,8 +93,7 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
                       child: Column(
                         children: [
                           CustomTextField(
-                            // controller: model.emailController,
-
+                            obscureText: false,
                             validator: (val) {
                               if (val.toString().trim().isEmpty) {
                                 return 'Invalid Field';
@@ -111,31 +106,28 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
                             },
                             hintText: "Name of business",
                           ),
-
-                          // CustomTextField(
-                          //     // controller: model.emailController,
-                          //     onTap: () {},
-                          //     validator: (val) {
-                          //       if (!val.toString().trim().isEmail) {
-                          //         return 'Please Enter a Valid Email';
-                          //       } else {
-                          //         return null;
-                          //       }
-                          //     },
-                          //     onSaved: (val) {
-                          //       appUser.email = val;
-                          //     },
-                          //     hintText: "Email",
-                          //     prefixIcon: Container(),
-                          //     ),
-
                           SizedBox(
                             height: 24,
                           ),
-
                           CustomTextField(
-                            // controller: model.emailController,
-
+                            obscureText: false,
+                            validator: (val) {
+                              if (!val.toString().trim().isEmail) {
+                                return 'Please Enter a Valid Email';
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (val) {
+                              appUser.email = val;
+                            },
+                            hintText: "Email",
+                          ),
+                          SizedBox(
+                            height: 24,
+                          ),
+                          CustomTextField(
+                            obscureText: false,
                             validator: (val) {
                               if (val.toString().trim().isEmpty) {
                                 return 'Invalid Field';
@@ -148,13 +140,11 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
                             },
                             hintText: "Type of business",
                           ),
-
                           SizedBox(
                             height: 24,
                           ),
                           CustomTextField(
-                            // controller: model.emailController,
-
+                            obscureText: false,
                             validator: (val) {
                               if (val.toString().trim().isEmpty) {
                                 return 'Invalid Field';
@@ -167,7 +157,6 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
                             },
                             hintText: "Description / History",
                           ),
-
                           SizedBox(
                             height: 24,
                           ),
@@ -220,10 +209,8 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
                           SizedBox(
                             height: 24,
                           ),
-
                           CustomTextField(
-                            // controller: model.emailController,
-
+                            obscureText: false,
                             validator: (val) {
                               if (val.toString().isEmpty) {
                                 return 'Invalid Field';
@@ -236,7 +223,6 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
                             },
                             hintText: "Address",
                           ),
-
                           SizedBox(
                             height: 43.h,
                           ),

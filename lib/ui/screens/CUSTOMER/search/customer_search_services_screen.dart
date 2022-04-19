@@ -365,54 +365,48 @@ class _CustomerSearchServicesScreenState
                               Positioned(
                                 bottom: 0,
                                 child: Container(
-                                  padding: EdgeInsets.only(right: 20),
                                   height: 120.h,
                                   width: MediaQuery.of(context).size.width,
                                   color: Colors.black26,
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
-                                      horizontal: 10.w,
+                                      horizontal: 5.w,
                                       vertical: 9.h,
                                     ),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Container(
-                                          child: SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  "Desc: ",
-                                                  softWrap: true,
-                                                  style: GoogleFonts.openSans(
-                                                    textStyle: TextStyle(
-                                                      color: Color(0xff8B53FF),
-                                                      fontSize: 15.sp,
-                                                      fontWeight:
-                                                          FontWeight.w800,
-                                                    ),
+                                        SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "Desc: ",
+                                                softWrap: true,
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    color: Color(0xff8B53FF),
+                                                    fontSize: 15.sp,
+                                                    fontWeight: FontWeight.w800,
                                                   ),
                                                 ),
-                                                Text(
-                                                  " ${model.services[index].description}",
-                                                  softWrap: true,
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  textAlign: TextAlign.left,
-                                                  style: GoogleFonts.openSans(
-                                                    textStyle: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15.sp,
-                                                      fontWeight:
-                                                          FontWeight.w800,
-                                                    ),
+                                              ),
+                                              Text(
+                                                " ${model.services[index].description}",
+                                                softWrap: true,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.left,
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15.sp,
+                                                    fontWeight: FontWeight.w800,
                                                   ),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         SizedBox(height: 4.h),
@@ -499,7 +493,7 @@ class _CustomerSearchServicesScreenState
                                                 ),
                                               ),
                                               SizedBox(
-                                                width: 25.w,
+                                                width: 40.w,
                                               ),
                                               Container(
                                                 height: 35.h,
@@ -512,18 +506,7 @@ class _CustomerSearchServicesScreenState
                                                           Color(0xff8B53FF),
                                                     ),
                                                   ),
-                                                  onPressed: () {
-                                                    Get.to(
-                                                      () => CustomerChatScreen(
-                                                        providerId: model
-                                                            .services[index]
-                                                            .providerId,
-                                                        providerName: model
-                                                            .services[index]
-                                                            .providerName,
-                                                      ),
-                                                    );
-                                                  },
+                                                  onPressed: () {},
                                                   child: Text(
                                                     "Message",
                                                     style: GoogleFonts.openSans(
@@ -630,7 +613,7 @@ class _CustomerSearchServicesScreenState
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Availiable Services",
+                "Available Services",
                 style: GoogleFonts.openSans(
                   textStyle: TextStyle(
                     color: Color(0xff8B53FF),
@@ -647,32 +630,35 @@ class _CustomerSearchServicesScreenState
   }
 
   _topAppBar() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: Text(
-              "Back",
-              style: GoogleFonts.openSans(
-                textStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 28.sp,
-                  fontWeight: FontWeight.w800,
+    return Padding(
+      padding: EdgeInsets.only(top: 20.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              child: Text(
+                "Back",
+                style: GoogleFonts.openSans(
+                  textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 28.sp,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        Divider(
-          color: Colors.black,
-          thickness: 5,
-        ),
-      ],
+          Divider(
+            color: Colors.black,
+            thickness: 5,
+          ),
+        ],
+      ),
     );
   }
 }

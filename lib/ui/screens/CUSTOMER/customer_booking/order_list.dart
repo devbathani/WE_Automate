@@ -1,4 +1,3 @@
-import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
 import 'package:antonx_flutter_template/core/models/order_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -92,7 +91,7 @@ class _OrderListScreenState extends State<OrderList> {
                             String date =
                                 DateFormat("EEE dd, MMM yy").format(data.date);
 
-                            var customerName = data.customerName;
+                            var customerName = data.customerName ?? "";
                             var providerName = data.service?.providerName ?? "";
 
                             String name =

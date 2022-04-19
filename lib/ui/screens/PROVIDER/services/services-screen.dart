@@ -75,31 +75,34 @@ class ServicesScreen extends StatelessWidget {
   }
 
   _topAppBar() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: Text(
-              "Back",
-              style: GoogleFonts.openSans(
-                textStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 28.sp,
-                  fontWeight: FontWeight.w800,
+    return Padding(
+      padding: EdgeInsets.only(top: 20.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              child: Text(
+                "Back",
+                style: GoogleFonts.openSans(
+                  textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 28.sp,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        SizedBox(
-          height: 20.h,
-        ),
-      ],
+          SizedBox(
+            height: 20.h,
+          ),
+        ],
+      ),
     );
   }
 
