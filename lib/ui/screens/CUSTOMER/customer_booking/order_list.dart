@@ -91,7 +91,7 @@ class _OrderListScreenState extends State<OrderList> {
                             String date =
                                 DateFormat("EEE dd, MMM yy").format(data.date);
 
-                            var customerName = data.customerName ?? "";
+                            var customerName = data.appUser?.firstName ?? "";
                             var providerName = data.service?.providerName ?? "";
 
                             String name =

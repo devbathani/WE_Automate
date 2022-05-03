@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/constants/text_styles.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/home/home_screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/profile/provider-profile-screen.dart';
@@ -142,7 +141,6 @@ class _RootProviderScreenState extends State<RootProviderScreen> {
           content: new Text('Do you want to exit an App'),
           actions: <Widget>[
             new TextButton(
-           
               onPressed: () {
                 Navigator.of(context).pop(false);
                 // _updateConnectionFlag(true);
@@ -150,19 +148,18 @@ class _RootProviderScreenState extends State<RootProviderScreen> {
               child: Text("NO",
                   style: bodyTextStyle.copyWith(
                     fontSize: 16.sp,
-                    // color: Colors.white,
+                    color: Colors.red,
                   )),
             ),
             SizedBox(height: 16),
             new TextButton(
-             
               onPressed: () {
                 exit(0);
               },
               child: Text("YES",
                   style: bodyTextStyle.copyWith(
                     fontSize: 16.sp,
-                    color: Colors.white,
+                    color: Colors.black,
                   )),
             ),
           ],
@@ -171,10 +168,8 @@ class _RootProviderScreenState extends State<RootProviderScreen> {
   }
 
   void _onItemTapped(int index) {
-    
     setState(() {
       selectedIndex = index;
     });
-    
   }
 }

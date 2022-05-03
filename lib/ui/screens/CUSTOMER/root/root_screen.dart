@@ -155,7 +155,7 @@ class _RootSCustomercreenState extends State<RootSCustomercreen> {
               child: Text("NO",
                   style: bodyTextStyle.copyWith(
                     fontSize: 16.sp,
-                    // color: Colors.white,
+                    color: Colors.red,
                   )),
             ),
             SizedBox(height: 16),
@@ -166,7 +166,7 @@ class _RootSCustomercreenState extends State<RootSCustomercreen> {
               child: Text("YES",
                   style: bodyTextStyle.copyWith(
                     fontSize: 16.sp,
-                    color: Colors.white,
+                    color: Colors.black,
                   )),
             ),
           ],

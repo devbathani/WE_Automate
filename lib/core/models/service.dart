@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class SErvice {
   String? id;
   String? providerId;
+  String? globalId;
   String? title;
   String? providerName;
   String? description;
@@ -25,15 +26,14 @@ class SErvice {
       {this.title,
       this.id,
       this.providerId,
+      this.globalId,
       this.description,
       this.price,
       this.location,
       this.providerName,
       this.imgFile,
       this.category,
-      this.websiteLink,
       this.imgUrl,
-      this.availability,
       this.isBooked,
       this.serviceBookingDate,
       this.isConfirmed,
@@ -42,6 +42,7 @@ class SErvice {
   SErvice.fromJson(json, id) {
     this.id = id;
     providerId = json['providerId'];
+    globalId = json['globalId'];
     title = json['title'];
     providerName = json['providerName'];
     description = json['description'];
@@ -50,9 +51,7 @@ class SErvice {
         ? new Locationn.fromJson(json['location'])
         : null;
     category = json['category'];
-    websiteLink = json['website_link'];
     imgUrl = json['imgUrl'];
-    availability = json['availability'];
     isBooked = json['isBooked'];
     serviceBookingDate = json['serviceBookingDate'];
     isConfirmed = json['isConfirmed'];
@@ -65,6 +64,7 @@ class SErvice {
     data['providerName'] = this.providerName;
     data['description'] = this.description;
     data['providerId'] = this.providerId;
+    data['globalId'] = this.globalId;
     data['price'] = this.price;
     if (this.location != null) {
       data['location'] = this.location!.toJson();
@@ -72,9 +72,7 @@ class SErvice {
       data['location'] = Locationn();
     }
     data['category'] = this.category;
-    data['website_link'] = this.websiteLink;
     data['imgUrl'] = this.imgUrl;
-    data['availability'] = this.availability;
     data['isBooked'] = this.isBooked;
     data['serviceBookingDate'] = this.serviceBookingDate;
     data['isConfirmed'] = this.isConfirmed;

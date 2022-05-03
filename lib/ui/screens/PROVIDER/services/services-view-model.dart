@@ -12,6 +12,7 @@ class ServicesViewModel extends BaseViewModel {
   final _dbService = locator<DatabaseService>();
   final _localStorageService = locator<LocalStorageService>();
   List<SErvice> services = [];
+  late SErvice sErvice;
 
   ServicesViewModel() {
     getAllServices();
@@ -35,8 +36,11 @@ class ServicesViewModel extends BaseViewModel {
       servicesToBeAdded.imgUrl = await uploadImages(
           File(servicesToBeAdded.imgFile!.path), '$fileName');
       //now add to myservices
+
       await _dbService.addToMyServices(servicesToBeAdded, uid);
       await addToGlobalServices(servicesToBeAdded);
+      servicesToBeAdded.globalId = servicesToBeAdded.id;
+      await _dbService.updateMyService(servicesToBeAdded, uid);
       //now after that add it locally as well
       services.add(servicesToBeAdded);
       print("Service length ====> ${services.length}");
@@ -47,7 +51,7 @@ class ServicesViewModel extends BaseViewModel {
     setState(ViewState.idle);
   }
 
-  updateService(SErvice serviceToBeEditted, index) async {
+  updateService(SErvice serviceToBeEditted) async {
     final uid = _localStorageService.accessTokenProvider;
     print("Provider user  uid is======>$uid");
     setState(ViewState.loading);
@@ -59,13 +63,14 @@ class ServicesViewModel extends BaseViewModel {
         serviceToBeEditted.imgUrl = await uploadImages(
             File(serviceToBeEditted.imgFile!.path), '$fileName');
       }
+      //print("Global Service ::::::::::> " + serviceToBeEditted.globalId!);
       //now add to myservices
-      await _dbService.updateMyService(serviceToBeEditted, uid);
-      // await updateInGlobalServices(serviceToBeEditted);
+      // await _dbService.updateMyService(serviceToBeEditted, uid);
+      // await _dbService.updateGlobalService(
+      //   serviceToBeEditted,
+      //   serviceToBeEditted.globalId,
+      // );
       //now after that add it locally as well
-      services[index] = serviceToBeEditted;
-      // servicesToBeAdded = SErvice();
-
     } else {
       print("Sorry your uid is null");
     }
@@ -75,12 +80,6 @@ class ServicesViewModel extends BaseViewModel {
   addToGlobalServices(service) async {
     setState(ViewState.loading);
     await _dbService.addToGlobalServices(service);
-    // setState(ViewState.idle);
-  }
-
-  updateInGlobalServices(edittedService) async {
-    setState(ViewState.loading);
-    await _dbService.updateInGlobalService(edittedService);
     // setState(ViewState.idle);
   }
 

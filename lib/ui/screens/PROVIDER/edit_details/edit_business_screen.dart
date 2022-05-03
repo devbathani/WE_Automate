@@ -1,4 +1,3 @@
-import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/models/app-user.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/custom_text_field.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/edit_details/edit_business_details_view_model.dart';
@@ -6,10 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
 import 'package:antonx_flutter_template/core/constants/text_styles.dart';
-
-import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:get/get.dart';
 
 class EditDetailsScreen extends StatefulWidget {
@@ -226,37 +222,49 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
                           SizedBox(
                             height: 43.h,
                           ),
-                          Container(
-                            height: 26.h,
-                            width: 184.w,
-                            child: RoundedRaisedButton(
-                                buttonText: "Edit Details",
-                                textColor: primaryColor,
-                                color: Colors.white,
-                                onPressed: () async {
-                                  print(":");
-                                  isLoading = true;
+                          InkWell(
+                            onTap: () {
+                              print(":");
+                              isLoading = true;
+                              setState(() {});
+                              Future.delayed(
+                                Duration(seconds: 3),
+                                () async {
+                                  isLoading = false;
                                   setState(() {});
-                                  Future.delayed(
-                                    Duration(seconds: 3),
-                                    () async {
-                                      isLoading = false;
-                                      setState(() {});
-                                      await model
-                                          .updateBusinessDetails(appUser);
-                                      Get.back(result: model);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            "The service has been booked successfully",
-                                          ),
-                                        ),
-                                      );
-                                    },
+                                  await model.updateBusinessDetails(appUser);
+                                  Get.back(result: model);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        "The service has been booked successfully",
+                                      ),
+                                    ),
                                   );
-                                }),
-                          ),
+                                },
+                              );
+                            },
+                            child: Container(
+                              height: 60.h,
+                              width: 250.w,
+                              decoration: BoxDecoration(
+                                color: Color(0XFF8B53FF),
+                                borderRadius: BorderRadius.circular(13.r),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Edit Details",
+                                  style: GoogleFonts.roboto(
+                                    textStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),

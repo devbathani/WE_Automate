@@ -1,10 +1,6 @@
 import 'package:antonx_flutter_template/core/models/reponses/base_responses/request_response.dart';
-import 'package:antonx_flutter_template/core/services/local_storage_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
-import '../../locator.dart';
-import 'auth_service.dart';
 
 class ApiServices {
   Future<Dio> launchDio() async {

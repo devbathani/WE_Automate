@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
 import 'package:antonx_flutter_template/core/constants/strings.dart';
-import 'package:antonx_flutter_template/core/constants/text_styles.dart';
 import 'package:antonx_flutter_template/core/models/availability.dart';
 // import 'package:antonx_flutter_template/core/models/product.dart';
 import 'package:antonx_flutter_template/core/models/service.dart';
@@ -12,13 +10,14 @@ import 'package:antonx_flutter_template/core/services/database_service.dart';
 import 'package:antonx_flutter_template/core/services/local_storage_service.dart';
 import 'package:antonx_flutter_template/core/services/location_service.dart';
 import 'package:antonx_flutter_template/locator.dart';
+import 'package:antonx_flutter_template/ui/custom_widgets/custom_text_field.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/dailogs/request_failed_dailog.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
-import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -146,58 +145,49 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: ImageContainer(
-          assets: "$assets/fab0.png",
-          height: 60.h,
-          width: 60.w,
-          fit: BoxFit.cover,
-        ),
-      ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 60, left: 28.0),
-                child: GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Row(
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 20.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ImageContainer(
-                        assets: "$assets/back.png",
-                        height: 10,
-                        width: 10,
+                      GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          child: Text(
+                            "Back",
+                            style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 28.sp,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                      SizedBox(width: 13.29),
-                      Text(
-                        "BACK",
-                        style: subHeadingTextstyle.copyWith(
-                            fontSize: 13.sp,
-                            letterSpacing: 0.4,
-                            fontFamily: robottoFontTextStyle),
-                      )
+                      SizedBox(
+                        height: 20.h,
+                      ),
                     ],
                   ),
                 ),
-              ),
-
-              ///avatar user one area
-              ///
-              avatarArea(),
-
-              buttonsArea(),
-
-              form(),
-
-              publishButton(),
-            ],
+                avatarArea(),
+                form(),
+                publishButton(),
+              ],
+            ),
           ),
         ),
       ),
@@ -208,12 +198,10 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
     return Stack(
       children: [
         Container(
-          // height: 500.h,
-          // width: 1.sw,
           height: 155.h,
           width: 350.w,
           child: GoogleMap(
-            mapType: MapType.normal,
+            mapType: MapType.satellite,
             initialCameraPosition: initialCameraPosition,
             onMapCreated: (GoogleMapController ctrlr) {
               controller.complete(ctrlr);
@@ -225,11 +213,14 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
         ),
         Align(
           child: IconButton(
-              onPressed: () {
-                _goToCurrentPosition();
-              },
-              icon: Icon(Icons.gps_fixed)),
-        )
+            onPressed: () {
+              _goToCurrentPosition();
+            },
+            icon: Icon(
+              Icons.gps_fixed,
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -239,11 +230,12 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
     var lat = _locationService.currentLocation!.latitude;
     var long = _locationService.currentLocation!.longitude;
     _kLocation = CameraPosition(
-        bearing: 192.8334901395799,
-        target:
-            LatLng(lat, long), //LatLng(37.43296265331129, -122.08832357078792),
-        // tilt: 59.440717697143555,
-        zoom: 19.151926040649414);
+      bearing: 192.8334901395799,
+      target:
+          LatLng(lat, long), //LatLng(37.43296265331129, -122.08832357078792),
+      // tilt: 59.440717697143555,
+      zoom: 19.151926040649414,
+    );
     final GoogleMapController cntrlr = await controller.future;
     cntrlr.animateCamera(CameraUpdate.newCameraPosition(_kLocation));
     setState(() {});
@@ -261,153 +253,71 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
 
   form() {
     return Padding(
-      padding:
-          const EdgeInsets.only(left: 40.0, right: 40.0, bottom: 0, top: 32),
+      padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
       child: Column(
         children: [
-          Container(
-            alignment: Alignment.center,
-            height: 46.h,
-            decoration: BoxDecoration(color: Colors.grey.withOpacity(0.2)),
-            child: TextFormField(
-              textAlign: TextAlign.center,
-              validator: (value) {
-                if (value.toString().isEmpty) {
-                  return "Invalid field";
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                serviceToBeAdded.title = value;
-              },
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "TITLE OF SERVICE",
-                  contentPadding: EdgeInsets.only(bottom: 4.h),
-                  hintStyle: headingTextStyle.copyWith(
-                    fontSize: 13,
-                    fontFamily: robottoFontTextStyle,
-                  )),
-            ),
+          CustomTextField(
+            hintText: "Title of Service",
+            validator: (value) {
+              if (value.toString().isEmpty) {
+                return "Invalid field";
+              } else {
+                return null;
+              }
+            },
+            onSaved: (value) {
+              serviceToBeAdded.title = value;
+            },
+            obscureText: false,
           ),
           SizedBox(height: 20.h),
-          Container(
-            alignment: Alignment.center,
-            height: 132.h,
-            decoration: BoxDecoration(color: Colors.grey.withOpacity(0.2)),
-            child: TextFormField(
-              validator: (value) {
-                if (value.toString().isEmpty) {
-                  return "Invalid field";
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                serviceToBeAdded.description = value;
-              },
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "SERVICE DESCRIPTION",
-                  contentPadding: EdgeInsets.only(bottom: 4.h),
-                  hintStyle: headingTextStyle.copyWith(
-                    fontSize: 13,
-                    fontFamily: robottoFontTextStyle,
-                  )),
-            ),
+          CustomTextField(
+            hintText: "Service Description",
+            validator: (value) {
+              if (value.toString().isEmpty) {
+                return "Invalid field";
+              } else {
+                return null;
+              }
+            },
+            onSaved: (value) {
+              serviceToBeAdded.description = value;
+            },
+            obscureText: false,
           ),
           SizedBox(height: 20.h),
-          Container(
-            alignment: Alignment.center,
-            height: 46.h,
-            decoration: BoxDecoration(color: Colors.grey.withOpacity(0.2)),
-            child: TextFormField(
-              validator: (value) {
-                if (value.toString().isEmpty) {
-                  return "Invalid field";
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                serviceToBeAdded.price = value ;
-              },
-              textAlign: TextAlign.center,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "PRICE",
-                  contentPadding: EdgeInsets.only(bottom: 4.h),
-                  hintStyle: headingTextStyle.copyWith(
-                    fontSize: 13,
-                    fontFamily: robottoFontTextStyle,
-                  )),
-            ),
+          CustomTextField(
+            hintText: "Price",
+            validator: (value) {
+              if (value.toString().isEmpty) {
+                return "Invalid field";
+              } else {
+                return null;
+              }
+            },
+            onSaved: (value) {
+              serviceToBeAdded.price = value;
+            },
+            obscureText: false,
           ),
           SizedBox(height: 20.h),
-          // ImageContainer(
-          //   assets: "$assets/map.png",
-          //   height: 155.h,
-          //   width: 1.sw,
-          // ),
+          CustomTextField(
+            hintText: "Category",
+            validator: (value) {
+              if (value.toString().isEmpty) {
+                return "Invalid field";
+              } else {
+                return null;
+              }
+            },
+            onSaved: (value) {
+              serviceToBeAdded.category = value;
+            },
+            obscureText: false,
+          ),
+          SizedBox(height: 20.h),
           googleMap(),
           SizedBox(height: 20.h),
-          Container(
-            alignment: Alignment.center,
-            height: 46.h,
-            decoration: BoxDecoration(color: Colors.grey.withOpacity(0.2)),
-            child: TextFormField(
-              validator: (value) {
-                if (value.toString().isEmpty) {
-                  return "Invalid field";
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                serviceToBeAdded.category = value;
-              },
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "CATEGORY",
-                  contentPadding: EdgeInsets.only(bottom: 4.h),
-                  hintStyle: headingTextStyle.copyWith(
-                    fontSize: 13,
-                    fontFamily: robottoFontTextStyle,
-                  )),
-            ),
-          ),
-          SizedBox(height: 20.h),
-          Container(
-            alignment: Alignment.center,
-            height: 46.h,
-            decoration: BoxDecoration(color: Colors.grey.withOpacity(0.2)),
-            child: TextFormField(
-              validator: (value) {
-                if (value.toString().isEmpty) {
-                  return "Invalid field";
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                serviceToBeAdded.websiteLink = value;
-              },
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "WEBSITE LINK",
-                  contentPadding: EdgeInsets.only(bottom: 4.h),
-                  hintStyle: headingTextStyle.copyWith(
-                    fontSize: 13,
-                    fontFamily: robottoFontTextStyle,
-                  )),
-            ),
-          ),
-          SizedBox(height: 40.h),
           GestureDetector(
             onTap: () {
               _showPicker(context);
@@ -426,79 +336,6 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                   ),
           ),
           SizedBox(
-            height: 22.h,
-          ),
-          Row(
-            children: [
-              Text(
-                "Add Service Availability".toUpperCase(),
-                style: headingTextStyle.copyWith(
-                  fontSize: 13,
-                  fontFamily: robottoFontTextStyle,
-                ),
-              ),
-              SizedBox(width: 12.w),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              // " green : meaning avalaible product- yellow : available soon and red : Not avaialble"
-
-              children: List.generate(
-                availableOptions.length,
-                (index) => GestureDetector(
-                  onTap: () {
-                    print("tapped===>");
-                    for (int i = 0; i < availableOptions.length; i++) {
-                      if (i == index) {
-                        availableOptions[i].isSelected = true;
-                        serviceToBeAdded.availability =
-                            availableOptions[i].label;
-                        print(availableOptions[i].isSelected);
-                      } else {
-                        availableOptions[i].isSelected = false;
-                      }
-
-                      print(availableOptions[i].isSelected);
-                    }
-                    setState(() {});
-                  },
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 26.h,
-                        width: 26.w,
-                        padding: availableOptions[index].isSelected!
-                            ? EdgeInsets.all(4.0)
-                            : EdgeInsets.zero,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                color: availableOptions[index].isSelected!
-                                    ? Colors.black
-                                    : Colors.transparent)),
-                        child: Container(
-                            height: 23.h,
-                            width: 23.w,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: availableOptions[index].color)),
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text("${availableOptions[index].label}",
-                          style: bodyTextStyle.copyWith(
-                              fontSize: 12.sp,
-                              fontFamily: robottoFontTextStyle))
-                    ],
-                  ),
-                ),
-              )),
-          SizedBox(
             height: 25.h,
           ),
         ],
@@ -512,48 +349,73 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            height: 26.h,
-            width: 172.w,
-            child: RoundedRaisedButton(
-              buttonText: "PUBLISH",
-              color: Colors.white,
-              textColor: primaryColor,
-              onPressed: () {
-                print(":");
-                // Get.offAll(() => RootProviderScreen(
-                //   index: 4,
-                // ));
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  if (_image != null) {
-                    final providerName =
-                        "${locator<AuthService>().providerProfile!.businessName}";
-                    serviceToBeAdded.providerName = providerName;
-                    serviceToBeAdded.imgFile = _image;
-                    serviceToBeAdded.isBooked = 'No';
-                    serviceToBeAdded.serviceBookingDate = Timestamp.now();
-                    serviceToBeAdded.isConfirmed = 'No';
-                    serviceToBeAdded.fcmToken = fcmToken;
-                    print(serviceToBeAdded.serviceBookingDate);
-                    serviceToBeAdded.providerId =
-                        locator<LocalStorageService>().accessTokenProvider;
-                    serviceToBeAdded.location = Locationn(
-                      lat:
-                          _locationService.currentLocation!.latitude.toString(),
-                      long: _locationService.currentLocation!.longitude
-                          .toString(),
-                    );
-                    Get.back(result: serviceToBeAdded);
-                  } else {
-                    Get.dialog(
-                      RequestFailedDialog(
-                        errorMessage: "add image before moving ahead",
-                      ),
-                    );
-                  }
+          InkWell(
+            onTap: () async {
+              print(":");
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
+                if (_image != null) {
+                  final providerName =
+                      "${locator<AuthService>().providerProfile!.businessName}";
+                  serviceToBeAdded.providerName = providerName;
+                  serviceToBeAdded.imgFile = _image;
+                  serviceToBeAdded.isBooked = 'No';
+                  serviceToBeAdded.serviceBookingDate = Timestamp.now();
+                  serviceToBeAdded.isConfirmed = 'No';
+                  serviceToBeAdded.fcmToken = fcmToken;
+
+                  serviceToBeAdded.providerId =
+                      locator<LocalStorageService>().accessTokenProvider;
+                  serviceToBeAdded.location = Locationn(
+                    lat: _locationService.currentLocation!.latitude.toString(),
+                    long:
+                        _locationService.currentLocation!.longitude.toString(),
+                  );
+                  Get.back(result: serviceToBeAdded);
+                } else {
+                  Get.dialog(
+                    RequestFailedDialog(
+                      errorMessage: "add image before moving ahead",
+                    ),
+                  );
                 }
-              },
+              }
+            },
+            child: Container(
+              height: 70.h,
+              width: 330.w,
+              decoration: BoxDecoration(
+                color: Color(0xff8B53FF),
+                borderRadius: BorderRadius.circular(13.r),
+              ),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 60.w,
+                    ),
+                    Image.asset(
+                      "$assets/female.png",
+                      height: 50.h,
+                      width: 50.w,
+                    ),
+                    SizedBox(
+                      width: 20.w,
+                    ),
+                    Text(
+                      "Publish",
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 40.sp,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ],
@@ -562,82 +424,22 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
   }
 
   avatarArea() {
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          height: 30.h,
-        ),
-        ImageContainer(
-          assets: "$assets/avatar.png",
-          height: 128.h,
-          width: 128.w,
-          fit: BoxFit.contain,
-        ),
-        SizedBox(
-          height: 13.h,
+          height: 20.h,
         ),
         Text(
-          "Provider",
-          style: bodyTextStyle.copyWith(
-            fontSize: 36.sp,
-          ),
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 80.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                child: Text(
-                  "${locator<LocationService>().address}".toUpperCase(),
-                  // "Toronto, CA".toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: headingTextStyle.copyWith(
-                      height: 1.6,
-                      fontSize: 13.sp,
-                      fontFamily: robottoFontTextStyle),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
-        Text(
-          "${locator<AuthService>().providerProfile!.businessName!}"
-              .toUpperCase(),
-          style: headingTextStyle.copyWith(
-              fontSize: 13.sp, fontFamily: robottoFontTextStyle),
-        ),
-      ],
-    );
-  }
-
-  buttonsArea() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SizedBox(height: 24.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 26.h,
-              width: 172.w,
-              child: RoundedRaisedButton(
-                  buttonText: "ADD NEW SERVICE LIST",
-                  color: Colors.white,
-                  textColor: primaryColor,
-                  onPressed: () {
-                    print(":");
-                  }),
+          "Add Service Details",
+          style: GoogleFonts.openSans(
+            textStyle: TextStyle(
+              color: Colors.black,
+              fontSize: 30.sp,
+              fontWeight: FontWeight.w800,
             ),
-          ],
-        )
+          ),
+        ),
       ],
     );
   }

@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
       ],
       child: ScreenUtilInit(
         designSize: Size(375, 812),
-        builder: () => MaterialApp(
+        builder: () => MaterialApp(   
           debugShowCheckedModeBanner: false,
           //translations: LocalizationService(),
           locale: Locale("en"),

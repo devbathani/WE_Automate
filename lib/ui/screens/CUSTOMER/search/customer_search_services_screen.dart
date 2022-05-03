@@ -43,6 +43,7 @@ class _CustomerSearchServicesScreenState
                   top: 40.0,
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _topAppBar(),
                     searchTextField(model),
@@ -306,6 +307,7 @@ class _CustomerSearchServicesScreenState
             ),
           )
         : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ...List.generate(
                 model.services.length,
@@ -317,7 +319,7 @@ class _CustomerSearchServicesScreenState
                     ),
                     child: Container(
                       height: 300.h,
-                      width: w,
+                      width: Get.width,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -351,7 +353,7 @@ class _CustomerSearchServicesScreenState
                                 },
                                 child: Container(
                                   height: 250.h,
-                                  width: 340.w,
+                                  width: Get.width,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12.r),
                                   ),
@@ -366,7 +368,7 @@ class _CustomerSearchServicesScreenState
                                 bottom: 0,
                                 child: Container(
                                   height: 120.h,
-                                  width: MediaQuery.of(context).size.width,
+                                  width: Get.width,
                                   color: Colors.black26,
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
@@ -445,7 +447,7 @@ class _CustomerSearchServicesScreenState
                                           ),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                                MainAxisAlignment.spaceEvenly,
                                             children: [
                                               Container(
                                                 height: 35.h,
@@ -493,7 +495,7 @@ class _CustomerSearchServicesScreenState
                                                 ),
                                               ),
                                               SizedBox(
-                                                width: 40.w,
+                                                width: 10.w,
                                               ),
                                               Container(
                                                 height: 35.h,
@@ -506,7 +508,17 @@ class _CustomerSearchServicesScreenState
                                                           Color(0xff8B53FF),
                                                     ),
                                                   ),
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    Get.to(
+                                                      () => CustomerChatScreen(
+                                                          providerId: model
+                                                              .services[index]
+                                                              .providerId,
+                                                          providerName: model
+                                                              .services[index]
+                                                              .providerName),
+                                                    );
+                                                  },
                                                   child: Text(
                                                     "Message",
                                                     style: GoogleFonts.openSans(

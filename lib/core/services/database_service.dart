@@ -336,6 +336,18 @@ class DatabaseService {
     }
   }
 
+  Future<void> updateGlobalService(SErvice edittedService, uid) async {
+    print('@updateMyService: =======serviceid==> ${edittedService.id}}');
+    try {
+      await firestoreRef
+          .collection('global_services')
+          .doc(uid)
+          .update(edittedService.toJson());
+    } catch (e) {
+      print('Exception @updateMyService: $e');
+    }
+  }
+
   Future<void> addToGlobalProducts(Product product) async {
     print('@addToGlobalProducts:}');
     try {
@@ -471,7 +483,8 @@ class DatabaseService {
     }
   }
 
-  Future<bool> bookOrder(uid, consumer, schId, slotId,serviceId,date,paid, String firstName) async {
+  Future<bool> bookOrder(uid, consumer, schId, slotId, serviceId, date, paid,
+      String firstName) async {
     print("bookOrder schId $schId slotId $slotId");
     try {
       List<SErvice> services = [];
@@ -482,9 +495,9 @@ class DatabaseService {
         "scheduleId": schId,
         "timeslotId": slotId,
         "serviceId": serviceId,
-        "date":date,
+        "date": date,
         "status": "pending",
-        "isPaid":paid,
+        "isPaid": paid,
       }).then((value) async {
         DocumentSnapshot snapshot =
             await firestoreRef.collection('provider_slot').doc(uid).get();
@@ -501,20 +514,22 @@ class DatabaseService {
     }
   }
 
-  Future<bool> bookingAction(uid, consumer, schId, slotId,OrderData orderData) async {
+  Future<bool> bookingAction(
+      uid, consumer, schId, slotId, OrderData orderData) async {
     print("getProviderSlots");
     try {
       DocumentSnapshot snapshot =
-      await firestoreRef.collection('provider_slot').doc(uid).get();
+          await firestoreRef.collection('provider_slot').doc(uid).get();
       var data = snapshot.data() as Map<String, dynamic>;
       data["slots"][slotId]["status"] = "${orderData.status}";
       await firestoreRef.collection('provider_slot').doc(uid).update(data);
 
-     await firestoreRef
-          .collection('order').doc("${orderData.orderId}").update(orderData.toJson());
+      await firestoreRef
+          .collection('order')
+          .doc("${orderData.orderId}")
+          .update(orderData.toJson());
 
-    return true;
-
+      return true;
     } catch (e, s) {
       debugPrintStack(stackTrace: s);
       print("Exception/getGlobalServices=========> $e, $s");
@@ -522,17 +537,18 @@ class DatabaseService {
     }
   }
 
-  Future<ScheduleInfoData?> getScheduleInfo(uid,{bool isProvider=false}) async {
+  Future<ScheduleInfoData?> getScheduleInfo(uid,
+      {bool isProvider = false}) async {
     print("getProviderSlots");
     try {
-      var schedule = await firestoreRef.collection("provider_slot").doc(uid).get();
-      if(schedule.data()!=null){
-        return ScheduleInfoData.fromJson(schedule.data() as Map<String,dynamic>);
-      }else{
+      var schedule =
+          await firestoreRef.collection("provider_slot").doc(uid).get();
+      if (schedule.data() != null) {
+        return ScheduleInfoData.fromJson(
+            schedule.data() as Map<String, dynamic>);
+      } else {
         return null;
       }
-
-
     } catch (e, s) {
       debugPrintStack(stackTrace: s);
       print("Exception/getGlobalServices=========> $e, $s");
@@ -540,28 +556,39 @@ class DatabaseService {
     }
   }
 
-  Future<List<OrderData>> getOrders(uid,{bool isProvider=false}) async {
+  Future<List<OrderData>> getOrders(uid, {bool isProvider = false}) async {
     print("getProviderSlots $uid provider:$isProvider");
     try {
-      List<OrderData> orderList= [];
+      List<OrderData> orderList = [];
       QuerySnapshot querySnap = await firestoreRef
-          .collection('order').where(isProvider?"providerId":"consumerId",isEqualTo: uid).get();
+          .collection('order')
+          .where(isProvider ? "providerId" : "consumerId", isEqualTo: uid)
+          .get();
 
-
-
-
-      for(var element in querySnap.docs){
-        var schedule = await firestoreRef.collection("provider_slot").doc((element.data()! as Map)["providerId"]).get();
-        var serviceInfo = await firestoreRef.collection("global_services").doc((element.data()! as Map)["serviceId"]).get();
-        orderList.add(OrderData.fromJson(element.data() as Map<String,dynamic>)
-          ..orderId=element.id
-          ..schedule = ScheduleInfoData.fromJson(schedule.data() as Map<String, dynamic>)
-            ..service = SErvice.fromJson(serviceInfo, (element.data()! as Map)["serviceId"])
-        );
+      for (var element in querySnap.docs) {
+        var schedule = await firestoreRef
+            .collection("provider_slot")
+            .doc((element.data()! as Map)["providerId"])
+            .get();
+        var customer = await firestoreRef
+            .collection("customer_user")
+            .doc((element.data()! as Map)["consumerId"])
+            .get();
+        var serviceInfo = await firestoreRef
+            .collection("global_services")
+            .doc((element.data()! as Map)["serviceId"])
+            .get();
+        orderList.add(OrderData.fromJson(element.data() as Map<String, dynamic>)
+          ..orderId = element.id
+          ..schedule =
+              ScheduleInfoData.fromJson(schedule.data() as Map<String, dynamic>)
+          ..service = SErvice.fromJson(
+              serviceInfo, (element.data()! as Map)["serviceId"])
+          ..appUser = AppUser.fromJsonCustomer(
+              customer, (element.data()! as Map)["consumerId"]));
       }
 
-
-    return orderList;
+      return orderList;
     } catch (e, s) {
       debugPrintStack(stackTrace: s);
       print("Exception/getGlobalServices=========> $e, $s");

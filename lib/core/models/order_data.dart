@@ -1,3 +1,4 @@
+import 'package:antonx_flutter_template/core/models/app-user.dart';
 import 'package:antonx_flutter_template/core/models/schedule_info.dart';
 import 'package:antonx_flutter_template/core/models/service.dart';
 
@@ -25,6 +26,7 @@ class OrderData {
   DateTime date;
   ScheduleInfoData? schedule;
   SErvice? service;
+  AppUser? appUser;
   bool isPaid;
 
   factory OrderData.fromJson(Map<String, dynamic> json) => OrderData(
@@ -34,10 +36,10 @@ class OrderData {
         timeslotId: json["timeslotId"],
         serviceId: json["serviceId"],
         status: json["status"],
-    customerName: json["customerName"]??"",
-    isPaid: json["isPaid"]??false,
-        date:  DateTime.fromMillisecondsSinceEpoch(
-  json["date"].millisecondsSinceEpoch),
+        customerName: json["customerName"] ?? "",
+        isPaid: json["isPaid"] ?? false,
+        date: DateTime.fromMillisecondsSinceEpoch(
+            json["date"].millisecondsSinceEpoch),
       );
 
   Map<String, dynamic> toJson() => {
@@ -48,7 +50,8 @@ class OrderData {
         "serviceId": serviceId,
         "isPaid": isPaid,
         "customerName": customerName,
-        "status": status,        "date":  DateTime.fromMillisecondsSinceEpoch(
-        date.millisecondsSinceEpoch),
+        "status": status,
+        "date":
+            DateTime.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch),
       };
 }

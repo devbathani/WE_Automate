@@ -2,7 +2,6 @@ import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
 import 'package:antonx_flutter_template/core/constants/strings.dart';
 import 'package:antonx_flutter_template/core/enums/view_state.dart';
-import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/services/add_services/add-service-screen.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,15 +24,6 @@ class ServicesScreen extends StatelessWidget {
           inAsyncCall: model.state == ViewState.loading,
           child: SafeArea(
             child: Scaffold(
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {},
-                child: ImageContainer(
-                  assets: "$assets/fab0.png",
-                  height: 60.h,
-                  width: 60.w,
-                  fit: BoxFit.cover,
-                ),
-              ),
               body: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Column(
@@ -41,16 +31,10 @@ class ServicesScreen extends StatelessWidget {
                   children: [
                     _topAppBar(),
                     buttonsArea(model),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        galleryView(model),
-                        model.services.length < 6 &&
-                                model.state == ViewState.idle
-                            ? SizedBox(height: 100.h)
-                            : seeMoreButton(),
-                      ],
-                    )
+                    galleryView(model),
+                    model.services.length < 6 && model.state == ViewState.idle
+                        ? SizedBox(height: 100.h)
+                        : seeMoreButton()
                   ],
                 ),
               ),
@@ -166,103 +150,111 @@ class ServicesScreen extends StatelessWidget {
     );
   }
 
-  addServiceTile(model) {
-    return GestureDetector(
-      onTap: () async {
-        final serviceToBeAdded = await Get.to(() => AddServiceScreen()) ?? null;
-        if (serviceToBeAdded != null) {
-          await model.addToMyServices(serviceToBeAdded);
-        } else {
-          print("Service is not added ===> null");
-        }
-      },
-      child: Container(
-          margin: const EdgeInsets.all(3),
-          padding: EdgeInsets.only(left: 5.w, bottom: 5.w),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(0),
-              shape: BoxShape.rectangle,
-              color: Colors.grey.withOpacity(0.4)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.add,
-                size: 80.0,
-                color: Colors.grey.withOpacity(0.8),
-              )
-            ],
-          )),
-    );
-  }
-
   galleryView(ServicesViewModel model) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ...List.generate(
           model.services.length,
           (index) {
             return Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: 10.w,
+                horizontal: 15.w,
                 vertical: 5.h,
               ),
-              child: Container(
-                height: 300.h,
-                width: w,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      model.services[index].title!,
-                      style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                          color: Color(0xff8B53FF),
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15.h,
-                    ),
-                    Stack(
+              child: Stack(
+                children: [
+                  Container(
+                    height: 300.h,
+                    width: Get.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          height: 250.h,
-                          width: 340.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                          child: FadeInImage.assetNetwork(
-                            placeholder: '$assets/placeholder.jpeg',
-                            image: model.services[index].imgUrl!,
-                            fit: BoxFit.fill,
+                        Text(
+                          model.services[index].title!,
+                          style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                              color: Color(0xff8B53FF),
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                         ),
-                        Positioned(
-                          bottom: 0,
-                          child: Container(
-                            padding: EdgeInsets.only(right: 20),
-                            height: 90.h,
-                            width: w,
-                            color: Colors.black26,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 10.w,
-                                vertical: 9.h,
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        Stack(
+                          fit: StackFit.loose,
+                          children: [
+                            Container(
+                              height: 250.h,
+                              width: 340.w,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12.r),
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
+                              child: FadeInImage.assetNetwork(
+                                placeholder: '$assets/placeholder.jpeg',
+                                image: model.services[index].imgUrl!,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              child: Container(
+                                padding: EdgeInsets.only(right: 20),
+                                height: 90.h,
+                                width: w,
+                                color: Colors.black26,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 10.w,
+                                    vertical: 9.h,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "Desc: ",
+                                                softWrap: true,
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    color: Color(0xff8B53FF),
+                                                    fontSize: 15.sp,
+                                                    fontWeight: FontWeight.w800,
+                                                  ),
+                                                ),
+                                              ),
+                                              Text(
+                                                " ${model.services[index].description}",
+                                                softWrap: true,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.left,
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15.sp,
+                                                    fontWeight: FontWeight.w800,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 4.h),
+                                      Row(
                                         children: [
                                           Text(
-                                            "Desc: ",
-                                            softWrap: true,
+                                            "Price: ",
+                                            // "Price: 50 CAD",
+                                            overflow: TextOverflow.ellipsis,
                                             style: GoogleFonts.openSans(
                                               textStyle: TextStyle(
                                                 color: Color(0xff8B53FF),
@@ -272,11 +264,8 @@ class ServicesScreen extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            " ${model.services[index].description}",
-                                            softWrap: true,
-                                            maxLines: 2,
+                                            " ${model.services[index].price} CAD",
                                             overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.left,
                                             style: GoogleFonts.openSans(
                                               textStyle: TextStyle(
                                                 color: Colors.white,
@@ -287,73 +276,71 @@ class ServicesScreen extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 4.h),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Price: ",
-                                        // "Price: 50 CAD",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
-                                            color: Color(0xff8B53FF),
-                                            fontSize: 15.sp,
-                                            fontWeight: FontWeight.w800,
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "CAT: ",
+                                            // "Price: 50 CAD",
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.openSans(
+                                              textStyle: TextStyle(
+                                                color: Color(0xff8B53FF),
+                                                fontSize: 15.sp,
+                                                fontWeight: FontWeight.w800,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      Text(
-                                        " ${model.services[index].price} CAD",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15.sp,
-                                            fontWeight: FontWeight.w800,
+                                          Text(
+                                            " ${model.services[index].category} ",
+                                            // "Price: 50 CAD",
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.openSans(
+                                              textStyle: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15.sp,
+                                                fontWeight: FontWeight.w800,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "CAT: ",
-                                        // "Price: 50 CAD",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
-                                            color: Color(0xff8B53FF),
-                                            fontSize: 15.sp,
-                                            fontWeight: FontWeight.w800,
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        " ${model.services[index].category} ",
-                                        // "Price: 50 CAD",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15.sp,
-                                            fontWeight: FontWeight.w800,
-                                          ),
-                                        ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  // Positioned(
+                  //   top: 50.h,
+                  //   right: 5.w,
+                  //   child: InkWell(
+                  //     onTap: () async {
+                  //       Get.to(() => EditServiceScreen(
+                  //             service: model.services[index],
+                  //           ));
+                  //     },
+                  //     child: Container(
+                  //       height: 60.h,
+                  //       width: 60.w,
+                  //       decoration: BoxDecoration(
+                  //         color: Colors.white,
+                  //         shape: BoxShape.circle,
+                  //       ),
+                  //       child: Center(
+                  //         child: Icon(
+                  //           Icons.edit,
+                  //           color: Color(0xff8B53FF),
+                  //           size: 30.sp,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                ],
               ),
             );
           },

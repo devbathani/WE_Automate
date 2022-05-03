@@ -1,25 +1,26 @@
 import 'dart:async';
 import 'dart:io';
-
-import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
 import 'package:antonx_flutter_template/core/constants/strings.dart';
-import 'package:antonx_flutter_template/core/constants/text_styles.dart';
 import 'package:antonx_flutter_template/core/models/availability.dart';
-// import 'package:antonx_flutter_template/core/models/product.dart';
 import 'package:antonx_flutter_template/core/models/service.dart';
 import 'package:antonx_flutter_template/core/services/auth_service.dart';
 import 'package:antonx_flutter_template/core/services/database_service.dart';
 import 'package:antonx_flutter_template/core/services/local_storage_service.dart';
 import 'package:antonx_flutter_template/core/services/location_service.dart';
 import 'package:antonx_flutter_template/locator.dart';
-import 'package:antonx_flutter_template/ui/custom_widgets/dailogs/request_failed_dailog.dart';
-import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
-import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
+import 'package:antonx_flutter_template/ui/screens/PROVIDER/services/services-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../../core/enums/view_state.dart';
+import '../../../../custom_widgets/custom_text_field.dart';
+import '../services-view-model.dart';
 
 class EditServiceScreen extends StatefulWidget {
   final SErvice? service;
@@ -65,7 +66,6 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
       }
     }
     init();
-    // TODO: implement initState
     super.initState();
   }
 
@@ -87,7 +87,7 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
   final picker = ImagePicker();
   _imgFromCamera() async {
     final pickedFile =
-        await picker.getImage(source: ImageSource.camera, imageQuality: 50);
+        await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
 
     setState(() {
       if (pickedFile != null)
@@ -99,7 +99,7 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
 
   _imgFromGallery() async {
     final pickedFile =
-        await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
 
     setState(() {
       if (pickedFile != null)
@@ -141,58 +141,57 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: ImageContainer(
-          assets: "$assets/fab0.png",
-          height: 60.h,
-          width: 60.w,
-          fit: BoxFit.cover,
-        ),
-      ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 60, left: 28.0),
-                child: GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Row(
+    return ChangeNotifierProvider(
+      create: (context) => ServicesViewModel(),
+      child: Consumer<ServicesViewModel>(
+        builder: (context, model, child) => ModalProgressHUD(
+          inAsyncCall: model.state == ViewState.loading,
+          child: SafeArea(
+            child: Scaffold(
+              body: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ImageContainer(
-                        assets: "$assets/back.png",
-                        height: 10,
-                        width: 10,
+                      Padding(
+                        padding: EdgeInsets.only(top: 20.h),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                child: Text(
+                                  "Back",
+                                  style: GoogleFonts.openSans(
+                                    textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 28.sp,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(width: 13.29),
-                      Text(
-                        "BACK",
-                        style: subHeadingTextstyle.copyWith(
-                            fontSize: 13.sp,
-                            letterSpacing: 0.4,
-                            fontFamily: robottoFontTextStyle),
-                      )
+                      avatarArea(),
+                      form(),
+                      publishButton(model),
                     ],
                   ),
                 ),
               ),
-
-              ///avatar user one area
-              ///
-              avatarArea(),
-
-              buttonsArea(),
-
-              form(),
-
-              publishButton(),
-            ],
+            ),
           ),
         ),
       ),
@@ -256,160 +255,76 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
 
   form() {
     return Padding(
-      padding:
-          const EdgeInsets.only(left: 62.0, right: 62.0, bottom: 0, top: 32),
+      padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
       child: Column(
         children: [
-          Container(
-            alignment: Alignment.center,
-            height: 46.h,
-            decoration: BoxDecoration(color: Colors.grey.withOpacity(0.2)),
-            child: TextFormField(
-              controller: TextEditingController(text: widget.service!.title),
-              textAlign: TextAlign.center,
-              validator: (value) {
-                if (value.toString().isEmpty) {
-                  return "Invalid field";
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                widget.service!.title = value;
-              },
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "TITLE OF SERVICE",
-                  contentPadding: EdgeInsets.only(bottom: 4.h),
-                  hintStyle: headingTextStyle.copyWith(
-                    fontSize: 13,
-                    fontFamily: robottoFontTextStyle,
-                  )),
-            ),
+          CustomTextField(
+            controller: TextEditingController(text: widget.service!.title),
+            hintText: "Title of Service",
+            validator: (value) {
+              if (value.toString().isEmpty) {
+                return "Invalid field";
+              } else {
+                return null;
+              }
+            },
+            onSaved: (value) {
+              widget.service!.title = value;
+            },
+            obscureText: false,
           ),
           SizedBox(height: 20.h),
-          Container(
-            alignment: Alignment.center,
-            height: 132.h,
-            decoration: BoxDecoration(color: Colors.grey.withOpacity(0.2)),
-            child: TextFormField(
-              controller:
-                  TextEditingController(text: widget.service!.description),
-              validator: (value) {
-                if (value.toString().isEmpty) {
-                  return "Invalid field";
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                widget.service!.description = value;
-              },
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "SERVICE DESCRIPTION",
-                  contentPadding: EdgeInsets.only(bottom: 4.h),
-                  hintStyle: headingTextStyle.copyWith(
-                    fontSize: 13,
-                    fontFamily: robottoFontTextStyle,
-                  )),
-            ),
+          CustomTextField(
+            controller:
+                TextEditingController(text: widget.service!.description),
+            hintText: "Service Description",
+            validator: (value) {
+              if (value.toString().isEmpty) {
+                return "Invalid field";
+              } else {
+                return null;
+              }
+            },
+            onSaved: (value) {
+              widget.service!.description = value;
+            },
+            obscureText: false,
           ),
           SizedBox(height: 20.h),
-          Container(
-            alignment: Alignment.center,
-            height: 46.h,
-            decoration: BoxDecoration(color: Colors.grey.withOpacity(0.2)),
-            child: TextFormField(
-              controller: TextEditingController(text: widget.service!.price),
-              validator: (value) {
-                if (value.toString().isEmpty) {
-                  return "Invalid field";
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                widget.service!.price = value;
-              },
-              textAlign: TextAlign.center,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "PRICE",
-                  contentPadding: EdgeInsets.only(bottom: 4.h),
-                  hintStyle: headingTextStyle.copyWith(
-                    fontSize: 13,
-                    fontFamily: robottoFontTextStyle,
-                  )),
-            ),
+          CustomTextField(
+            controller: TextEditingController(text: widget.service!.price),
+            hintText: "Price",
+            validator: (value) {
+              if (value.toString().isEmpty) {
+                return "Invalid field";
+              } else {
+                return null;
+              }
+            },
+            onSaved: (value) {
+              widget.service!.price = value;
+            },
+            obscureText: false,
           ),
           SizedBox(height: 20.h),
-          // ImageContainer(
-          //   assets: "$assets/map.png",
-          //   height: 155.h,
-          //   width: 1.sw,
-          // ),
+          CustomTextField(
+            controller: TextEditingController(text: widget.service!.category),
+            hintText: "Category",
+            validator: (value) {
+              if (value.toString().isEmpty) {
+                return "Invalid field";
+              } else {
+                return null;
+              }
+            },
+            onSaved: (value) {
+              widget.service!.category = value;
+            },
+            obscureText: false,
+          ),
+          SizedBox(height: 20.h),
           googleMap(),
           SizedBox(height: 20.h),
-          Container(
-            alignment: Alignment.center,
-            height: 46.h,
-            decoration: BoxDecoration(color: Colors.grey.withOpacity(0.2)),
-            child: TextFormField(
-              controller: TextEditingController(text: widget.service!.category),
-              validator: (value) {
-                if (value.toString().isEmpty) {
-                  return "Invalid field";
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                widget.service!.category = value;
-              },
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "CATEGORY",
-                  contentPadding: EdgeInsets.only(bottom: 4.h),
-                  hintStyle: headingTextStyle.copyWith(
-                    fontSize: 13,
-                    fontFamily: robottoFontTextStyle,
-                  )),
-            ),
-          ),
-          SizedBox(height: 20.h),
-          Container(
-            alignment: Alignment.center,
-            height: 46.h,
-            decoration: BoxDecoration(color: Colors.grey.withOpacity(0.2)),
-            child: TextFormField(
-              controller:
-                  TextEditingController(text: widget.service!.websiteLink),
-              validator: (value) {
-                if (value.toString().isEmpty) {
-                  return "Invalid field";
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                widget.service!.websiteLink = value;
-              },
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "WEBSITE LINK",
-                  contentPadding: EdgeInsets.only(bottom: 4.h),
-                  hintStyle: headingTextStyle.copyWith(
-                    fontSize: 13,
-                    fontFamily: robottoFontTextStyle,
-                  )),
-            ),
-          ),
-          SizedBox(height: 40.h),
           GestureDetector(
             onTap: () {
               _showPicker(context);
@@ -429,207 +344,97 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
                     width: 1.sw,
                   ),
           ),
-          SizedBox(
-            height: 22.h,
-          ),
-          Row(
-            children: [
-              Text(
-                "Add Service Availability".toUpperCase(),
-                style: headingTextStyle.copyWith(
-                  fontSize: 13,
-                  fontFamily: robottoFontTextStyle,
+        ],
+      ),
+    );
+  }
+
+  publishButton(ServicesViewModel model) {
+    return Padding(
+      padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 20.h, bottom: 40),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          InkWell(
+            onTap: () async {
+              print(":");
+
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
+
+                final providerName =
+                    "${locator<AuthService>().providerProfile!.businessName}";
+                widget.service!.providerName = providerName;
+                widget.service!.imgFile = _image;
+                widget.service!.providerId =
+                    locator<LocalStorageService>().accessTokenProvider;
+                widget.service!.location = Locationn(
+                  lat: _locationService.currentLocation!.latitude.toString(),
+                  long: _locationService.currentLocation!.longitude.toString(),
+                );
+                await model.updateService(widget.service!);
+                Get.to(() => ServicesScreen());
+              }
+            },
+            child: Container(
+              height: 70.h,
+              width: 330.w,
+              decoration: BoxDecoration(
+                color: Color(0xff8B53FF),
+                borderRadius: BorderRadius.circular(13.r),
+              ),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 60.w,
+                    ),
+                    Image.asset(
+                      "$assets/female.png",
+                      height: 50.h,
+                      width: 50.w,
+                    ),
+                    SizedBox(
+                      width: 20.w,
+                    ),
+                    Text(
+                      "Publish",
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 40.sp,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(width: 12.w),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              // " green : meaning avalaible product- yellow : available soon and red : Not avaialble"
-
-              children: List.generate(
-                availableOptions.length,
-                (index) => GestureDetector(
-                  onTap: () {
-                    print("tapped===>");
-                    for (int i = 0; i < availableOptions.length; i++) {
-                      if (i == index) {
-                        availableOptions[i].isSelected = true;
-                        widget.service!.availability =
-                            availableOptions[i].label;
-                        print(availableOptions[i].isSelected);
-                      } else {
-                        availableOptions[i].isSelected = false;
-                      }
-
-                      print(availableOptions[i].isSelected);
-                    }
-                    setState(() {});
-                  },
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 26.h,
-                        width: 26.w,
-                        padding: availableOptions[index].isSelected!
-                            ? EdgeInsets.all(4.0)
-                            : EdgeInsets.zero,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                color: availableOptions[index].isSelected!
-                                    ? Colors.black
-                                    : Colors.transparent)),
-                        child: Container(
-                            height: 23.h,
-                            width: 23.w,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: availableOptions[index].color)),
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text("${availableOptions[index].label}",
-                          style: bodyTextStyle.copyWith(
-                              fontSize: 12.sp,
-                              fontFamily: robottoFontTextStyle))
-                    ],
-                  ),
-                ),
-              )),
-          SizedBox(
-            height: 25.h,
+            ),
           ),
         ],
       ),
     );
   }
 
-  publishButton() {
-    return Padding(
-        padding:
-            EdgeInsets.only(left: 16.w, right: 16.w, top: 50.h, bottom: 40),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 26.h,
-              width: 172.w,
-              child: RoundedRaisedButton(
-                  buttonText: "PUBLISH",
-                  color: Colors.white,
-                  textColor: primaryColor,
-                  onPressed: () {
-                    print(":");
-
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      // if (_image != null) {
-                      final providerName =
-                          "${locator<AuthService>().providerProfile!.businessName}";
-                      widget.service!.providerName = providerName;
-                      widget.service!.imgFile = _image;
-                      widget.service!.providerId =
-                          locator<LocalStorageService>().accessTokenProvider;
-                      widget.service!.location = Locationn(
-                        lat: _locationService.currentLocation!.latitude
-                            .toString(),
-                        long: _locationService.currentLocation!.longitude
-                            .toString(),
-                      );
-                      Get.back(result: widget.service);
-                      // } else {
-                      //   Get.dialog(RequestFailedDialog(
-                      //       errorMessage: "add image before moving ahead"));
-                      // }
-                    }
-                  }),
-            ),
-          ],
-        ));
-  }
-
   avatarArea() {
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          height: 30.h,
-        ),
-        ImageContainer(
-          assets: "$assets/avatar.png",
-          height: 128.h,
-          width: 128.w,
-          fit: BoxFit.contain,
-        ),
-        SizedBox(
-          height: 13.h,
+          height: 20.h,
         ),
         Text(
-          "Provider",
-          style: bodyTextStyle.copyWith(
-            fontSize: 36.sp,
-          ),
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 80.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                child: Text(
-                  "${locator<LocationService>().address}".toUpperCase(),
-                  // "Toronto, CA".toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: headingTextStyle.copyWith(
-                      height: 1.6,
-                      fontSize: 13.sp,
-                      fontFamily: robottoFontTextStyle),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
-        Text(
-          "FOOD PROVIDER".toUpperCase(),
-          style: headingTextStyle.copyWith(
-              fontSize: 13.sp, fontFamily: robottoFontTextStyle),
-        )
-      ],
-    );
-  }
-
-  buttonsArea() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SizedBox(height: 24.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 26.h,
-              width: 172.w,
-              child: RoundedRaisedButton(
-                  buttonText: "Edit SERVICE ",
-                  color: Colors.white,
-                  textColor: primaryColor,
-                  onPressed: () {
-                    print(":");
-                  }),
+          "Edit Service Details",
+          style: GoogleFonts.openSans(
+            textStyle: TextStyle(
+              color: Colors.black,
+              fontSize: 30.sp,
+              fontWeight: FontWeight.w800,
             ),
-          ],
-        )
+          ),
+        ),
       ],
     );
   }

@@ -71,7 +71,6 @@ class BookingViewModel extends BaseViewModel {
                 SErvice(
                   serviceBookingDate: timestamp,
                   title: title,
-                  websiteLink: websiteLink,
                   category: category,
                   description: description,
                   imgUrl: imgUrl,
@@ -79,7 +78,6 @@ class BookingViewModel extends BaseViewModel {
                   isConfirmed: isConfirmed,
                   providerName: providerName,
                   price: price,
-                  availability: availability,
                   fcmToken: fcmToken,
                   providerId: providerId,
                 ),
