@@ -524,10 +524,8 @@ class _BookingScreenState extends State<BookingScreen> {
                                       width: 350.w,
                                       child: Hero(
                                         tag: list.imgUrl!,
-                                        child: FadeInImage.assetNetwork(
-                                          placeholder:
-                                              '$assets/placeholder.jpeg',
-                                          image: list.imgUrl!,
+                                        child: Image.asset(
+                                          list.imgUrl!,
                                           fit: BoxFit.cover,
                                         ),
                                       ),

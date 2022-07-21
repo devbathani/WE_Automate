@@ -115,11 +115,9 @@ class _CustomerSearchServicesScreenState
                                       // width: 250.w,
                                       height: 230.h,
                                       width: 350.w,
-                                      child: FadeInImage.assetNetwork(
+                                      child: Image.asset(
+                                        model.filteredServices[index].imgUrl!,
                                         fit: BoxFit.cover,
-                                        placeholder: '$assets/placeholder.jpeg',
-                                        image: model
-                                            .filteredServices[index].imgUrl!,
                                       ),
                                     ),
                                     Padding(
@@ -318,74 +316,111 @@ class _CustomerSearchServicesScreenState
                       vertical: 5.h,
                     ),
                     child: Container(
-                      height: 300.h,
                       width: Get.width,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            model.services[index].title!,
-                            style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                color: Color(0xff8B53FF),
-                                fontSize: 24.sp,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 15.h,
-                          ),
-                          Stack(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Get.to(
-                                    () => CustomerBookingScreen(
-                                      model: model.services[index],
-                                      providerId:
-                                          model.services[index].providerId ??
-                                              "",
-                                      serviceId: model.services[index].id ?? "",
-                                      price: model.services[index].price ?? "",
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  height: 250.h,
-                                  width: Get.width,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12.r),
-                                  ),
-                                  child: FadeInImage.assetNetwork(
-                                    placeholder: '$assets/placeholder.jpeg',
-                                    image: model.services[index].imgUrl!,
-                                    fit: BoxFit.fill,
-                                  ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 10.h),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              model.services[index].title!,
+                              style: GoogleFonts.openSans(
+                                textStyle: TextStyle(
+                                  color: Color(0xff8B53FF),
+                                  fontSize: 24.sp,
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
-                              Positioned(
-                                bottom: 0,
-                                child: Container(
-                                  height: 120.h,
-                                  width: Get.width,
-                                  color: Colors.black26,
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 5.w,
-                                      vertical: 9.h,
+                            ),
+                            SizedBox(
+                              height: 15.h,
+                            ),
+                            Stack(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.to(
+                                      () => CustomerBookingScreen(
+                                        model: model.services[index],
+                                        providerId:
+                                            model.services[index].providerId ??
+                                                "",
+                                        serviceId:
+                                            model.services[index].id ?? "",
+                                        price:
+                                            model.services[index].price ?? "",
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 300.h,
+                                    width: Get.width,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12.r),
                                     ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Row(
+                                    child: Image.asset(
+                                      model.services[index].imgUrl!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  child: Container(
+                                    width: Get.width,
+                                    color: Colors.black26,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 5.w,
+                                        vertical: 9.h,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  "Desc: ",
+                                                  softWrap: true,
+                                                  style: GoogleFonts.openSans(
+                                                    textStyle: TextStyle(
+                                                      color: Color(0xff8B53FF),
+                                                      fontSize: 15.sp,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  " ${model.services[index].description}",
+                                                  softWrap: true,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.openSans(
+                                                    textStyle: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15.sp,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 4.h),
+                                          Row(
                                             children: [
                                               Text(
-                                                "Desc: ",
-                                                softWrap: true,
+                                                "Price: ",
+                                                // "Price: 50 CAD",
+                                                overflow: TextOverflow.ellipsis,
                                                 style: GoogleFonts.openSans(
                                                   textStyle: TextStyle(
                                                     color: Color(0xff8B53FF),
@@ -395,11 +430,9 @@ class _CustomerSearchServicesScreenState
                                                 ),
                                               ),
                                               Text(
-                                                " ${model.services[index].description}",
-                                                softWrap: true,
-                                                maxLines: 2,
+                                                " ${model.services[index].price} CAD",
+                                                // "Price: 50 CAD",
                                                 overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.left,
                                                 style: GoogleFonts.openSans(
                                                   textStyle: TextStyle(
                                                     color: Colors.white,
@@ -410,139 +443,115 @@ class _CustomerSearchServicesScreenState
                                               ),
                                             ],
                                           ),
-                                        ),
-                                        SizedBox(height: 4.h),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "Price: ",
-                                              // "Price: 50 CAD",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: GoogleFonts.openSans(
-                                                textStyle: TextStyle(
-                                                  color: Color(0xff8B53FF),
-                                                  fontSize: 15.sp,
-                                                  fontWeight: FontWeight.w800,
-                                                ),
-                                              ),
+                                          SizedBox(height: 20.h),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 5.w,
                                             ),
-                                            Text(
-                                              " ${model.services[index].price} CAD",
-                                              // "Price: 50 CAD",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: GoogleFonts.openSans(
-                                                textStyle: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15.sp,
-                                                  fontWeight: FontWeight.w800,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 20.h),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 5.w,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Container(
-                                                height: 35.h,
-                                                child: ElevatedButton(
-                                                  style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .resolveWith(
-                                                      (states) =>
-                                                          Color(0xff8B53FF),
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    Get.to(
-                                                      () =>
-                                                          CustomerBookingScreen(
-                                                        model: model
-                                                            .services[index],
-                                                        providerId: model
-                                                                .services[index]
-                                                                .providerId ??
-                                                            "",
-                                                        serviceId: model
-                                                                .services[index]
-                                                                .id ??
-                                                            "",
-                                                        price: model
-                                                                .services[index]
-                                                                .price ??
-                                                            "",
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: Text(
-                                                    "Book service",
-                                                    style: GoogleFonts.openSans(
-                                                      textStyle: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 20.sp,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Container(
+                                                  height: 35.h,
+                                                  child: ElevatedButton(
+                                                    style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .resolveWith(
+                                                        (states) =>
+                                                            Color(0xff8B53FF),
                                                       ),
                                                     ),
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 10.w,
-                                              ),
-                                              Container(
-                                                height: 35.h,
-                                                child: ElevatedButton(
-                                                  style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .resolveWith(
-                                                      (states) =>
-                                                          Color(0xff8B53FF),
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    Get.to(
-                                                      () => CustomerChatScreen(
+                                                    onPressed: () {
+                                                      Get.to(
+                                                        () =>
+                                                            CustomerBookingScreen(
+                                                          model: model
+                                                              .services[index],
                                                           providerId: model
-                                                              .services[index]
-                                                              .providerId,
-                                                          providerName: model
-                                                              .services[index]
-                                                              .providerName),
-                                                    );
-                                                  },
-                                                  child: Text(
-                                                    "Message",
-                                                    style: GoogleFonts.openSans(
-                                                      textStyle: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 20.sp,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                                  .services[
+                                                                      index]
+                                                                  .providerId ??
+                                                              "",
+                                                          serviceId: model
+                                                                  .services[
+                                                                      index]
+                                                                  .id ??
+                                                              "",
+                                                          price: model
+                                                                  .services[
+                                                                      index]
+                                                                  .price ??
+                                                              "",
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Text(
+                                                      "Book service",
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 20.sp,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                                SizedBox(
+                                                  width: 10.w,
+                                                ),
+                                                Container(
+                                                  height: 35.h,
+                                                  child: ElevatedButton(
+                                                    style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .resolveWith(
+                                                        (states) =>
+                                                            Color(0xff8B53FF),
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      Get.to(
+                                                        () => CustomerChatScreen(
+                                                            providerId: model
+                                                                .services[index]
+                                                                .providerId,
+                                                            providerName: model
+                                                                .services[index]
+                                                                .providerName),
+                                                      );
+                                                    },
+                                                    child: Text(
+                                                      "Message",
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 20.sp,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );

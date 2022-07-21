@@ -1,4 +1,3 @@
-import 'package:antonx_flutter_template/core/constants/strings.dart';
 import 'package:antonx_flutter_template/core/constants/text_styles.dart';
 import 'package:antonx_flutter_template/core/models/service.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +26,8 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
               child: Container(
                 height: 450.h,
                 width: double.infinity,
-                child: FadeInImage.assetNetwork(
-                  placeholder: '$assets/placeholder.jpeg',
-                  image: widget.sErvice.imgUrl!,
+                child: Image.asset(
+                  widget.sErvice.imgUrl!,
                   fit: BoxFit.cover,
                 ),
               ),

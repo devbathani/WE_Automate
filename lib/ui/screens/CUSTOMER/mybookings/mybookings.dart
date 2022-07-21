@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import '../../../../core/constants/strings.dart';
 import '../../../../core/constants/text_styles.dart';
 import '../../../custom_widgets/dailogs/request_failed_dailog.dart';
 import '../conversation/chat/customer-chat-screen.dart';
@@ -81,20 +80,24 @@ class _MyBookingsState extends State<MyBookings> {
                                             Get.to(
                                               () => CustomerBookingScreen(
                                                 model: model.services[index],
-                                                providerId: model.services[index].providerId??"",
-                                                serviceId: model.services[index].id??"",
-                                                price: model.services[index].price??"",
+                                                providerId: model
+                                                        .services[index]
+                                                        .providerId ??
+                                                    "",
+                                                serviceId:
+                                                    model.services[index].id ??
+                                                        "",
+                                                price: model.services[index]
+                                                        .price ??
+                                                    "",
                                               ),
                                             );
                                           },
                                           child: Container(
                                             height: 230.h,
                                             width: 350.w,
-                                            child: FadeInImage.assetNetwork(
-                                              placeholder:
-                                                  '$assets/placeholder.jpeg',
-                                              image:
-                                                  model.services[index].imgUrl!,
+                                            child: Image.asset(
+                                              model.services[index].imgUrl!,
                                               fit: BoxFit.cover,
                                             ),
                                           ),

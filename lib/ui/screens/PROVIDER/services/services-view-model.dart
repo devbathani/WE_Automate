@@ -31,11 +31,6 @@ class ServicesViewModel extends BaseViewModel {
     setState(ViewState.loading);
 
     if (uid != null) {
-      //  await uploadToStorage();
-      var fileName = servicesToBeAdded.imgFile!.path.split('/').last;
-      servicesToBeAdded.imgUrl = await uploadImages(
-          File(servicesToBeAdded.imgFile!.path), '$fileName');
-      //now add to myservices
 
       await _dbService.addToMyServices(servicesToBeAdded, uid);
       await addToGlobalServices(servicesToBeAdded);
@@ -57,20 +52,7 @@ class ServicesViewModel extends BaseViewModel {
     setState(ViewState.loading);
 
     if (uid != null) {
-      //  await uploadToStorage();
-      if (serviceToBeEditted.imgFile != null) {
-        var fileName = serviceToBeEditted.imgFile!.path.split('/').last;
-        serviceToBeEditted.imgUrl = await uploadImages(
-            File(serviceToBeEditted.imgFile!.path), '$fileName');
-      }
-      //print("Global Service ::::::::::> " + serviceToBeEditted.globalId!);
-      //now add to myservices
-      // await _dbService.updateMyService(serviceToBeEditted, uid);
-      // await _dbService.updateGlobalService(
-      //   serviceToBeEditted,
-      //   serviceToBeEditted.globalId,
-      // );
-      //now after that add it locally as well
+   
     } else {
       print("Sorry your uid is null");
     }

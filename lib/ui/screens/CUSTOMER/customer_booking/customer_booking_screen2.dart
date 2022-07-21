@@ -6,7 +6,6 @@ import 'package:antonx_flutter_template/core/constants/strings.dart';
 import 'package:antonx_flutter_template/core/constants/text_styles.dart';
 import 'package:antonx_flutter_template/core/models/app-user.dart';
 import 'package:antonx_flutter_template/core/models/service.dart';
-import 'package:antonx_flutter_template/core/services/local_notification_service.dart';
 import 'package:antonx_flutter_template/core/services/notification-service.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
@@ -51,12 +50,7 @@ class CustomerBookingScreen extends StatefulWidget {
 
 class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
   var sErvice;
-  final AndroidNotificationChannel channel = AndroidNotificationChannel(
-      'high_importance_channel', // id
-      'High Importance Notifications', // title
-      'This channel is used for important notifications.', // description
-      importance: Importance.high,
-      playSound: true);
+
   DateTime currentDate = DateTime.now(); // DateTime(2019, 2, 3);
   DateTime currentDate2 = DateTime.now();
   NotificationsService notificationsService = NotificationsService();
@@ -154,18 +148,24 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     listenFCM();
     loadFCM();
     requestPermission();
+
+    // _razorpay = Razorpay();
+    // _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    // _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    // _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+
+    // FirebaseMessaging.onMessage.listen((event) {
+    //   LocalNotificationService.display(event);
+    // });
+
+    final AndroidNotificationChannel channel = AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Notifications', // title
+        'This channel is used for important notifications.', // description
+        importance: Importance.high,
+        playSound: true);
+    print(channel);
     FirebaseMessaging.instance.getInitialMessage();
-    _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-
-    FirebaseMessaging.onMessage.listen((event) {
-      LocalNotificationService.display(event);
-    });
-
-    print(channel.id);
-
     AndroidInitializationSettings androidInitializationSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettingsIOs = IOSInitializationSettings();
@@ -174,6 +174,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     flutterLocalNotificationsPlugin.initialize(
       initSetttings,
     );
+    
     Future.delayed(Duration(seconds: 4), () {
       isLoading = false;
       setState(() {});
@@ -231,22 +232,25 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     };
 
     try {
-      http.Response response =
-          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
-              headers: <String, String>{
-                'Content-Type': 'application/json',
-                'Authorization':
-                    'key=AAAAEBlwyYw:APA91bF_EAZodCwGiYANWguNUTIDdM30zkIsJTru0PG5hB4Sk3NynXrVJirhzpiOLCveklQEChRzmXW8WEpP82B8bL_tJyt94btQteQFuqkrVrpVQw45_DuiYIt4OkyGxKpx0r3lr6-v'
-              },
-              body: jsonEncode(<String, dynamic>{
-                'notification': <String, dynamic>{
-                  'title': title,
-                  'body': 'Accept or decline the service !!'
-                },
-                'priority': 'high',
-                'data': data,
-                'to': '$token'
-              }));
+      http.Response response = await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization':
+              'key=AAAAEBlwyYw:APA91bF_EAZodCwGiYANWguNUTIDdM30zkIsJTru0PG5hB4Sk3NynXrVJirhzpiOLCveklQEChRzmXW8WEpP82B8bL_tJyt94btQteQFuqkrVrpVQw45_DuiYIt4OkyGxKpx0r3lr6-v'
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            'notification': <String, dynamic>{
+              'title': title,
+              'body': 'Accept or decline the service !!'
+            },
+            'priority': 'high',
+            'data': data,
+            'to': '$token'
+          },
+        ),
+      );
 
       if (response.statusCode == 200) {
         print("Yeh notificatin is sended");

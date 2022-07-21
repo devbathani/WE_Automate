@@ -364,11 +364,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Container(
                                         height: 250.h,
                                         width: 1.sw / 2.4,
-                                        child: FadeInImage.assetNetwork(
+                                        child: Image.asset(
+                                          model.services[index].imgUrl!,
                                           fit: BoxFit.cover,
-                                          placeholder:
-                                              '$assets/placeholder.jpeg',
-                                          image: model.services[index].imgUrl!,
                                         ),
                                       ),
                                     ),

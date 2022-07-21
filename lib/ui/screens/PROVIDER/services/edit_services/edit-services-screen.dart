@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
 import 'package:antonx_flutter_template/core/constants/strings.dart';
@@ -37,7 +38,15 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
   Set<Marker> markers = Set<Marker>();
   final _dbService = locator<DatabaseService>();
   // var serviceToBeAdded = SErvice();
+  String generateImage(int i) {
+    String pic = "";
+    pic = "assets/static_assets/images/" + i.toString() + ".jpg";
+    return pic;
+  }
 
+  int selectedImage = 1;
+  bool showImages = false;
+  bool isImage = false;
   List<Marker> pins = [];
   late LatLng markerPosition;
   late String _googleMapsUrl;
@@ -141,6 +150,11 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 8;
+    final double itemWidth = size.width / 2;
     return ChangeNotifierProvider(
       create: (context) => ServicesViewModel(),
       child: Consumer<ServicesViewModel>(
@@ -150,45 +164,157 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
             child: Scaffold(
               body: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 20.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.back();
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                child: Text(
-                                  "Back",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 28.sp,
-                                      fontWeight: FontWeight.w800,
+                child: Stack(
+                  children: [
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 20.h),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.back();
+                                  },
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10.w),
+                                    child: Text(
+                                      "Back",
+                                      style: GoogleFonts.openSans(
+                                        textStyle: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 28.sp,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
+                                SizedBox(
+                                  height: 20.h,
+                                ),
+                              ],
+                            ),
+                          ),
+                          avatarArea(),
+                          form(),
+                          publishButton(model),
+                        ],
+                      ),
+                    ),
+                    showImages
+                        ? Positioned(
+                            bottom: 400.h,
+                            right: 10.w,
+                            child: Container(
+                              height: 400.h,
+                              width: 350.w,
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                              ),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 10.h),
+                                    Container(
+                                      height: 50.h,
+                                      width: 100.w,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            generateImage(selectedImage),
+                                          ),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    Divider(
+                                      color: Colors.white,
+                                      height: 20.h,
+                                    ),
+                                    SizedBox(
+                                      height: 250.h,
+                                      child: GridView.count(
+                                        childAspectRatio:
+                                            (itemWidth / itemHeight),
+                                        crossAxisCount: 2,
+                                        children: List.generate(
+                                          2,
+                                          (index) => Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 10.w,
+                                                vertical: 10.h),
+                                            child: InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  selectedImage = index + 1;
+                                                });
+                                              },
+                                              child: Container(
+                                                height: 50.h,
+                                                width: 100.w,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.r),
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                      generateImage(index + 1),
+                                                    ),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20.h,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          showImages = false;
+                                          isImage = true;
+                                          log("assets/static_assets/images/$selectedImage.jpg");
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 30.h,
+                                        width: 130.w,
+                                        decoration: BoxDecoration(
+                                          color: Color(0xff8B53FF),
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            "Done",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            SizedBox(
-                              height: 20.h,
-                            ),
-                          ],
-                        ),
-                      ),
-                      avatarArea(),
-                      form(),
-                      publishButton(model),
-                    ],
-                  ),
+                          )
+                        : SizedBox.shrink(),
+                  ],
                 ),
               ),
             ),
@@ -327,21 +453,34 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
           SizedBox(height: 20.h),
           GestureDetector(
             onTap: () {
-              _showPicker(context);
+              setState(() {
+                showImages = true;
+              });
             },
-            child: _image != null
-                ? Image.file(
-                    _image!,
-                    height: 112.h,
-                    width: 1.sw,
-                    fit: BoxFit.cover,
+            child: isImage
+                ? Container(
+                    height: 150.h,
+                    width: 350.w,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                          generateImage(selectedImage),
+                        ),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   )
-                : FadeInImage.assetNetwork(
-                    placeholder: "$assets/placeholder.jpeg",
-                    image: widget.service!.imgUrl!,
-                    height: 112.h,
-                    fit: BoxFit.cover,
-                    width: 1.sw,
+                : Container(
+                    height: 150.h,
+                    width: 350.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(color: Colors.grey, width: 0.2.w),
+                    ),
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.black,
+                    ),
                   ),
           ),
         ],
@@ -365,7 +504,8 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
                 final providerName =
                     "${locator<AuthService>().providerProfile!.businessName}";
                 widget.service!.providerName = providerName;
-                widget.service!.imgFile = _image;
+                widget.service!.imgUrl =
+                    "assets/static_assets/images/$selectedImage.jpg";
                 widget.service!.providerId =
                     locator<LocalStorageService>().accessTokenProvider;
                 widget.service!.location = Locationn(

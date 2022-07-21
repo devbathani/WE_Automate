@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
 import 'package:antonx_flutter_template/core/constants/strings.dart';
@@ -12,7 +13,6 @@ import 'package:antonx_flutter_template/core/services/location_service.dart';
 import 'package:antonx_flutter_template/locator.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/custom_text_field.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/dailogs/request_failed_dailog.dart';
-import 'package:antonx_flutter_template/ui/custom_widgets/image_container.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +36,15 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
   final _dbService = locator<DatabaseService>();
   var serviceToBeAdded = SErvice();
   final datetime = DateTime.now();
+  String generateImage(int i) {
+    String pic = "";
+    pic = "assets/static_assets/images/" + i.toString() + ".jpg";
+    return pic;
+  }
+
+  bool showImages = false;
+  bool isImage = false;
+  int? selectedImage = 1;
 
   List<Marker> pins = [];
   late LatLng markerPosition;
@@ -145,49 +154,160 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 8;
+    final double itemWidth = size.width / 2;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 20.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.w),
-                          child: Text(
-                            "Back",
-                            style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 28.sp,
-                                fontWeight: FontWeight.w800,
+          child: Stack(
+            children: [
+              Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 20.h),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.w),
+                              child: Text(
+                                "Back",
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 28.sp,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                        ],
+                      ),
+                    ),
+                    avatarArea(),
+                    form(),
+                    publishButton(),
+                  ],
+                ),
+              ),
+              showImages
+                  ? Positioned(
+                      bottom: 200.h,
+                      right: 10.w,
+                      child: Container(
+                        height: 600.h,
+                        width: 350.w,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                        ),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SizedBox(height: 10.h),
+                              Container(
+                                height: 50.h,
+                                width: 100.w,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      generateImage(selectedImage!),
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                color: Colors.white,
+                                height: 20.h,
+                              ),
+                              SizedBox(
+                                height: 450.h,
+                                child: GridView.count(
+                                  childAspectRatio: (itemWidth / itemHeight),
+                                  crossAxisCount: 2,
+                                  children: List.generate(
+                                    10,
+                                    (index) => Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.w, vertical: 10.h),
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedImage = index + 1;
+                                          });
+                                        },
+                                        child: Container(
+                                          height: 50.h,
+                                          width: 100.w,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10.r),
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                generateImage(index + 1),
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    showImages = false;
+                                    isImage = true;
+                                    log("assets/static_assets/images/$selectedImage.jpg");
+                                  });
+                                },
+                                child: Container(
+                                  height: 30.h,
+                                  width: 130.w,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff8B53FF),
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Done",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                    ],
-                  ),
-                ),
-                avatarArea(),
-                form(),
-                publishButton(),
-              ],
-            ),
+                    )
+                  : SizedBox.shrink(),
+            ],
           ),
         ),
       ),
@@ -252,94 +372,110 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
   }
 
   form() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
-      child: Column(
-        children: [
-          CustomTextField(
-            hintText: "Title of Service",
-            validator: (value) {
-              if (value.toString().isEmpty) {
-                return "Invalid field";
-              } else {
-                return null;
-              }
-            },
-            onSaved: (value) {
-              serviceToBeAdded.title = value;
-            },
-            obscureText: false,
+    return Stack(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
+          child: Column(
+            children: [
+              CustomTextField(
+                hintText: "Title of Service",
+                validator: (value) {
+                  if (value.toString().isEmpty) {
+                    return "Invalid field";
+                  } else {
+                    return null;
+                  }
+                },
+                onSaved: (value) {
+                  serviceToBeAdded.title = value;
+                },
+                obscureText: false,
+              ),
+              SizedBox(height: 20.h),
+              CustomTextField(
+                hintText: "Service Description",
+                validator: (value) {
+                  if (value.toString().isEmpty) {
+                    return "Invalid field";
+                  } else {
+                    return null;
+                  }
+                },
+                onSaved: (value) {
+                  serviceToBeAdded.description = value;
+                },
+                obscureText: false,
+              ),
+              SizedBox(height: 20.h),
+              CustomTextField(
+                hintText: "Price",
+                validator: (value) {
+                  if (value.toString().isEmpty) {
+                    return "Invalid field";
+                  } else {
+                    return null;
+                  }
+                },
+                onSaved: (value) {
+                  serviceToBeAdded.price = value;
+                },
+                obscureText: false,
+              ),
+              SizedBox(height: 20.h),
+              CustomTextField(
+                hintText: "Category",
+                validator: (value) {
+                  if (value.toString().isEmpty) {
+                    return "Invalid field";
+                  } else {
+                    return null;
+                  }
+                },
+                onSaved: (value) {
+                  serviceToBeAdded.category = value;
+                },
+                obscureText: false,
+              ),
+              SizedBox(height: 20.h),
+              googleMap(),
+              SizedBox(height: 20.h),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    showImages = true;
+                  });
+                },
+                child: isImage
+                    ? Container(
+                        height: 150.h,
+                        width: 350.w,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              generateImage(selectedImage!),
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    : Container(
+                        height: 150.h,
+                        width: 350.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.r),
+                          border: Border.all(color: Colors.grey, width: 0.2.w),
+                        ),
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.black,
+                        ),
+                      ),
+              ),
+            ],
           ),
-          SizedBox(height: 20.h),
-          CustomTextField(
-            hintText: "Service Description",
-            validator: (value) {
-              if (value.toString().isEmpty) {
-                return "Invalid field";
-              } else {
-                return null;
-              }
-            },
-            onSaved: (value) {
-              serviceToBeAdded.description = value;
-            },
-            obscureText: false,
-          ),
-          SizedBox(height: 20.h),
-          CustomTextField(
-            hintText: "Price",
-            validator: (value) {
-              if (value.toString().isEmpty) {
-                return "Invalid field";
-              } else {
-                return null;
-              }
-            },
-            onSaved: (value) {
-              serviceToBeAdded.price = value;
-            },
-            obscureText: false,
-          ),
-          SizedBox(height: 20.h),
-          CustomTextField(
-            hintText: "Category",
-            validator: (value) {
-              if (value.toString().isEmpty) {
-                return "Invalid field";
-              } else {
-                return null;
-              }
-            },
-            onSaved: (value) {
-              serviceToBeAdded.category = value;
-            },
-            obscureText: false,
-          ),
-          SizedBox(height: 20.h),
-          googleMap(),
-          SizedBox(height: 20.h),
-          GestureDetector(
-            onTap: () {
-              _showPicker(context);
-            },
-            child: _image != null
-                ? Image.file(
-                    _image!,
-                    height: 112.h,
-                    width: 1.sw,
-                    fit: BoxFit.cover,
-                  )
-                : ImageContainer(
-                    assets: "$assets/upload01.png",
-                    height: 112.h,
-                    width: 1.sw,
-                  ),
-          ),
-          SizedBox(
-            height: 25.h,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -354,11 +490,12 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
               print(":");
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                if (_image != null) {
+                if (selectedImage != null) {
                   final providerName =
                       "${locator<AuthService>().providerProfile!.businessName}";
                   serviceToBeAdded.providerName = providerName;
-                  serviceToBeAdded.imgFile = _image;
+                  serviceToBeAdded.imgUrl =
+                      "assets/static_assets/images/$selectedImage.jpg";
                   serviceToBeAdded.isBooked = 'No';
                   serviceToBeAdded.serviceBookingDate = Timestamp.now();
                   serviceToBeAdded.isConfirmed = 'No';

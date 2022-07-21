@@ -1,6 +1,5 @@
 import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
-import 'package:antonx_flutter_template/core/constants/strings.dart';
 import 'package:antonx_flutter_template/core/enums/view_state.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/services/add_services/add-service-screen.dart';
@@ -187,14 +186,13 @@ class ServicesScreen extends StatelessWidget {
                           fit: StackFit.loose,
                           children: [
                             Container(
-                              height: 250.h,
+                              height: 245.h,
                               width: 340.w,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12.r),
                               ),
-                              child: FadeInImage.assetNetwork(
-                                placeholder: '$assets/placeholder.jpeg',
-                                image: model.services[index].imgUrl!,
+                              child: Image.asset(
+                                model.services[index].imgUrl!,
                                 fit: BoxFit.cover,
                               ),
                             ),

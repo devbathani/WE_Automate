@@ -15,7 +15,6 @@ class SErvice {
   String? websiteLink;
   String? imgUrl;
   String? availability;
-  File? imgFile;
   String? isBooked;
   DateTime? datetime;
   Timestamp? serviceBookingDate;
@@ -31,7 +30,6 @@ class SErvice {
       this.price,
       this.location,
       this.providerName,
-      this.imgFile,
       this.category,
       this.imgUrl,
       this.isBooked,
