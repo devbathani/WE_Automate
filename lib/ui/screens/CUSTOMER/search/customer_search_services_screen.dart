@@ -346,7 +346,7 @@ class _CustomerSearchServicesScreenState
                                         providerId:
                                             model.services[index].providerId ??
                                                 "",
-                                        serviceId:
+                                         serviceId:
                                             model.services[index].id ?? "",
                                         price:
                                             model.services[index].price ?? "",
