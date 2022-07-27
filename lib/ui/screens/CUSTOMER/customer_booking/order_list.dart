@@ -70,7 +70,9 @@ class _OrderListScreenState extends State<OrderList> {
                           child: Center(
                               child: Text(
                             "No order found",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                            ),
                           )),
                         )
                       : ListView.builder(

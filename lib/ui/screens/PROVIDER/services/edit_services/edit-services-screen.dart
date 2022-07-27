@@ -185,11 +185,11 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
                                         EdgeInsets.symmetric(horizontal: 10.w),
                                     child: Text(
                                       "Back",
-                                      style: GoogleFonts.openSans(
+                                      style: GoogleFonts.montserrat(
                                         textStyle: TextStyle(
                                           color: Colors.black,
                                           fontSize: 28.sp,
-                                          fontWeight: FontWeight.w800,
+                                          fontWeight: FontWeight.w300,
                                         ),
                                       ),
                                     ),
@@ -292,7 +292,7 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
                                         height: 30.h,
                                         width: 130.w,
                                         decoration: BoxDecoration(
-                                          color: Color(0xff8B53FF),
+                                          color: Color(0XFF1b77f2),
                                           borderRadius:
                                               BorderRadius.circular(10.r),
                                         ),
@@ -302,7 +302,7 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 15.sp,
-                                              fontWeight: FontWeight.bold,
+                                              fontWeight: FontWeight.w300,
                                             ),
                                           ),
                                         ),
@@ -520,7 +520,7 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
               height: 70.h,
               width: 330.w,
               decoration: BoxDecoration(
-                color: Color(0xff8B53FF),
+                color: Color(0XFF1b77f2),
                 borderRadius: BorderRadius.circular(13.r),
               ),
               child: Center(
@@ -540,11 +540,11 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
                     ),
                     Text(
                       "Publish",
-                      style: GoogleFonts.openSans(
+                      style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 40.sp,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),
@@ -567,11 +567,11 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
         ),
         Text(
           "Edit Service Details",
-          style: GoogleFonts.openSans(
+          style: GoogleFonts.montserrat(
             textStyle: TextStyle(
               color: Colors.black,
               fontSize: 30.sp,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w300,
             ),
           ),
         ),

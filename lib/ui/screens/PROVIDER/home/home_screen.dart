@@ -7,6 +7,7 @@ import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dar
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/order_list.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/booking/slotSchedular2.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/home/home_view_model.dart';
+import 'package:antonx_flutter_template/ui/screens/PROVIDER/home/pdf_view_screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/services/service-details-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/services/services-screen.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../core/services/auth_service.dart';
 import '../../../../locator.dart';
 import '../conversation/conversation-screen.dart';
@@ -84,11 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Text(
             "Welcome",
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.montserrat(
               textStyle: TextStyle(
                 color: Colors.black87,
                 fontSize: 25.sp,
-                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -97,11 +96,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Text(
             "${locator<AuthService>().providerProfile!.businessName}",
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.montserrat(
               textStyle: TextStyle(
                 color: Color.fromARGB(221, 55, 82, 238),
                 fontSize: 30.sp,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w300,
               ),
             ),
           ),
@@ -118,6 +117,61 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(height: 60.h),
           InkWell(
             onTap: () {
+              Get.to(
+                () => PdfViewers(
+                  document: "assets/updates_pdf.pdf",
+                ),
+              );
+            },
+            child: Container(
+              height: 70.h,
+              width: 380.w,
+              decoration: BoxDecoration(
+                color: Color(0XFF1b77f2),
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      Image.asset(
+                        "$static_assets/pdf.png",
+                        height: 50.h,
+                        width: 50.w,
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        width: 20.w,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10.w),
+                        child: Text(
+                          "Tutorial",
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 28.sp,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 30.h,
+          ),
+          InkWell(
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -131,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 70.h,
               width: 380.w,
               decoration: BoxDecoration(
-                color: Color(0xff8B53FF),
+                color: Color(0XFF1b77f2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Center(
@@ -151,11 +205,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Text(
                       "My Slots",
-                      style: GoogleFonts.openSans(
+                      style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 28.sp,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),
@@ -184,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 70.h,
               width: 380.w,
               decoration: BoxDecoration(
-                color: Color(0xff8B53FF),
+                color: Color(0XFF1b77f2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Center(
@@ -204,11 +258,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Text(
                       "My Services",
-                      style: GoogleFonts.openSans(
+                      style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 28.sp,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),
@@ -235,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 70.h,
               width: 380.w,
               decoration: BoxDecoration(
-                color: Color(0xff8B53FF),
+                color: Color(0XFF1b77f2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Center(
@@ -255,11 +309,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Text(
                       "My Bookings",
-                      style: GoogleFonts.openSans(
+                      style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 28.sp,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),
@@ -280,7 +334,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 70.h,
               width: 380.w,
               decoration: BoxDecoration(
-                color: Color(0xff8B53FF),
+                color: Color(0XFF1b77f2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Center(
@@ -300,11 +354,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Text(
                       "My Messages",
-                      style: GoogleFonts.openSans(
+                      style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 28.sp,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),

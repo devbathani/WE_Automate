@@ -13,7 +13,7 @@ class WebviewScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.only(top: 60.0),
+          padding: const EdgeInsets.only(top: 20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -23,6 +23,11 @@ class WebviewScreen extends StatelessWidget {
               ),
               Expanded(
                 child: WebView(
+                  allowsInlineMediaPlayback: true,
+                  javascriptMode: JavascriptMode.unrestricted,
+                  zoomEnabled: true,
+                  userAgent:
+                      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36',
                   initialUrl: 'https://web.weautomation.ca/',
                 ),
               ),
@@ -47,11 +52,11 @@ class WebviewScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: Text(
                 "Back",
-                style: GoogleFonts.openSans(
+                style: GoogleFonts.montserrat(
                   textStyle: TextStyle(
                     color: Colors.black,
                     fontSize: 28.sp,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w300,
                   ),
                 ),
               ),

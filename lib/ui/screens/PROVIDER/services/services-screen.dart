@@ -1,5 +1,6 @@
 import 'package:antonx_flutter_template/core/constants/colors.dart';
 import 'package:antonx_flutter_template/core/constants/screen-utils.dart';
+import 'package:antonx_flutter_template/core/constants/strings.dart';
 import 'package:antonx_flutter_template/core/enums/view_state.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/rectangular_button.dart';
 import 'package:antonx_flutter_template/ui/screens/PROVIDER/services/add_services/add-service-screen.dart';
@@ -71,11 +72,11 @@ class ServicesScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: Text(
                 "Back",
-                style: GoogleFonts.openSans(
+                style: GoogleFonts.montserrat(
                   textStyle: TextStyle(
                     color: Colors.black,
                     fontSize: 28.sp,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w300,
                   ),
                 ),
               ),
@@ -109,19 +110,29 @@ class ServicesScreen extends StatelessWidget {
               height: 72.h,
               width: 380.w,
               decoration: BoxDecoration(
-                color: Color(0xff8B53FF),
+                color: Color(0XFF1b77f2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Center(
-                child: Text(
-                  "Create New Service",
-                  style: GoogleFonts.openSans(
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32.sp,
-                      fontWeight: FontWeight.w800,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset(
+                      "$assets/new.png",
+                      height: 40.h,
+                      width: 40.w,
                     ),
-                  ),
+                    Text(
+                      "Create New Service",
+                      style: GoogleFonts.montserrat(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -134,11 +145,11 @@ class ServicesScreen extends StatelessWidget {
             children: [
               Text(
                 "My Listed Services",
-                style: GoogleFonts.openSans(
+                style: GoogleFonts.montserrat(
                   textStyle: TextStyle(
-                    color: Color(0xff8B53FF),
+                    color: Color(0XFF1b77f2),
                     fontSize: 32.sp,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w300,
                   ),
                 ),
               ),
@@ -171,11 +182,11 @@ class ServicesScreen extends StatelessWidget {
                       children: [
                         Text(
                           model.services[index].title!,
-                          style: GoogleFonts.openSans(
+                          style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
-                              color: Color(0xff8B53FF),
+                              color: Color(0XFF1b77f2),
                               fontSize: 24.sp,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w300,
                             ),
                           ),
                         ),
@@ -193,7 +204,7 @@ class ServicesScreen extends StatelessWidget {
                               ),
                               child: Image.asset(
                                 model.services[index].imgUrl!,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                               ),
                             ),
                             Positioned(
@@ -201,7 +212,7 @@ class ServicesScreen extends StatelessWidget {
                               child: Container(
                                 padding: EdgeInsets.only(right: 20),
                                 height: 90.h,
-                                width: w,
+                                width: 340.w,
                                 color: Colors.black26,
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
@@ -220,11 +231,11 @@ class ServicesScreen extends StatelessWidget {
                                               Text(
                                                 "Desc: ",
                                                 softWrap: true,
-                                                style: GoogleFonts.openSans(
+                                                style: GoogleFonts.montserrat(
                                                   textStyle: TextStyle(
-                                                    color: Color(0xff8B53FF),
+                                                    color: Color(0XFF1b77f2),
                                                     fontSize: 15.sp,
-                                                    fontWeight: FontWeight.w800,
+                                                    fontWeight: FontWeight.w300,
                                                   ),
                                                 ),
                                               ),
@@ -234,11 +245,11 @@ class ServicesScreen extends StatelessWidget {
                                                 maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.left,
-                                                style: GoogleFonts.openSans(
+                                                style: GoogleFonts.montserrat(
                                                   textStyle: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 15.sp,
-                                                    fontWeight: FontWeight.w800,
+                                                    fontWeight: FontWeight.w300,
                                                   ),
                                                 ),
                                               ),
@@ -253,22 +264,22 @@ class ServicesScreen extends StatelessWidget {
                                             "Price: ",
                                             // "Price: 50 CAD",
                                             overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.openSans(
+                                            style: GoogleFonts.montserrat(
                                               textStyle: TextStyle(
-                                                color: Color(0xff8B53FF),
+                                                color: Color(0XFF1b77f2),
                                                 fontSize: 15.sp,
-                                                fontWeight: FontWeight.w800,
+                                                fontWeight: FontWeight.w300,
                                               ),
                                             ),
                                           ),
                                           Text(
                                             " ${model.services[index].price} CAD",
                                             overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.openSans(
+                                            style: GoogleFonts.montserrat(
                                               textStyle: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 15.sp,
-                                                fontWeight: FontWeight.w800,
+                                                fontWeight: FontWeight.w300,
                                               ),
                                             ),
                                           ),
@@ -280,11 +291,11 @@ class ServicesScreen extends StatelessWidget {
                                             "CAT: ",
                                             // "Price: 50 CAD",
                                             overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.openSans(
+                                            style: GoogleFonts.montserrat(
                                               textStyle: TextStyle(
-                                                color: Color(0xff8B53FF),
+                                                color: Color(0XFF1b77f2),
                                                 fontSize: 15.sp,
-                                                fontWeight: FontWeight.w800,
+                                                fontWeight: FontWeight.w300,
                                               ),
                                             ),
                                           ),
@@ -292,11 +303,11 @@ class ServicesScreen extends StatelessWidget {
                                             " ${model.services[index].category} ",
                                             // "Price: 50 CAD",
                                             overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.openSans(
+                                            style: GoogleFonts.montserrat(
                                               textStyle: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 15.sp,
-                                                fontWeight: FontWeight.w800,
+                                                fontWeight: FontWeight.w300,
                                               ),
                                             ),
                                           ),
@@ -331,7 +342,7 @@ class ServicesScreen extends StatelessWidget {
                   //       child: Center(
                   //         child: Icon(
                   //           Icons.edit,
-                  //           color: Color(0xff8B53FF),
+                  //           color: Color(0XFF1b77f2),
                   //           size: 30.sp,
                   //         ),
                   //       ),

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">69146298764-2llqvbaoj7bvughcg1rf6p99u6t5uohr.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://weautomate-595f1-default-rtdb.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">69146298764</string>
+    <string name="google_api_key" translatable="false">AIzaSyA_X1j87RRh0soamJghFzI6gc0nfsOh40c</string>
+    <string name="google_app_id" translatable="false">1:69146298764:android:9c75b33c06bd755b52eea9</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyA_X1j87RRh0soamJghFzI6gc0nfsOh40c</string>
+    <string name="google_storage_bucket" translatable="false">weautomate-595f1.appspot.com</string>
+    <string name="project_id" translatable="false">weautomate-595f1</string>
+</resources>

@@ -40,7 +40,7 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
                 height: 90.h,
                 width: 330.w,
                 decoration: BoxDecoration(
-                  color: Color(0xff8B53FF),
+                  color: Color(0XFF1b77f2),
                   borderRadius: BorderRadius.circular(13.r),
                 ),
                 child: Center(
@@ -52,19 +52,19 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
                       ),
                       Image.asset(
                         "$static_assets/female.png",
-                        height: 60.h,
-                        width: 60.w,
+                        height: 50.h,
+                        width: 50.w,
                       ),
                       SizedBox(
                         width: 50.w,
                       ),
                       Text(
                         "Login",
-                        style: GoogleFonts.openSans(
+                        style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.white,
                             fontSize: 40.sp,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w300,
                           ),
                         ),
                       ),
@@ -84,7 +84,7 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
                 height: 90.h,
                 width: 330.w,
                 decoration: BoxDecoration(
-                  color: Color(0xff8B53FF),
+                  color: Color(0XFF1b77f2),
                   borderRadius: BorderRadius.circular(13.r),
                 ),
                 child: Center(
@@ -95,20 +95,20 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
                         width: 20.w,
                       ),
                       Image.asset(
-                        "$static_assets/female.png",
-                        height: 60.h,
-                        width: 60.w,
+                        "$static_assets/register.png",
+                        height: 50.h,
+                        width: 50.w,
                       ),
                       SizedBox(
-                        width: 30.w,
+                        width: 50.w,
                       ),
                       Text(
                         "Register",
-                        style: GoogleFonts.openSans(
+                        style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.white,
                             fontSize: 40.sp,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w300,
                           ),
                         ),
                       ),

@@ -525,7 +525,7 @@ class _CustomerSearchDetailScreenState
             style: subHeadingTextstyle.copyWith(
                 fontSize: 13.sp,
                 letterSpacing: 0.4,
-                fontWeight: FontWeight.w400),
+                fontWeight: FontWeight.w300),
           ),
         )
       ],

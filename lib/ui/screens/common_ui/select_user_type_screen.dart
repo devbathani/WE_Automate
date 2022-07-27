@@ -42,7 +42,7 @@ class _SelectUserTypeScreenState extends State<SelectUserTypeScreen> {
                 height: 90.h,
                 width: 330.w,
                 decoration: BoxDecoration(
-                  color: Color(0xff8B53FF),
+                  color: Color(0XFF1b77f2),
                   borderRadius: BorderRadius.circular(13.r),
                 ),
                 child: Center(
@@ -54,19 +54,18 @@ class _SelectUserTypeScreenState extends State<SelectUserTypeScreen> {
                       ),
                       Image.asset(
                         "$static_assets/owner.png",
-                        height: 80.h,
-                        width: 80.w,
+                        height: 50.h,
+                        width: 50.w,
                       ),
                       SizedBox(
                         width: 30.w,
                       ),
                       Text(
                         "Owner",
-                        style: GoogleFonts.openSans(
+                        style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.white,
                             fontSize: 40.sp,
-                            fontWeight: FontWeight.w800,
                           ),
                         ),
                       ),
@@ -88,7 +87,7 @@ class _SelectUserTypeScreenState extends State<SelectUserTypeScreen> {
                 height: 90.h,
                 width: 330.w,
                 decoration: BoxDecoration(
-                  color: Color(0xff8B53FF),
+                  color: Color(0XFF1b77f2),
                   borderRadius: BorderRadius.circular(13.r),
                 ),
                 child: Center(
@@ -100,19 +99,18 @@ class _SelectUserTypeScreenState extends State<SelectUserTypeScreen> {
                       ),
                       Image.asset(
                         "$static_assets/customer.png",
-                        height: 80.h,
-                        width: 80.w,
+                        height: 50.h,
+                        width: 50.w,
                       ),
                       SizedBox(
-                        width: 10.w,
+                        width: 30.w,
                       ),
                       Text(
                         "Customer",
-                        style: GoogleFonts.openSans(
+                        style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.white,
                             fontSize: 40.sp,
-                            fontWeight: FontWeight.w800,
                           ),
                         ),
                       ),

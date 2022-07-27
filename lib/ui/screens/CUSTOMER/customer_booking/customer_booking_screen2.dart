@@ -174,7 +174,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
     flutterLocalNotificationsPlugin.initialize(
       initSetttings,
     );
-    
+
     Future.delayed(Duration(seconds: 4), () {
       isLoading = false;
       setState(() {});
@@ -1014,7 +1014,7 @@ class _CustomerBookingScreenScreenState extends State<CustomerBookingScreen> {
               style: subHeadingTextstyle.copyWith(
                   fontSize: 13.sp,
                   letterSpacing: 0.4,
-                  fontWeight: FontWeight.w400),
+                  fontWeight: FontWeight.w300),
             ),
           )
         ],

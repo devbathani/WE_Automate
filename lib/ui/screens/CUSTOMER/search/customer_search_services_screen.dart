@@ -325,11 +325,11 @@ class _CustomerSearchServicesScreenState
                           children: [
                             Text(
                               model.services[index].title!,
-                              style: GoogleFonts.openSans(
+                              style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
-                                  color: Color(0xff8B53FF),
+                                  color: Color(0XFF1b77f2),
                                   fontSize: 24.sp,
-                                  fontWeight: FontWeight.w800,
+                                  fontWeight: FontWeight.w300,
                                 ),
                               ),
                             ),
@@ -346,7 +346,7 @@ class _CustomerSearchServicesScreenState
                                         providerId:
                                             model.services[index].providerId ??
                                                 "",
-                                         serviceId:
+                                        serviceId:
                                             model.services[index].id ?? "",
                                         price:
                                             model.services[index].price ?? "",
@@ -386,12 +386,12 @@ class _CustomerSearchServicesScreenState
                                                 Text(
                                                   "Desc: ",
                                                   softWrap: true,
-                                                  style: GoogleFonts.openSans(
+                                                  style: GoogleFonts.montserrat(
                                                     textStyle: TextStyle(
-                                                      color: Color(0xff8B53FF),
+                                                      color: Color(0XFF1b77f2),
                                                       fontSize: 15.sp,
                                                       fontWeight:
-                                                          FontWeight.w800,
+                                                          FontWeight.w300,
                                                     ),
                                                   ),
                                                 ),
@@ -402,12 +402,12 @@ class _CustomerSearchServicesScreenState
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   textAlign: TextAlign.left,
-                                                  style: GoogleFonts.openSans(
+                                                  style: GoogleFonts.montserrat(
                                                     textStyle: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 15.sp,
                                                       fontWeight:
-                                                          FontWeight.w800,
+                                                          FontWeight.w300,
                                                     ),
                                                   ),
                                                 ),
@@ -421,11 +421,11 @@ class _CustomerSearchServicesScreenState
                                                 "Price: ",
                                                 // "Price: 50 CAD",
                                                 overflow: TextOverflow.ellipsis,
-                                                style: GoogleFonts.openSans(
+                                                style: GoogleFonts.montserrat(
                                                   textStyle: TextStyle(
-                                                    color: Color(0xff8B53FF),
+                                                    color: Color(0XFF1b77f2),
                                                     fontSize: 15.sp,
-                                                    fontWeight: FontWeight.w800,
+                                                    fontWeight: FontWeight.w300,
                                                   ),
                                                 ),
                                               ),
@@ -433,11 +433,11 @@ class _CustomerSearchServicesScreenState
                                                 " ${model.services[index].price} CAD",
                                                 // "Price: 50 CAD",
                                                 overflow: TextOverflow.ellipsis,
-                                                style: GoogleFonts.openSans(
+                                                style: GoogleFonts.montserrat(
                                                   textStyle: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 15.sp,
-                                                    fontWeight: FontWeight.w800,
+                                                    fontWeight: FontWeight.w300,
                                                   ),
                                                 ),
                                               ),
@@ -449,8 +449,6 @@ class _CustomerSearchServicesScreenState
                                               horizontal: 5.w,
                                             ),
                                             child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 Container(
                                                   height: 35.h,
@@ -460,7 +458,7 @@ class _CustomerSearchServicesScreenState
                                                           MaterialStateProperty
                                                               .resolveWith(
                                                         (states) =>
-                                                            Color(0xff8B53FF),
+                                                            Color(0XFF1b77f2),
                                                       ),
                                                     ),
                                                     onPressed: () {
@@ -489,20 +487,20 @@ class _CustomerSearchServicesScreenState
                                                     },
                                                     child: Text(
                                                       "Book service",
-                                                      style:
-                                                          GoogleFonts.openSans(
+                                                      style: GoogleFonts
+                                                          .montserrat(
                                                         textStyle: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 20.sp,
                                                           fontWeight:
-                                                              FontWeight.bold,
+                                                              FontWeight.w300,
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                                 SizedBox(
-                                                  width: 10.w,
+                                                  width: 30.w,
                                                 ),
                                                 Container(
                                                   height: 35.h,
@@ -512,7 +510,7 @@ class _CustomerSearchServicesScreenState
                                                           MaterialStateProperty
                                                               .resolveWith(
                                                         (states) =>
-                                                            Color(0xff8B53FF),
+                                                            Color(0XFF1b77f2),
                                                       ),
                                                     ),
                                                     onPressed: () {
@@ -528,13 +526,13 @@ class _CustomerSearchServicesScreenState
                                                     },
                                                     child: Text(
                                                       "Message",
-                                                      style:
-                                                          GoogleFonts.openSans(
+                                                      style: GoogleFonts
+                                                          .montserrat(
                                                         textStyle: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 20.sp,
                                                           fontWeight:
-                                                              FontWeight.bold,
+                                                              FontWeight.w300,
                                                         ),
                                                       ),
                                                     ),
@@ -600,7 +598,7 @@ class _CustomerSearchServicesScreenState
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Color(0xff8B53FF),
+                    color: Color(0XFF1b77f2),
                     width: 7,
                   ),
                   borderRadius: BorderRadius.all(
@@ -609,7 +607,7 @@ class _CustomerSearchServicesScreenState
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Color(0xff8B53FF),
+                    color: Color(0XFF1b77f2),
                     width: 7,
                   ),
                   borderRadius: BorderRadius.all(
@@ -617,11 +615,11 @@ class _CustomerSearchServicesScreenState
                   ),
                 ),
                 hintText: "Search all Services",
-                hintStyle: GoogleFonts.openSans(
+                hintStyle: GoogleFonts.montserrat(
                   textStyle: TextStyle(
                     color: Colors.grey,
                     fontSize: 25.sp,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w300,
                   ),
                 ),
               ),
@@ -635,11 +633,11 @@ class _CustomerSearchServicesScreenState
             children: [
               Text(
                 "Available Services",
-                style: GoogleFonts.openSans(
+                style: GoogleFonts.montserrat(
                   textStyle: TextStyle(
-                    color: Color(0xff8B53FF),
+                    color: Color(0XFF1b77f2),
                     fontSize: 32.sp,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w300,
                   ),
                 ),
               ),
@@ -664,11 +662,11 @@ class _CustomerSearchServicesScreenState
               padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: Text(
                 "Back",
-                style: GoogleFonts.openSans(
+                style: GoogleFonts.montserrat(
                   textStyle: TextStyle(
                     color: Colors.black,
                     fontSize: 28.sp,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w300,
                   ),
                 ),
               ),

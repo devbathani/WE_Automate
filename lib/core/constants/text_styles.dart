@@ -8,18 +8,18 @@ var kHead1 = TextStyle(
   color: Colors.black,
 );
 var comforteeFontStyle = GoogleFonts.comfortaa().fontFamily;
-var robottoFontTextStyle = GoogleFonts.roboto().fontFamily;
+var robottoFontTextStyle = GoogleFonts.montserrat().fontFamily;
 // var sfProText = GoogleFonts..fontFamily;
 
 var headingTextStyle = TextStyle(
   fontFamily: comforteeFontStyle,
   fontSize: 36.sp,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w300,
   color: Colors.black,
 );
 var subHeadingTextstyle = TextStyle(
   fontFamily: comforteeFontStyle,
-  fontWeight: FontWeight.w600,
+  fontWeight: FontWeight.w300,
   fontSize: 24,
   color: Colors.black,
 );
@@ -47,7 +47,7 @@ final chatTextStyleRight = TextStyle(
 final chatTimeTS = TextStyle(
     fontSize: 12,
     color: Color(0xFFB2BEC3),
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w300,
     fontFamily: robottoFontTextStyle);
 
 ///

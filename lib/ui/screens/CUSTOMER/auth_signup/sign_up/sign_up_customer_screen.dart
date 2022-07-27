@@ -59,11 +59,11 @@ class _SignUpCustomerScreenState extends State<SignUpCustomerScreen> {
                       },
                       child: Text(
                         "Back",
-                        style: GoogleFonts.openSans(
+                        style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.black,
                             fontSize: 25.sp,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w300,
                           ),
                         ),
                       ),
@@ -77,11 +77,11 @@ class _SignUpCustomerScreenState extends State<SignUpCustomerScreen> {
                       ),
                       child: Text(
                         "Register",
-                        style: GoogleFonts.openSans(
+                        style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.black,
                             fontSize: 40.sp,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w300,
                           ),
                         ),
                       ),
@@ -223,7 +223,7 @@ class _SignUpCustomerScreenState extends State<SignUpCustomerScreen> {
                                   height: 60.h,
                                   width: 350.w,
                                   decoration: BoxDecoration(
-                                    color: Color(0xff8B53FF),
+                                    color: Color(0XFF1b77f2),
                                     borderRadius: BorderRadius.circular(13.r),
                                   ),
                                   child: Center(
@@ -232,7 +232,7 @@ class _SignUpCustomerScreenState extends State<SignUpCustomerScreen> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Image.asset(
-                                          "$assets/female.png",
+                                          "$assets/register.png",
                                           height: 50.h,
                                           width: 50.w,
                                         ),
@@ -241,11 +241,11 @@ class _SignUpCustomerScreenState extends State<SignUpCustomerScreen> {
                                         ),
                                         Text(
                                           "SIGN UP",
-                                          style: GoogleFonts.openSans(
+                                          style: GoogleFonts.montserrat(
                                             textStyle: TextStyle(
                                               color: Colors.white,
                                               fontSize: 40.sp,
-                                              fontWeight: FontWeight.w800,
+                                              fontWeight: FontWeight.w300,
                                             ),
                                           ),
                                         ),
@@ -263,11 +263,11 @@ class _SignUpCustomerScreenState extends State<SignUpCustomerScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 10.w),
                             child: Text(
                               "By signing up, you agree to Terms of Service and Privacy Policy",
-                              style: GoogleFonts.openSans(
+                              style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
                                   color: Colors.black,
                                   fontSize: 17.sp,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w300,
                                 ),
                               ),
                               textAlign: TextAlign.left,

@@ -55,11 +55,11 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
                       },
                       child: Text(
                         "Back",
-                        style: GoogleFonts.openSans(
+                        style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.black,
                             fontSize: 25.sp,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w300,
                           ),
                         ),
                       ),
@@ -71,11 +71,11 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
                       children: [
                         Text(
                           "Edit Business Details",
-                          style: GoogleFonts.openSans(
+                          style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
-                              color: Color(0xff8B53FF),
+                              color: Color(0XFF1b77f2),
                               fontSize: 28.sp,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w300,
                             ),
                           ),
                         )
@@ -248,17 +248,17 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
                               height: 60.h,
                               width: 250.w,
                               decoration: BoxDecoration(
-                                color: Color(0XFF8B53FF),
+                                color: Color(0XFF1b77f2),
                                 borderRadius: BorderRadius.circular(13.r),
                               ),
                               child: Center(
                                 child: Text(
                                   "Edit Details",
-                                  style: GoogleFonts.roboto(
+                                  style: GoogleFonts.montserrat(
                                     textStyle: TextStyle(
                                       color: Colors.white,
                                       fontSize: 25.sp,
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w300,
                                     ),
                                   ),
                                 ),

@@ -47,11 +47,11 @@ class _LoginCustomerScreenState extends State<LoginCustomerScreen> {
                       },
                       child: Text(
                         "Back",
-                        style: GoogleFonts.openSans(
+                        style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.black,
                             fontSize: 25.sp,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w300,
                           ),
                         ),
                       ),
@@ -65,11 +65,11 @@ class _LoginCustomerScreenState extends State<LoginCustomerScreen> {
                       ),
                       child: Text(
                         "Login",
-                        style: GoogleFonts.openSans(
+                        style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.black,
                             fontSize: 40.sp,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w300,
                           ),
                         ),
                       ),
@@ -95,7 +95,7 @@ class _LoginCustomerScreenState extends State<LoginCustomerScreen> {
                               onSaved: (val) {
                                 model.customerUser.email = val;
                               },
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
                                   color: Colors.grey,
                                   fontSize: w / 20,
@@ -109,7 +109,7 @@ class _LoginCustomerScreenState extends State<LoginCustomerScreen> {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                    color: Color(0xff8B53FF),
+                                    color: Color(0XFF1b77f2),
                                     width: 7,
                                   ),
                                   borderRadius: BorderRadius.all(
@@ -118,7 +118,7 @@ class _LoginCustomerScreenState extends State<LoginCustomerScreen> {
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                    color: Color(0xff8B53FF),
+                                    color: Color(0XFF1b77f2),
                                     width: 7,
                                   ),
                                   borderRadius: BorderRadius.all(
@@ -126,11 +126,11 @@ class _LoginCustomerScreenState extends State<LoginCustomerScreen> {
                                   ),
                                 ),
                                 hintText: 'Email',
-                                hintStyle: GoogleFonts.openSans(
+                                hintStyle: GoogleFonts.montserrat(
                                   textStyle: TextStyle(
                                     color: Colors.grey,
                                     fontSize: 25.sp,
-                                    fontWeight: FontWeight.w800,
+                                    fontWeight: FontWeight.w300,
                                   ),
                                 ),
                               ),
@@ -155,7 +155,7 @@ class _LoginCustomerScreenState extends State<LoginCustomerScreen> {
                               onSaved: (val) {
                                 model.customerUser.password = val;
                               },
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
                                   color: Colors.grey,
                                   fontSize: w / 20,
@@ -169,7 +169,7 @@ class _LoginCustomerScreenState extends State<LoginCustomerScreen> {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                    color: Color(0xff8B53FF),
+                                    color: Color(0XFF1b77f2),
                                     width: 7,
                                   ),
                                   borderRadius: BorderRadius.all(
@@ -178,7 +178,7 @@ class _LoginCustomerScreenState extends State<LoginCustomerScreen> {
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                    color: Color(0xff8B53FF),
+                                    color: Color(0XFF1b77f2),
                                     width: 7,
                                   ),
                                   borderRadius: BorderRadius.all(
@@ -186,11 +186,11 @@ class _LoginCustomerScreenState extends State<LoginCustomerScreen> {
                                   ),
                                 ),
                                 hintText: 'Password',
-                                hintStyle: GoogleFonts.openSans(
+                                hintStyle: GoogleFonts.montserrat(
                                   textStyle: TextStyle(
                                     color: Colors.grey,
                                     fontSize: 25.sp,
-                                    fontWeight: FontWeight.w800,
+                                    fontWeight: FontWeight.w300,
                                   ),
                                 ),
                               ),
@@ -226,7 +226,7 @@ class _LoginCustomerScreenState extends State<LoginCustomerScreen> {
                             height: 70.h,
                             width: 330.w,
                             decoration: BoxDecoration(
-                              color: Color(0xff8B53FF),
+                              color: Color(0XFF1b77f2),
                               borderRadius: BorderRadius.circular(13.r),
                             ),
                             child: Center(
@@ -246,11 +246,11 @@ class _LoginCustomerScreenState extends State<LoginCustomerScreen> {
                                   ),
                                   Text(
                                     "Login",
-                                    style: GoogleFonts.openSans(
+                                    style: GoogleFonts.montserrat(
                                       textStyle: TextStyle(
                                         color: Colors.white,
                                         fontSize: 40.sp,
-                                        fontWeight: FontWeight.w800,
+                                        fontWeight: FontWeight.w300,
                                       ),
                                     ),
                                   ),
@@ -273,11 +273,11 @@ class _LoginCustomerScreenState extends State<LoginCustomerScreen> {
                           },
                           child: Text(
                             "Don’t have an account yet, Signup?",
-                            style: GoogleFonts.openSans(
+                            style: GoogleFonts.montserrat(
                               textStyle: TextStyle(
                                 color: Colors.black,
                                 fontSize: 18.sp,
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w300,
                               ),
                             ),
                           ),

@@ -53,11 +53,11 @@ class CustomerConversationScreen extends StatelessWidget {
               },
               child: Text(
                 "Back",
-                style: GoogleFonts.openSans(
+                style: GoogleFonts.montserrat(
                   textStyle: TextStyle(
                     color: Colors.black,
                     fontSize: 25.sp,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w300,
                   ),
                 ),
               ),
@@ -67,10 +67,10 @@ class CustomerConversationScreen extends StatelessWidget {
             ),
             Text(
               "Chats",
-              style: GoogleFonts.openSans(
-                color: Color(0xff8B53FF),
+              style: GoogleFonts.montserrat(
+                color: Color(0XFF1b77f2),
                 fontSize: 28.sp,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w300,
               ),
             ),
           ],
@@ -159,7 +159,7 @@ class CustomerConversationScreen extends StatelessWidget {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             image: AssetImage(
-                              "$assets/messages.png",
+                              "$assets/provider4.png",
                             ),
                           ),
                         ),
@@ -174,10 +174,10 @@ class CustomerConversationScreen extends StatelessWidget {
                         children: [
                           Text(
                             "${conversation.providerName}",
-                            style: GoogleFonts.openSans(
-                              color: Color(0xff8B53FF),
+                            style: GoogleFonts.montserrat(
+                              color: Color(0XFF1b77f2),
                               fontSize: 18.sp,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w300,
                             ),
                           ),
                           SizedBox(
@@ -188,10 +188,10 @@ class CustomerConversationScreen extends StatelessWidget {
                               Flexible(
                                 child: Text(
                                   "${conversation.message}",
-                                  style: GoogleFonts.openSans(
+                                  style: GoogleFonts.montserrat(
                                     color: Colors.black,
                                     fontSize: 18.sp,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w300,
                                   ),
                                 ),
                               ),
@@ -204,10 +204,10 @@ class CustomerConversationScreen extends StatelessWidget {
                       children: [
                         Text(
                           "${conversation.timeStamp}",
-                          style: GoogleFonts.openSans(
+                          style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
                               color: Colors.grey,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w300,
                               fontSize: 14.sp,
                             ),
                           ),

@@ -25,7 +25,7 @@ class CustomTextField extends StatelessWidget {
       onSaved: onSaved,
       maxLines: 1,
       keyboardType: TextInputType.name,
-      style: GoogleFonts.poppins(
+      style: GoogleFonts.montserrat(
         textStyle: TextStyle(
           color: Colors.grey,
           fontSize: 20.sp,
@@ -40,7 +40,7 @@ class CustomTextField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0xff8B53FF),
+            color: Color(0XFF1b77f2),
             width: 7,
           ),
           borderRadius: BorderRadius.all(
@@ -49,7 +49,7 @@ class CustomTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0xff8B53FF),
+            color: Color(0XFF1b77f2),
             width: 7,
           ),
           borderRadius: BorderRadius.all(
@@ -57,11 +57,11 @@ class CustomTextField extends StatelessWidget {
           ),
         ),
         hintText: hintText,
-        hintStyle: GoogleFonts.openSans(
+        hintStyle: GoogleFonts.montserrat(
           textStyle: TextStyle(
             color: Colors.grey,
             fontSize: 25.sp,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w300,
           ),
         ),
       ),

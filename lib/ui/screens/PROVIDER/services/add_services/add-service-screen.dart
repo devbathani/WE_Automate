@@ -42,7 +42,14 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
     return pic;
   }
 
+  String generateTechImage(int i) {
+    String pic = "";
+    pic = "assets/static_assets/images/" + i.toString() + ".jpg";
+    return pic;
+  }
+
   bool showImages = false;
+  bool showCategory = false;
   bool isImage = false;
   int? selectedImage = 1;
 
@@ -183,11 +190,11 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                               padding: EdgeInsets.symmetric(horizontal: 10.w),
                               child: Text(
                                 "Back",
-                                style: GoogleFonts.openSans(
+                                style: GoogleFonts.montserrat(
                                   textStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize: 28.sp,
-                                    fontWeight: FontWeight.w800,
+                                    fontWeight: FontWeight.w300,
                                   ),
                                 ),
                               ),
@@ -286,7 +293,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                                   height: 30.h,
                                   width: 130.w,
                                   decoration: BoxDecoration(
-                                    color: Color(0xff8B53FF),
+                                    color: Color(0XFF1b77f2),
                                     borderRadius: BorderRadius.circular(10.r),
                                   ),
                                   child: Center(
@@ -295,7 +302,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
+                                        fontWeight: FontWeight.w300,
                                       ),
                                     ),
                                   ),
@@ -303,6 +310,187 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                               ),
                             ],
                           ),
+                        ),
+                      ),
+                    )
+                  : SizedBox.shrink(),
+              showCategory
+                  ? Positioned(
+                      bottom: 400.h,
+                      right: 10.w,
+                      child: Container(
+                        height: 400.h,
+                        width: 350.w,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.black, width: 0.5.w),
+                        ),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            Text(
+                              "Select Category",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 25.sp,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            Divider(
+                              color: Colors.grey,
+                              thickness: 0.2.w,
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  showCategory = false;
+                                  showImages = true;
+                                });
+                              },
+                              child: Container(
+                                height: 50.h,
+                                width: 300.w,
+                                decoration: BoxDecoration(
+                                  color: Color(0XFF1b77f2),
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Haircuts",
+                                    style: TextStyle(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  showCategory = false;
+                                  showImages = true;
+                                });
+                              },
+                              child: Container(
+                                height: 50.h,
+                                width: 300.w,
+                                decoration: BoxDecoration(
+                                  color: Color(0XFF1b77f2),
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Health",
+                                    style: TextStyle(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  showCategory = false;
+                                  showImages = true;
+                                });
+                              },
+                              child: Container(
+                                height: 50.h,
+                                width: 300.w,
+                                decoration: BoxDecoration(
+                                  color: Color(0XFF1b77f2),
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Automation",
+                                    style: TextStyle(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  showCategory = false;
+                                  showImages = true;
+                                });
+                              },
+                              child: Container(
+                                height: 50.h,
+                                width: 300.w,
+                                decoration: BoxDecoration(
+                                  color: Color(0XFF1b77f2),
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Technology",
+                                    style: TextStyle(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  showCategory = false;
+                                  showImages = true;
+                                });
+                              },
+                              child: Container(
+                                height: 50.h,
+                                width: 300.w,
+                                decoration: BoxDecoration(
+                                  color: Color(0XFF1b77f2),
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Digital Marketing",
+                                    style: TextStyle(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     )
@@ -443,7 +631,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    showImages = true;
+                    showCategory = true;
                   });
                 },
                 child: isImage
@@ -455,7 +643,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                             image: AssetImage(
                               generateImage(selectedImage!),
                             ),
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       )
@@ -522,7 +710,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
               height: 70.h,
               width: 330.w,
               decoration: BoxDecoration(
-                color: Color(0xff8B53FF),
+                color: Color(0XFF1b77f2),
                 borderRadius: BorderRadius.circular(13.r),
               ),
               child: Center(
@@ -533,20 +721,20 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                       width: 60.w,
                     ),
                     Image.asset(
-                      "$assets/female.png",
-                      height: 50.h,
-                      width: 50.w,
+                      "$assets/done.png",
+                      height: 40.h,
+                      width: 40.w,
                     ),
                     SizedBox(
                       width: 20.w,
                     ),
                     Text(
                       "Publish",
-                      style: GoogleFonts.openSans(
+                      style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 40.sp,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),
@@ -569,11 +757,11 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
         ),
         Text(
           "Add Service Details",
-          style: GoogleFonts.openSans(
+          style: GoogleFonts.montserrat(
             textStyle: TextStyle(
               color: Colors.black,
               fontSize: 30.sp,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w300,
             ),
           ),
         ),

@@ -30,11 +30,11 @@ class CustomerHomeScreen extends StatelessWidget {
               children: [
                 Text(
                   "Welcome",
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
                       color: Colors.black87,
                       fontSize: 30.sp,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w300,
                     ),
                   ),
                 ),
@@ -44,11 +44,11 @@ class CustomerHomeScreen extends StatelessWidget {
                 Text(
                   "${locator<AuthService>().customerProfile!.firstName}",
                   overflow: TextOverflow.visible,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
-                      color: Color(0xff8B53FF),
+                      color: Color(0XFF1b77f2),
                       fontSize: 35.sp,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w300,
                     ),
                   ),
                 ),
@@ -67,7 +67,7 @@ class CustomerHomeScreen extends StatelessWidget {
                 height: 70.h,
                 width: 380.w,
                 decoration: BoxDecoration(
-                  color: Color(0xff8B53FF),
+                  color: Color(0XFF1b77f2),
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Center(
@@ -78,7 +78,7 @@ class CustomerHomeScreen extends StatelessWidget {
                         width: 20.w,
                       ),
                       Image.asset(
-                        "$static_assets/homescreen_1.png",
+                        "$static_assets/provider2.png",
                         height: 50.h,
                         width: 50.w,
                       ),
@@ -87,11 +87,11 @@ class CustomerHomeScreen extends StatelessWidget {
                       ),
                       Text(
                         "Book a Service",
-                        style: GoogleFonts.openSans(
+                        style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.white,
                             fontSize: 28.sp,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w300,
                           ),
                         ),
                       ),
@@ -113,7 +113,7 @@ class CustomerHomeScreen extends StatelessWidget {
                 height: 70.h,
                 width: 380.w,
                 decoration: BoxDecoration(
-                  color: Color(0xff8B53FF),
+                  color: Color(0XFF1b77f2),
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Center(
@@ -124,7 +124,7 @@ class CustomerHomeScreen extends StatelessWidget {
                         width: 20.w,
                       ),
                       Image.asset(
-                        "$static_assets/homescreen_2.png",
+                        "$static_assets/provider3.png",
                         height: 50.h,
                         width: 50.w,
                       ),
@@ -133,11 +133,11 @@ class CustomerHomeScreen extends StatelessWidget {
                       ),
                       Text(
                         "My Bookings",
-                        style: GoogleFonts.openSans(
+                        style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.white,
                             fontSize: 28.sp,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w300,
                           ),
                         ),
                       ),
@@ -159,7 +159,7 @@ class CustomerHomeScreen extends StatelessWidget {
                 height: 70.h,
                 width: 380.w,
                 decoration: BoxDecoration(
-                  color: Color(0xff8B53FF),
+                  color: Color(0XFF1b77f2),
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Center(
@@ -170,7 +170,7 @@ class CustomerHomeScreen extends StatelessWidget {
                         width: 20.w,
                       ),
                       Image.asset(
-                        "$static_assets/homescreen_3.png",
+                        "$static_assets/provider4.png",
                         height: 50.h,
                         width: 50.w,
                       ),
@@ -179,11 +179,11 @@ class CustomerHomeScreen extends StatelessWidget {
                       ),
                       Text(
                         "My Messages",
-                        style: GoogleFonts.openSans(
+                        style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.white,
                             fontSize: 28.sp,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w300,
                           ),
                         ),
                       ),

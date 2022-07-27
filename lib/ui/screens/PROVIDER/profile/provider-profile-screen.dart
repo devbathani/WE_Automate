@@ -54,11 +54,11 @@ class ProviderProfileScreen extends StatelessWidget {
           ),
           Text(
             "Hey there..",
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.montserrat(
               textStyle: TextStyle(
                 color: Colors.black87,
                 fontSize: 25.sp,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w300,
               ),
             ),
           ),
@@ -67,11 +67,11 @@ class ProviderProfileScreen extends StatelessWidget {
           ),
           Text(
             "${locator<AuthService>().providerProfile!.businessName}",
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.montserrat(
               textStyle: TextStyle(
                 color: Color.fromARGB(221, 55, 82, 238),
                 fontSize: 30.sp,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w300,
               ),
             ),
           ),
@@ -99,7 +99,7 @@ class ProviderProfileScreen extends StatelessWidget {
               height: 70.h,
               width: 380.w,
               decoration: BoxDecoration(
-                color: Color(0xff8B53FF),
+                color: Color(0XFF1b77f2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Center(
@@ -110,7 +110,7 @@ class ProviderProfileScreen extends StatelessWidget {
                       width: 20.w,
                     ),
                     Image.asset(
-                      "$static_assets/homescreen_2.png",
+                      "$static_assets/ed.png",
                       height: 50.h,
                       width: 50.w,
                     ),
@@ -119,11 +119,11 @@ class ProviderProfileScreen extends StatelessWidget {
                     ),
                     Text(
                       "Edit Details",
-                      style: GoogleFonts.openSans(
+                      style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 28.sp,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),
@@ -145,7 +145,7 @@ class ProviderProfileScreen extends StatelessWidget {
               height: 70.h,
               width: 380.w,
               decoration: BoxDecoration(
-                color: Color(0xff8B53FF),
+                color: Color(0XFF1b77f2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Center(
@@ -156,7 +156,7 @@ class ProviderProfileScreen extends StatelessWidget {
                       width: 20.w,
                     ),
                     Image.asset(
-                      "$static_assets/homescreen_3.png",
+                      "$static_assets/provider4.png",
                       height: 50.h,
                       width: 50.w,
                     ),
@@ -165,57 +165,11 @@ class ProviderProfileScreen extends StatelessWidget {
                     ),
                     Text(
                       "My Messages",
-                      style: GoogleFonts.openSans(
+                      style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 28.sp,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 30.h,
-          ),
-          InkWell(
-            onTap: () {
-              print(":");
-
-              Get.to(() => WebviewScreen());
-            },
-            child: Container(
-              height: 70.h,
-              width: 380.w,
-              decoration: BoxDecoration(
-                color: Color(0xff8B53FF),
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 20.w,
-                    ),
-                    Image.asset(
-                      "$static_assets/homescreen_1.png",
-                      height: 50.h,
-                      width: 50.w,
-                    ),
-                    SizedBox(
-                      width: 20.w,
-                    ),
-                    Text(
-                      "My Website",
-                      style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 28.sp,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),
@@ -237,7 +191,7 @@ class ProviderProfileScreen extends StatelessWidget {
               height: 70.h,
               width: 380.w,
               decoration: BoxDecoration(
-                color: Color(0xff8B53FF),
+                color: Color(0XFF1b77f2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Center(
@@ -251,17 +205,69 @@ class ProviderProfileScreen extends StatelessWidget {
                       "$static_assets/logout.png",
                       height: 50.h,
                       width: 50.w,
+                      color: Colors.red,
                     ),
                     SizedBox(
                       width: 20.w,
                     ),
                     Text(
                       "Logout",
-                      style: GoogleFonts.openSans(
+                      style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 28.sp,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 50.h,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Made with  💜 by",
+                style: TextStyle(
+                  color: Color(0XFF1b77f2),
+                  fontSize: 25.sp,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20.h,
+          ),
+          InkWell(
+            onTap: () {
+              print(":");
+
+              Get.to(() => WebviewScreen());
+            },
+            child: Container(
+              height: 70.h,
+              width: 380.w,
+              decoration: BoxDecoration(
+                color: Color(0XFF1b77f2),
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "We Automate",
+                      style: GoogleFonts.montserrat(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28.sp,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),

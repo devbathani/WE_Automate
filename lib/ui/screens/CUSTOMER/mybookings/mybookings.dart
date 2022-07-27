@@ -35,7 +35,7 @@ class _MyBookingsState extends State<MyBookings> {
                   padding: EdgeInsets.symmetric(horizontal: 25.w),
                   child: Text(
                     "My Bookings",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
                         color: Colors.black,
                         fontSize: 25.sp,

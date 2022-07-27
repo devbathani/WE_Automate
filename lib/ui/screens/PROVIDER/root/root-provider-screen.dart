@@ -60,7 +60,7 @@ class _RootProviderScreenState extends State<RootProviderScreen> {
                       height: 70.h,
                       width: 160.w,
                       decoration: BoxDecoration(
-                          color: Color(0xff8B53FF),
+                          color: Color(0XFF1b77f2),
                           borderRadius: BorderRadius.circular(12.r)),
                       child: Center(
                         child: Row(
@@ -68,19 +68,19 @@ class _RootProviderScreenState extends State<RootProviderScreen> {
                           children: [
                             Image.asset(
                               '$static_assets/Home.png',
-                              height: 60.h,
-                              width: 60.w,
+                              height: 40.h,
+                              width: 40.w,
                             ),
                             SizedBox(
                               width: 10.w,
                             ),
                             Text(
                               "Home",
-                              style: GoogleFonts.openSans(
+                              style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
                                   color: Colors.white,
                                   fontSize: 22.sp,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w300,
                                 ),
                               ),
                             ),
@@ -97,27 +97,27 @@ class _RootProviderScreenState extends State<RootProviderScreen> {
                       height: 70.h,
                       width: 160.w,
                       decoration: BoxDecoration(
-                          color: Color(0xff8B53FF),
+                          color: Color(0XFF1b77f2),
                           borderRadius: BorderRadius.circular(12.r)),
                       child: Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
-                              '$static_assets/female.png',
-                              height: 50.h,
-                              width: 50.w,
+                              '$static_assets/profile.png',
+                              height: 40.h,
+                              width: 40.w,
                             ),
                             SizedBox(
                               width: 10.w,
                             ),
                             Text(
                               "Profile",
-                              style: GoogleFonts.openSans(
+                              style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
                                   color: Colors.white,
                                   fontSize: 22.sp,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w300,
                                 ),
                               ),
                             ),

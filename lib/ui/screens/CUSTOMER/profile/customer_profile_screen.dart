@@ -47,11 +47,11 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
           ),
           Text(
             "Welcome",
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.montserrat(
               textStyle: TextStyle(
                 color: Colors.black87,
                 fontSize: 25.sp,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w300,
               ),
             ),
           ),
@@ -60,11 +60,11 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
           ),
           Text(
             "${locator<AuthService>().customerProfile!.firstName}",
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.montserrat(
               textStyle: TextStyle(
-                color: Color(0xff8B53FF),
+                color: Color(0XFF1b77f2),
                 fontSize: 30.sp,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w300,
               ),
             ),
           ),
@@ -90,7 +90,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
               height: 70.h,
               width: 380.w,
               decoration: BoxDecoration(
-                color: Color(0xff8B53FF),
+                color: Color(0XFF1b77f2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Center(
@@ -101,7 +101,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                       width: 20.w,
                     ),
                     Image.asset(
-                      "$static_assets/homescreen_2.png",
+                      "$static_assets/provider3.png",
                       height: 50.h,
                       width: 50.w,
                     ),
@@ -110,11 +110,11 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     ),
                     Text(
                       "My Bookings",
-                      style: GoogleFonts.openSans(
+                      style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 28.sp,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),
@@ -136,7 +136,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
               height: 70.h,
               width: 380.w,
               decoration: BoxDecoration(
-                color: Color(0xff8B53FF),
+                color: Color(0XFF1b77f2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Center(
@@ -147,7 +147,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                       width: 20.w,
                     ),
                     Image.asset(
-                      "$static_assets/homescreen_3.png",
+                      "$static_assets/provider4.png",
                       height: 50.h,
                       width: 50.w,
                     ),
@@ -156,11 +156,11 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     ),
                     Text(
                       "My Messages",
-                      style: GoogleFonts.openSans(
+                      style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 28.sp,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),
@@ -182,7 +182,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
               height: 70.h,
               width: 380.w,
               decoration: BoxDecoration(
-                color: Color(0xff8B53FF),
+                color: Color(0XFF1b77f2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Center(
@@ -194,19 +194,20 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     ),
                     Image.asset(
                       "$static_assets/logout.png",
-                      height: 50.h,
-                      width: 50.w,
+                      height: 40.h,
+                      width: 40.w,
+                      color: Colors.red,
                     ),
                     SizedBox(
                       width: 20.w,
                     ),
                     Text(
                       "Logout",
-                      style: GoogleFonts.openSans(
+                      style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 28.sp,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),

@@ -126,11 +126,11 @@ class _SplashScreenState extends State<SplashScreen> {
                   width: 350.w,
                   child: Text(
                     "Get Everything you need to Grow Your Online business!",
-                    style: GoogleFonts.openSans(
+                    style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
                         color: Colors.black,
                         fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w300,
                       ),
                     ),
                     textAlign: TextAlign.center,
@@ -152,8 +152,45 @@ class _SplashScreenState extends State<SplashScreen> {
                     color: Colors.grey,
                   ),
                 ),
-                child: Image.asset(
-                  '$static_assets/1_onboard.png',
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 10.h,
+                        left: 5.w,
+                        child: Container(
+                          height: 50.h,
+                          width: 50.w,
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 10.h),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              '$static_assets/1_onboard.png',
+                              height: 50.h,
+                              width: 50.w,
+                            ),
+                            SizedBox(
+                              width: 20.w,
+                            ),
+                            Text(
+                              "Online and Cash Payments",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -171,8 +208,52 @@ class _SplashScreenState extends State<SplashScreen> {
                     color: Colors.grey,
                   ),
                 ),
-                child: Image.asset(
-                  '$static_assets/2_onboard.png',
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 8.h,
+                        left: 0.w,
+                        child: Container(
+                          height: 50.h,
+                          width: 50.w,
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade800,
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: 12.h,
+                          left: 5.w,
+                        ),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              '$static_assets/2_onboard.png',
+                              height: 40.h,
+                              width: 40.w,
+                            ),
+                            SizedBox(
+                              width: 40.w,
+                            ),
+                            SizedBox(
+                              width: 150.w,
+                              child: Text(
+                                "Customizable Appointment system",
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14.sp,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -190,8 +271,48 @@ class _SplashScreenState extends State<SplashScreen> {
                     color: Colors.grey,
                   ),
                 ),
-                child: Image.asset(
-                  '$static_assets/3_onboard.png',
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 8.h,
+                        child: Container(
+                          height: 50.h,
+                          width: 50.w,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 12.h, left: 5.w),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              '$static_assets/3_onboard.png',
+                              height: 40.h,
+                              width: 40.w,
+                            ),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            SizedBox(
+                              width: 150.w,
+                              child: Text(
+                                "24*7 Support",
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14.sp,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -209,8 +330,51 @@ class _SplashScreenState extends State<SplashScreen> {
                     color: Colors.grey,
                   ),
                 ),
-                child: Image.asset(
-                  '$static_assets/4_onboard.png',
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 8.h,
+                        child: Container(
+                          height: 50.h,
+                          width: 50.w,
+                          decoration: BoxDecoration(
+                            color: Colors.amber.shade300,
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: 12.h,
+                          left: 5.w,
+                        ),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              '$static_assets/4_onboard.png',
+                              height: 40.h,
+                              width: 40.w,
+                            ),
+                            SizedBox(
+                              width: 20.w,
+                            ),
+                            SizedBox(
+                              width: 150.w,
+                              child: Text(
+                                "And many more...",
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14.sp,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -240,17 +404,17 @@ class _SplashScreenState extends State<SplashScreen> {
                 height: 60.h,
                 width: 300.w,
                 decoration: BoxDecoration(
-                  color: Color(0XFF8B53FF),
+                  color: Color(0XFF1b77f2),
                   borderRadius: BorderRadius.circular(13.r),
                 ),
                 child: Center(
                   child: Text(
                     "Get started for free",
-                    style: GoogleFonts.roboto(
+                    style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
                         color: Colors.white,
                         fontSize: 25.sp,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w300,
                       ),
                     ),
                   ),
@@ -260,14 +424,14 @@ class _SplashScreenState extends State<SplashScreen> {
           : Padding(
               padding: const EdgeInsets.only(top: 10.0, bottom: 38),
               child: CircularProgressIndicator(
-                color: Color(0XFF8B53FF),
+                color: Color(0XFF1b77f2),
               ),
             );
     } else {
       return Padding(
         padding: const EdgeInsets.only(top: 10.0, bottom: 38),
         child: CircularProgressIndicator(
-          color: Color(0XFF8B53FF),
+          color: Color(0XFF1b77f2),
         ),
       );
     }
