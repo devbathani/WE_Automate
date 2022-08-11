@@ -20,6 +20,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddServiceScreen extends StatefulWidget {
   const AddServiceScreen({Key? key}) : super(key: key);
@@ -691,6 +692,9 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
 
                   serviceToBeAdded.providerId =
                       locator<LocalStorageService>().accessTokenProvider;
+                  final prefs = await SharedPreferences.getInstance();
+                  prefs.setString("providerID",
+                      locator<LocalStorageService>().accessTokenProvider);
                   serviceToBeAdded.location = Locationn(
                     lat: _locationService.currentLocation!.latitude.toString(),
                     long:

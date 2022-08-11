@@ -5,6 +5,7 @@ import 'package:antonx_flutter_template/core/others/base_view_model.dart';
 import 'package:antonx_flutter_template/core/services/database_service.dart';
 import 'package:antonx_flutter_template/locator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/services/local_storage_service.dart';
 
@@ -51,8 +52,10 @@ class CustomerBookingScreenViewModel extends BaseViewModel {
   getAllProviderData() async {
     print("Provider side update");
     setState(ViewState.loading);
-    appuser = (await _dbService
-        .getProviderUserData(_localStorageService.accessTokenProvider))!;
+    final prefs = await SharedPreferences.getInstance();
+
+    appuser =
+        (await _dbService.getProviderUserData(prefs.getString("providerID")))!;
     print("Provider side update");
     setState(ViewState.idle);
   }

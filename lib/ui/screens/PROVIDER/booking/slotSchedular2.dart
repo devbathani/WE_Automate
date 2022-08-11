@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:developer';
 
 import 'package:antonx_flutter_template/ui/custom_widgets/slot_booking/export_slot_components.dart';
 import 'package:flutter/material.dart';
@@ -67,12 +68,12 @@ class _SlotSchedular2State extends State<SlotSchedular2> {
             ),
           ),
           backgroundColor: Colors.black,
-          leading: IconButton(onPressed: () {
-            Navigator.of(context).pop();
-          }, icon: Icon(Icons.arrow_back))),
-      body:
-
-      FutureBuilder<ScheduleInfoData?>(
+          leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(Icons.arrow_back))),
+      body: FutureBuilder<ScheduleInfoData?>(
           future: _dbService.getScheduleInfo(
             _localStorageService.accessTokenProvider,
           ),
@@ -80,7 +81,7 @@ class _SlotSchedular2State extends State<SlotSchedular2> {
             print("OrderList ${snapshot.connectionState}");
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(
-                height: MediaQuery.of(context).size.height/2,
+                height: MediaQuery.of(context).size.height / 2,
                 child: Center(
                   child: CircularProgressIndicator(
                     color: Colors.blue,
@@ -88,31 +89,33 @@ class _SlotSchedular2State extends State<SlotSchedular2> {
                   ),
                 ),
               );
-            }
-            else {
-              print(snapshot.data);
-              if(snapshot.data?.schedule !=null) {
+            } else {
+              log(snapshot.data.toString());
+              if (snapshot.data?.schedule != null) {
                 slotList = snapshot.data!.schedule;
                 offDates = snapshot.data!.offdays;
               }
               print("Slot List: ${slotList.length}");
 
-              String buttonTitle = snapshot.data?.schedule !=null?"Update":"Create";
+              String buttonTitle =
+                  snapshot.data?.schedule != null ? "Update" : "Create";
               return SingleChildScrollView(
                 child: Container(
                   color: Colors.grey.shade100,
-                  padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 10.h),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 10.w, horizontal: 10.h),
                   child: Column(
                     children: [
                       Column(
                         children: [
-                          Text(snapshot.data?.schedule !=null?"Update Schedule":"Create Schedule"),
+                          Text(snapshot.data?.schedule != null
+                              ? "Update Schedule"
+                              : "Create Schedule"),
                           SizedBox(height: 10),
                           slotListView,
                         ],
                       ),
-                      if(snapshot.data?.schedule !=null)
-                      offListView,
+                      if (snapshot.data?.schedule != null) offListView,
                       SizedBox(
                         height: 10.h,
                       ),
@@ -121,13 +124,15 @@ class _SlotSchedular2State extends State<SlotSchedular2> {
                         child: ElevatedButton(
                             style: ButtonStyle(),
                             onPressed: () async {
-                              await _dbService.createProviderSlots(
-                                  _localStorageService.accessTokenProvider,
-                                  slotList,
-                                  offDates).then((value) {
-                                    if(value){
-                                      Navigator.pop(context,true);
-                                    }
+                              await _dbService
+                                  .createProviderSlots(
+                                      _localStorageService.accessTokenProvider,
+                                      slotList,
+                                      offDates)
+                                  .then((value) {
+                                if (value) {
+                                  Navigator.pop(context, true);
+                                }
                               });
                             },
                             child: Center(
@@ -150,12 +155,8 @@ class _SlotSchedular2State extends State<SlotSchedular2> {
                   ),
                 ),
               );
-
             }
           }),
-
-
-
     );
   }
 
@@ -185,8 +186,8 @@ class _SlotSchedular2State extends State<SlotSchedular2> {
                   Row(
                     children: [
                       Flexible(
-                          child: const Text(
-                              "I am not available at this date:")),
+                          child:
+                              const Text("I am not available at this date:")),
                       TextButton(
                           onPressed: () {
                             DatePicker.showDateTimePicker(context,
@@ -366,30 +367,26 @@ class _SlotSchedular2State extends State<SlotSchedular2> {
   }
 
   getWeeksView(itemIndex) {
-    List<Widget> weeks=[];
-    for (int chipIndex = 1; chipIndex<8;chipIndex++){
-      weeks.add(
-          ChoiceChip(
-            label: Text(getDay(chipIndex)),
-            selected: slotList[itemIndex].workingDays.contains(chipIndex),
-            onSelected: (val) {
-              print("itemIndex $itemIndex chipIndex $chipIndex $val");
-              bool isAdded =
-              !slotList[itemIndex].workingDays.contains(chipIndex);
-              if (val && isAdded)
-                slotList[itemIndex].workingDays.add(chipIndex);
-              else
-                slotList[itemIndex].workingDays.remove(chipIndex);
+    List<Widget> weeks = [];
+    for (int chipIndex = 1; chipIndex < 8; chipIndex++) {
+      weeks.add(ChoiceChip(
+        label: Text(getDay(chipIndex)),
+        selected: slotList[itemIndex].workingDays.contains(chipIndex),
+        onSelected: (val) {
+          print("itemIndex $itemIndex chipIndex $chipIndex $val");
+          bool isAdded = !slotList[itemIndex].workingDays.contains(chipIndex);
+          if (val && isAdded)
+            slotList[itemIndex].workingDays.add(chipIndex);
+          else
+            slotList[itemIndex].workingDays.remove(chipIndex);
 
-              updateList.value = !updateList.value;
-            },
-            selectedColor: Colors.green,
-            disabledColor: Colors.grey.shade100,
-          ));
-
+          updateList.value = !updateList.value;
+        },
+        selectedColor: Colors.green,
+        disabledColor: Colors.grey.shade100,
+      ));
     }
     return weeks;
-
   }
 
   Widget deletslot(index) {
@@ -466,4 +463,3 @@ class _SlotSchedular2State extends State<SlotSchedular2> {
     }
   }
 }
-
