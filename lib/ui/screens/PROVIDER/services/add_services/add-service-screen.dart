@@ -39,17 +39,20 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
   final datetime = DateTime.now();
   String generateImage(int i) {
     String pic = "";
-    pic = "assets/static_assets/images/" + i.toString() + ".jpg";
+    pic = "assets/static_assets/images/" + i.toString() + ".jpeg";
     return pic;
   }
 
-  String generateTechImage(int i) {
+  String generateHaircutsImage(int i) {
     String pic = "";
-    pic = "assets/static_assets/images/" + i.toString() + ".jpg";
+    pic = "assets/static_assets/images_pr/" + i.toString() + ".jpeg";
     return pic;
   }
 
+  bool catButton1 = false;
+  bool catButton2 = false;
   bool showImages = false;
+  bool showPrImages = false;
   bool showCategory = false;
   bool isImage = false;
   int? selectedImage = 1;
@@ -250,7 +253,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                                   childAspectRatio: (itemWidth / itemHeight),
                                   crossAxisCount: 2,
                                   children: List.generate(
-                                    10,
+                                    9,
                                     (index) => Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 10.w, vertical: 10.h),
@@ -287,7 +290,112 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                                   setState(() {
                                     showImages = false;
                                     isImage = true;
-                                    log("assets/static_assets/images/$selectedImage.jpg");
+                                    catButton1 = true;
+                                    log("assets/static_assets/images/$selectedImage.jpeg");
+                                  });
+                                },
+                                child: Container(
+                                  height: 30.h,
+                                  width: 130.w,
+                                  decoration: BoxDecoration(
+                                    color: Color(0XFF1b77f2),
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Done",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  : SizedBox.shrink(),
+              showPrImages
+                  ? Positioned(
+                      bottom: 200.h,
+                      right: 10.w,
+                      child: Container(
+                        height: 600.h,
+                        width: 350.w,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                        ),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SizedBox(height: 10.h),
+                              Container(
+                                height: 50.h,
+                                width: 100.w,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      generateHaircutsImage(selectedImage!),
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                color: Colors.white,
+                                height: 20.h,
+                              ),
+                              SizedBox(
+                                height: 450.h,
+                                child: GridView.count(
+                                  childAspectRatio: (itemWidth / itemHeight),
+                                  crossAxisCount: 2,
+                                  children: List.generate(
+                                    6,
+                                    (index) => Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.w, vertical: 10.h),
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedImage = index + 1;
+                                          });
+                                        },
+                                        child: Container(
+                                          height: 50.h,
+                                          width: 100.w,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10.r),
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                generateHaircutsImage(
+                                                    index + 1),
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    showPrImages = false;
+                                    isImage = true;
+                                    catButton2 = true;
+                                    log("assets/static_assets/images_pr/$selectedImage.jpeg");
                                   });
                                 },
                                 child: Container(
@@ -382,7 +490,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                               onTap: () {
                                 setState(() {
                                   showCategory = false;
-                                  showImages = true;
+                                  showPrImages = true;
                                 });
                               },
                               child: Container(
@@ -394,7 +502,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    "Health",
+                                    "Personal grooming and hairstyles",
                                     style: TextStyle(
                                       fontSize: 20.sp,
                                       fontWeight: FontWeight.w300,
@@ -642,7 +750,11 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage(
-                              generateImage(selectedImage!),
+                              catButton1
+                                  ? generateImage(selectedImage!)
+                                  : catButton2
+                                      ? generateHaircutsImage(selectedImage!)
+                                      : generateImage(selectedImage!),
                             ),
                             fit: BoxFit.contain,
                           ),

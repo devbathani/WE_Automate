@@ -3,6 +3,7 @@ import 'package:antonx_flutter_template/core/constants/strings.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/conversation/customer-conversation-screen.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/customer_booking/order_list.dart';
 import 'package:antonx_flutter_template/ui/screens/CUSTOMER/search/customer_search_services_screen.dart';
+import 'package:antonx_flutter_template/ui/screens/PROVIDER/home/pdf_view_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -56,6 +57,61 @@ class CustomerHomeScreen extends StatelessWidget {
             ),
             SizedBox(
               height: 80.h,
+            ),
+            InkWell(
+              onTap: () {
+                Get.to(
+                  () => PdfViewers(
+                    document: "assets/customer.pdf",
+                  ),
+                );
+              },
+              child: Container(
+                height: 70.h,
+                width: 380.w,
+                decoration: BoxDecoration(
+                  color: Color(0XFF1b77f2),
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        Image.asset(
+                          "$static_assets/pdf.png",
+                          height: 50.h,
+                          width: 50.w,
+                          color: Colors.black,
+                        ),
+                        SizedBox(
+                          width: 20.w,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 10.w),
+                          child: Text(
+                            "Tutorial",
+                            style: GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 28.sp,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 30.h,
             ),
             InkWell(
               onTap: () {

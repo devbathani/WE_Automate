@@ -1,6 +1,8 @@
 import 'package:antonx_flutter_template/core/enums/view_state.dart';
 import 'package:antonx_flutter_template/ui/custom_widgets/custom_text_field.dart';
+import 'package:antonx_flutter_template/ui/screens/PROVIDER/home/pdf_view_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -309,16 +311,56 @@ class _SignUpProviderScreenState extends State<SignUpProviderScreen> {
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.w),
-                      child: Text(
-                        "By signing up, you agree to Terms of Service and Privacy Policy",
-                        style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w300,
+                      child: SizedBox(
+                        width: 300.w,
+                        child: Center(
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: "By signing up, you agree to ",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 17.sp,
+                                  ),
+                                ),
+                                TextSpan(
+                                    text: "Terms of Service & ",
+                                    style: TextStyle(
+                                      color: Color(0XFF1b77f2),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17.sp,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Get.to(
+                                          () => PdfViewers(
+                                            document: "assets/terms.pdf",
+                                          ),
+                                        );
+                                      }),
+                                TextSpan(
+                                    text: "Privacy Policy",
+                                    style: TextStyle(
+                                      color: Color(0XFF1b77f2),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17.sp,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Get.to(
+                                          () => PdfViewers(
+                                            document: "assets/privacy.pdf",
+                                          ),
+                                        );
+                                      }),
+                              ],
+                            ),
                           ),
                         ),
-                        textAlign: TextAlign.left,
                       ),
                     ),
                   ],
