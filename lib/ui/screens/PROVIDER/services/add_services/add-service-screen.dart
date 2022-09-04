@@ -795,8 +795,11 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                   final providerName =
                       "${locator<AuthService>().providerProfile!.businessName}";
                   serviceToBeAdded.providerName = providerName;
-                  serviceToBeAdded.imgUrl =
-                      "assets/static_assets/images/$selectedImage.jpg";
+                  serviceToBeAdded.imgUrl = catButton1
+                      ? "assets/static_assets/images/$selectedImage.jpeg"
+                      : catButton2
+                          ? "assets/static_assets/images_pr/$selectedImage.jpeg"
+                          : "assets/static_assets/images/$selectedImage.jpeg";
                   serviceToBeAdded.isBooked = 'No';
                   serviceToBeAdded.serviceBookingDate = Timestamp.now();
                   serviceToBeAdded.isConfirmed = 'No';
